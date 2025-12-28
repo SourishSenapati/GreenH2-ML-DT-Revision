@@ -22,6 +22,6 @@ $$
 
 ## Action Protocol
 
-1.  **Weekly Audit:** Check `logs/kpis.csv`.
-2.  **Gap Analysis:** If any metric < Target, triggering **Emergency Sprint** (see Elevation Plan).
-3.  **Green Light:** Only when **ALL** targets in column 3 are met, proceed to Phase 5.3 (Submit to Nature Energy).
+1. **Weekly Audit:** Check `logs/kpis.csv`.
+2. **Gap Analysis:** If any metric < Target, triggering **Emergency Sprint** (see Elevation Plan).
+3. **Green Light:** Only when **ALL** targets in column 3 are met, proceed to Phase 5.3 (Submit to Nature Energy).
