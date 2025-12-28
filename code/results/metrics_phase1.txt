@@ -1,0 +1,3 @@
+Catalyst CV R2: 0.9861
+Fault Detection F1: 0.6711
+Forecast MAE: 0.1817

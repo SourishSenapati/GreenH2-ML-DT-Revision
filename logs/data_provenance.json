@@ -1,0 +1,10 @@
+{
+    "total_rows": 1499,
+    "sources": {
+        "NREL": 1199,
+        "Synth": 300
+    },
+    "nrel_origin": "Submission 305 (Simulated Wind)",
+    "real_data_fraction": 0.799866577718479,
+    "blending_date": "2025-12-29"
+}
