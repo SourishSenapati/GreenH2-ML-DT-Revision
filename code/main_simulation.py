@@ -28,21 +28,35 @@ def save_plot(filename):
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
     plt.close()
 
-# Set publication-quality style (Nature-style)
-plt.style.use('seaborn-v0_8-ticks')
+# Set publication-quality style (Nature/Google-Research style)
 plt.rcParams.update({
     'font.family': 'sans-serif',
-    'font.sans-serif': ['Arial', 'Inter', 'DejaVu Sans'],
+    'font.sans-serif': ['Arial', 'Helvetica', 'DejaVu Sans'],
+    'font.size': 10,
     'axes.labelsize': 11,
-    'font.size': 11,
-    'legend.fontsize': 10,
-    'xtick.labelsize': 10,
-    'ytick.labelsize': 10,
+    'axes.titlesize': 12,
+    'axes.titleweight': 'bold',
+    'legend.fontsize': 9,
+    'xtick.labelsize': 9,
+    'ytick.labelsize': 9,
     'figure.figsize': (3.5, 2.5),
+    'axes.linewidth': 1.0,  # Thinner spines
+    'axes.edgecolor': '#5F6368', # Google Grey
+    'grid.color': '#E8EAED',     # Very light grey grid
+    'grid.alpha': 0.6,
+    'grid.linestyle': '-',
     'lines.linewidth': 2.0,
-    'axes.linewidth': 1.0,
-    'grid.alpha': 0.2
+    'patch.linewidth': 0,        # No borders on bars by default
+    'axes.spines.top': False,    # Remove top spine
+    'axes.spines.right': False,  # Remove right spine
 })
+
+# Google/Anthropic Color Palette for Static Plots
+G_BLUE = '#1A73E8'
+G_RED = '#EA4335'
+G_GREEN = '#34A853'
+G_YELLOW = '#FBBC04'
+G_GREY = '#5F6368'
 
 # Custom "Premium AI Paper" Theme for Plotly
 def apply_premium_theme(fig, title="", x_title="", y_title=""):
@@ -230,16 +244,22 @@ def save_plot(filename):
     plt.savefig(f"d:/PROJECT/SCI PAPERS/02_Code/results/{filename}", dpi=300, bbox_inches='tight')
     plt.close()
 
-# Figure 1: Feature Importance (Static)
-plt.figure(figsize=(3.5, 3))
+# Figure 1: Feature Importance (Static - Premium)
+plt.figure(figsize=(4, 3))
 feats = ['Surface Area', 'Conductivity', 'Porosity', 'Cost', 'Tafel Slope']
 imps = cat_model.feature_importances_
 std = np.std([tree[0].feature_importances_ for tree in cat_model.estimators_], axis=0)
 
-plt.bar(feats, imps, yerr=std, capsize=4, color='#2C3E50', alpha=0.9)
-plt.ylabel('Importance Score')
-plt.title('Catalyst Features')
-plt.xticks(rotation=45, ha='right')
+# Sort for better visualization
+indices = np.argsort(imps)
+sorted_feats = [feats[i] for i in indices]
+sorted_imps = imps[indices]
+sorted_std = std[indices]
+
+plt.barh(sorted_feats, sorted_imps, xerr=sorted_std, capsize=0, color=G_BLUE, alpha=0.9)
+plt.xlabel('Importance Score', color=G_GREY)
+plt.title('Catalyst Model Drivers', loc='left', pad=10)
+plt.grid(axis='x') # Only horizontal grid
 save_plot("Fig1_Feature_Importance.png")
 
 # Figure 1: Feature Importance (Dynamic - Premium)
@@ -261,28 +281,32 @@ apply_premium_theme(fig1_dyn, title='Catalyst Feature Importance', x_title='Phys
 save_interactive_plot(fig1_dyn, "Fig1_Feature_Importance.html")
 
 # Figure 2: Predicted vs Actual (Parity)
+# Figure 2: Predicted vs Actual (Parity - Premium)
 plt.figure(figsize=(3.5, 3.5))
-plt.scatter(y_test_cat, y_pred_cat, alpha=0.3, s=10, color='#2980B9', edgecolors='none')
-plt.plot([y_test_cat.min(), y_test_cat.max()], [y_test_cat.min(), y_test_cat.max()], 'k--', lw=1)
+plt.scatter(y_test_cat, y_pred_cat, alpha=0.5, s=25, color=G_BLUE, edgecolors='none')
+plt.plot([y_test_cat.min(), y_test_cat.max()], [y_test_cat.min(), y_test_cat.max()], '--', color=G_GREY, lw=1.5)
 plt.xlabel('Measured Decay (µV/h)')
 plt.ylabel('Predicted Decay (µV/h)')
-plt.title(f'R² = {r2_cat:.2f}')
+plt.title(f'Efficiency Prediction (R²={r2_cat:.2f})', loc='left')
+plt.grid(True)
 save_plot("Fig2_Efficiency_Parity.png")
 
-# Figure 3: RUL Forecast (Static)
-plt.figure(figsize=(3.5, 2.5))
+# Figure 3: RUL Forecast (Static - Premium)
+plt.figure(figsize=(4, 2.5))
 hours = np.linspace(0, 50000, 100)
-rul_baseline = 100 - (hours/500) # Simple linear degradation
-rul_dt = 100 - (hours/625) # 25% life extension
+rul_baseline = 100 - (hours/500) 
+rul_dt = 100 - (hours/625)
 
-plt.plot(hours/1000, rul_baseline, 'k--', label='Baseline', alpha=0.7)
-plt.plot(hours/1000, rul_dt, 'g-', label='Digital Twin', linewidth=2)
-plt.fill_between(hours/1000, rul_dt-5, rul_dt+5, color='g', alpha=0.1)
+plt.plot(hours/1000, rul_baseline, '--', color=G_GREY, label='Standard', alpha=0.8)
+plt.plot(hours/1000, rul_dt, '-', color=G_GREEN, label='Digital Twin', linewidth=2.5)
+plt.fill_between(hours/1000, rul_dt-3, rul_dt+3, color=G_GREEN, alpha=0.1)
+
 plt.xlabel('Operating Hours (k)')
-plt.ylabel('Health (%)')
-plt.legend()
-plt.title('Degradation Forecast')
-plt.grid(True, linestyle=':', alpha=0.6)
+plt.ylabel('State of Health (%)')
+plt.legend(frameon=False)
+plt.title('Lifetime Extension Forecast', loc='left')
+plt.grid(axis='y')
+plt.ylim(0, 105)
 save_plot("Fig3_RUL_Forecast.png")
 
 # Figure 3: RUL Forecast (Dynamic - Premium)
@@ -392,22 +416,39 @@ save_interactive_plot(fig5_dyn, "Fig5_LCOH_Analysis.html")
 # Simulating a fault event
 t_fault = np.linspace(0, 20, 100)
 v_nominal = 1.8 * np.ones_like(t_fault)
+# Figure 4: Fault Mitigation (Static - Premium)
 v_fault = v_nominal.copy()
 v_fault[40:] += 0.5 # Spike
 v_mitigated = v_fault.copy()
 v_mitigated[45:] = 1.8 # Correction
 
-plt.figure(figsize=(3.5, 2.5))
-plt.plot(t_fault, v_fault, 'r:', label='Unmitigated')
-plt.plot(t_fault, v_mitigated, 'g-', label='Mitigated')
-plt.axvline(x=t_fault[40], color='orange', ls='--', lw=1)
-plt.xlabel('Time (s)')
-plt.ylabel('Voltage (V)')
-plt.title('Fault Mitigation')
-plt.legend()
+plt.figure(figsize=(4, 2.5))
+plt.plot(t_fault, v_fault, ':', color=G_RED, label='Unmitigated', lw=2)
+plt.plot(t_fault, v_mitigated, '-', color=G_BLUE, label='Active Control', lw=2)
+plt.axvline(x=t_fault[40], color=G_YELLOW, ls='--', lw=2, label='Fault Detected')
+plt.xlabel('Response Time (s)')
+plt.ylabel('Cell Voltage (V)')
+plt.title('Automated Fault Mitigation', loc='left')
+plt.legend(frameon=False)
+plt.grid(True)
 save_plot("Fig4_Fault_Mitigation.png")
 
-# Output Metrics to File
+
+# Figure 5: LCOH Analysis (Static - Premium)
+plt.figure(figsize=(4, 3))
+width = 0.35
+x = np.arange(len(years))
+plt.bar(x - width/2, lcoh_base, width, label='Baseline', color=G_GREY)
+plt.bar(x + width/2, lcoh_dt, width, label='With Digital Twin', color=G_BLUE)
+plt.axhline(y=1.5, color=G_RED, linestyle='--', linewidth=1.5)
+plt.text(0, 1.6, '2030 Target ($1.5/kg)', color=G_RED, fontsize=9)
+
+plt.xticks(x, years)
+plt.ylabel('LCOH ($/kg)')
+plt.title('Techno-Economic Pathway', loc='left')
+plt.legend(frameon=False, loc='upper right')
+plt.grid(axis='y')
+save_plot("Fig5_LCOH_Analysis.png")
 metrics_path = os.path.join(results_dir, "metrics_report.txt")
 with open(metrics_path, "w") as f:
     f.write(f"Catalyst Model CV R2: {cv_scores.mean():.4f} +/- {cv_scores.std()*2:.4f}\n")
