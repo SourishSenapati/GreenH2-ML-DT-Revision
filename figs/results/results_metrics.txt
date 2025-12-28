@@ -1,0 +1,14 @@
+
+MODEL PERFORMANCE REPORT
+========================
+1. Catalyst Efficiency Prediction (Gradient Boosting)
+   - RMSE: 2.5321
+   - R2 Score: 0.9781
+
+2. Predictive Maintenance (Rolling Forecast)
+   - RMSE (Voltage Prediction): 0.1483 V
+
+3. Fault Detection (Isolation Forest)
+   - Precision: 1.0000
+   - Recall: 1.0000
+   - F1 Score: 1.0000

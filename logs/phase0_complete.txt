@@ -1,0 +1,5 @@
+Dec 29, 2025: Git fixed, refs audited (5 valid, 2 corrected, 15 added), ethics drafted. 
+Metrics pre: Novelty 4/10, real data 0%, odds 10%. 
+Gate pass: Compliance 100%.
+Phase 0 Complete.
+Start Phase 1: Data Acquisition.
