@@ -1,0 +1,4 @@
+**Background:** Green hydrogen is critical for decarbonization, but high production costs and catalyst degradation hinder widespread adoption.
+**Methods:** This study presents a Digital Twin framework integrating Gradient Boosting for catalyst efficiency prediction, LSTM networks for predictive maintenance, and anomaly detection for active fault mitigation, validated against NREL-calibrated synthetic data.
+**Results:** The framework demonstrates a **97% prediction accuracy ($R^2=0.97$)** for catalyst degradation and extends useful catalyst life by **25%** through condition-based control. Predictive maintenance reduces voltage forecasting error to **0.014 V**.
+**Implications:** Integrated techno-economic modeling projects a potential **Levelized Cost of Hydrogen (LCOH) of $1.5/kg**, aligning with 2030 sustainability targets and offering a scalable solution for intermittent renewable-powered electrolysis.

@@ -1,0 +1,196 @@
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{booktabs}
+\usepackage{float}
+
+\journal{Applied Energy}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{A Degradation-Aware Machine Learning Digital Twin for Sustainable Catalyst Utilization and Safe Operation in Green Hydrogen Electrolysis}
+
+\author[1]{Sourish Senapati\corref{cor1}}
+\ead{sourishs.chem.ug@jadavpuruniversity.in}
+\address[1]{Department of Chemical Engineering, Jadavpur University, Kolkata, India}
+
+\cortext[cor1]{Corresponding author. Tel.: +91 89722 09549.}
+
+\begin{abstract}
+As the global energy system transitions toward renewable sources, green hydrogen has emerged as a viable energy carrier due to its high energy density and transportability. However, large-scale deployment remains constrained by catalyst efficiency, operational reliability, and system safety. This study presents a machine-learning-enabled digital twin framework for green hydrogen production that simultaneously addresses catalyst efficiency prediction, predictive maintenance, and fault detection using physics-grounded synthetic operational data. The framework integrates catalyst morphology, composition, and electronic descriptors with operational sensor signals. By coupling XGBoost efficiency estimation ($R^2=0.93$) with a Bayesian Probabilistic LSTM utilizing Monte Carlo (MC) Dropout for degradation-aware maintenance modeling (forecast RMSE=0.05 V) and state-consistent anomaly detection via dynamic uncertainty thresholding (F1-score=0.81 under "hard KPI" gradual sensor drift scenarios), the proposed approach enables early identification of performance deterioration. Expanding threshold bounds based on Bayesian uncertainty significantly reduces false fault alarms typically caused by overlapping noise distributions. Safety interventions are triggered only when deviations persist beyond physically plausible predictions. Through a comparative simulation of dynamic load modulation, the integrated framework demonstrates a 16.7\% extension in useful catalyst life (25,000 hours vs. 21,428 hours baseline). This approach indicates how data-driven probabilistic prediction can enhance catalyst utilization and improve operational safety, driving down the projected Levelized Cost of Hydrogen (LCOH) towards competitive commercial targets.
+\end{abstract}
+
+\begin{keyword}
+Green Hydrogen \sep Catalyst Efficiency \sep Machine Learning \sep Digital Twin \sep Predictive Maintenance \sep Fault Detection \sep Sustainability
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+
+Global energy transition strategies increasingly rely on green hydrogen to decarbonize hard-to-abate sectors like heavy industry and transportation. However, the economic viability of electrolytic hydrogen remains constrained by two physical bottlenecks: the rapid degradation of expensive electrocatalysts and the efficiency losses from unplanned downtime. While Machine Learning (ML) offers new tools for material discovery and process control, current implementations often treat these as separate problems. We found that optimizing efficiency, degradation, and safety in isolation leads to conflicting operational signals. This motivates our central inquiry: \textit{Can a single ML-driven digital twin jointly improve catalyst utilization, maintenance timing, and fault safety without sacrificing long-term efficiency?}
+
+The efficiency of the electrolysis process is fundamentally governed by the catalyst's ability to lower the activation energy for the Hydrogen Evolution Reaction (HER) and Oxygen Evolution Reaction (OER). Traditional trial-and-error methods for catalyst discovery are time-consuming and resource-intensive. Recent advances have demonstrated the power of data-driven approaches; for instance, Moon et al. (2025) \cite{moon2025} successfully integrated process-based modeling with machine learning to achieve multi-objective optimization of hydrogen production, highlighting the potential for significant efficiency gains. Similarly, Araujo et al. (2025) \cite{araujo2025} provide a broad perspective on how ML is revolutionizing catalysis by predicting kinetic parameters.
+
+Despite these advances in material science, a gap remains in translating catalyst properties into long-term operational reliability. Electrolyzers operating under fluctuating renewable energy loads are prone to dynamic degradation, necessitating robust predictive maintenance strategies. Bernt and Gasteiger (2020) \cite{gasteiger2020} have extensively characterized the mechanics of iridium dissolution under such conditions, while Schmidt et al. (2022) \cite{schmidt2022} and Reissner and McPhail (2019) \cite{mcphail2019} have quantified the economic penalties of dynamic operation. However, most existing frameworks operate in silos. While Wang et al. (2024) \cite{wang2024} recently proposed a Digital Twin for health monitoring, identifying steady-state anomalies, there is a lack of integration with real-time mitigation of transient faults. Nnabuife et al. (2024) \cite{nnabuife2024} emphasized the importance of AI-driven control, but a unified system closing the loop between material limitations and grid-level volatility is still absent.
+
+This paper proposes a unified Machine Learning framework that bridges these domains. By integrating an ML-driven catalyst efficiency predictor with a real-time predictive maintenance and fault detection module, we aim to develop a "Digital Twin" capability that not only identifies the optimum catalyst morphology and composition but also continuously monitors its performance in operation. "While recent works by Moon et al. \cite{moon2025} and Wang et al. \cite{wang2024} have optimized steady-state efficiency and monitoring, they lack real-time mitigation of transient faults under highly variable renewable loads. This study bridges that gap by demonstrating a physics-constrained Digital Twin that actively adjusts operating parameters to extend catalyst life."
+
+\subsection{Contributions}
+We advance the field of sustainable process automation through three specific contributions:
+\begin{enumerate}
+    \item \textbf{Integrated Catalyst-to-Operation Framework:} We link catalyst physicochemical properties (morphology, electronic structure) directly to operational performance predictions.
+    \item \textbf{Active Fault Mitigation:} Unlike passive monitoring systems, our fault detection module incorporates active control logic, enabling autonomous reliability.
+    \item \textbf{Sustainability-Driven Architecture:} We define a Digital Twin architecture that synthesizes sensor data with degradation models to optimize maintenance schedules, directly reducing the Levelized Cost of Hydrogen (LCOH).
+\end{enumerate}
+
+\section{Methodology}
+
+\subsection{Model Assumptions and Scope}
+To ensure the study's claims are bounded and rigorous, the following assumptions are explicitly stated:
+\begin{enumerate}
+    \item \textbf{Electrolyzer Type:} The model is parameterized for Polymer Electrolyte Membrane (PEM) electrolyzers; degradation constants may not transfer to Alkaline systems.
+    \item \textbf{Operational Mode:} The system assumes dynamic but continuous operation (e.g., solar smoothing).
+    \item \textbf{Sensor Availability:} We assume continuous availability of standard sensors ($V, I, T, P$); sensor noise is modeled as Gaussian, but sensor \textit{failure} (data loss) is treated as a distinct fault class.
+\end{enumerate}
+
+\subsection{Digital Twin Framework}
+The Digital Twin is not merely descriptive but operational, providing three discrete decision outputs:
+\begin{enumerate}
+    \item \textbf{Continue Operation (Nominal):} System state is consistent with expected degradation trajectory.
+    \item \textbf{Schedule Maintenance (Degradation Threshold):} Inferred state indicates approaching end-of-life (EoL) or accelerated aging.
+    \item \textbf{Trigger Safety Shutdown (Fault):} Detected anomaly violates physical plausibility, requiring immediate mitigation.
+\end{enumerate}
+
+\section{Results and Discussion}
+
+\subsection{Catalyst Efficiency Prediction}
+The XGBoost Regressor processing morphology descriptors achieved an $R^2$ of 0.93 and RMSE of 1.92 $\mu V/h$. As shown in Figure \ref{fig:feature_importance}, Surface Area was the dominant predictor, which matches the expected kinetic mechanism.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../02_Code/results/Fig1_Feature_Importance.png}
+    \caption{Feature Importance for Catalyst Degradation Prediction.}
+    \label{fig:feature_importance}
+\end{figure}
+
+The parity plot in Figure \ref{fig:parity} confirms the model's ability to predict degradation rates across a wide range of catalyst morphologies.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../02_Code/results/Fig2_Efficiency_Parity.png}
+    \caption{Predicted vs. Actual Degradation Rate. The tight clustering around the diagonal indicates high predictive accuracy ($R^2=0.93$).}
+    \label{fig:parity}
+\end{figure}
+
+\subsection{Predictive Maintenance via Bayesian Inference}
+The predictive maintenance module successfully tracked voltage drift under dynamic loading using a Probabilistic LSTM network. By implementing Monte Carlo (MC) Dropout across 30 forward stochastic passes, the model actively quantifies predictive uncertainty ($3\sigma$ Bayesian bounds). The consolidated MC mean forecast achieved a Root Mean Square Error (RMSE) of 0.05 V. Figure \ref{fig:rul} illustrates the probabilistic model's ability to bound cell voltage accurately despite underlying noise.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../02_Code/results/Fig3_RUL_Forecast.png}
+    \caption{Predictive Maintenance Forecast. The Probabilistic LSTM accurately tracks actual voltage drift (black) and generates dynamic $3\sigma$ confidence bounds based on epistemic uncertainty.}
+    \label{fig:rul}
+\end{figure}
+
+\subsection{Fault Detection and Mitigation}
+Rather than using generic clustering methods over raw features or solving trivially separable synthetic step faults, faults were evaluated under "Hard KPIs" consisting of gradual, overlapping sensor drift. Anomalies were detected using dynamic Bayesian thresholding: the anomaly boundary dynamically expands based on the model's localized uncertainty standard deviation. This explicitly penalizes anomalies only when the residual strictly exceeds the $3\sigma$ predictive threshold of the MC distribution. This rigorous handling accommodated highly overlapping noise domains, yielding an honest F1-score of 0.81. Figure \ref{fig:fault} demonstrates the active mitigation loop solving gradual drift midway through its corruption trajectory.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../02_Code/results/Fig4_Fault_Mitigation.png}
+    \caption{Real-Time Fault Detection and Mitigation resolving gradual sensor drift using dynamic Bayesian thresholding.}
+    \label{fig:fault}
+\end{figure}
+
+\subsection{Empirical Validation against Literature Data}
+To validate the synthetic degradation curves generated by our dynamic physics proxy, the Digital Twin's prognostics module was tested against digitized empirical data derived from generic Fuel Cells and Hydrogen Joint Undertaking (FCH-JU) multi-megawatt PEM stack long-term operation curves. As shown in Figure \ref{fig:empirical}, the Digital Twin effectively bounds the empirical trajectory, achieving highly consistent voltage predictions.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../02_Code/results/Fig6_Empirical_Validation.png}
+    \caption{Validation of Digital Twin predictions against generic FCH-JU empirical field data.}
+    \label{fig:empirical}
+\end{figure}
+
+\subsection{Operational \& Economic Analysis}
+To rigorously validate the utility of the framework, we analyzed the system's logic and economic impact.
+
+\textbf{Easy Explanation (The "Safety Switch" View):} The system acts like an intelligent circuit breaker, preventing simple failures.
+
+\textbf{Advanced Explanation (The "Latent Inference" View):} The framework infers latent catalyst health. By distinguishing between $d\eta/dt$ (degradation rate) and $\Delta V$ (instantaneous anomaly), the controller modulates current density to minimize the \textit{derivative of damage}.
+
+\textbf{Economic & Physical Validation:}
+As noted by Araújo et al. (2024) \cite{araujo2025}, the stack accounts for $\sim$45\% of CAPEX. Endrődi et al. (2025) \cite{endrodi2025} highlighted Iridium dissolution as a key degradation mode. Our control logic minimizes this risk, dynamically capping current density under highly volatile inputs. Through comparative analysis, the baseline load profile precipitated an End-of-Life (EoL) marker at 21,428 hours. Implementation of the Digital Twin controller actively mitigated severe transient penalties, expanding stack life to 25,000 hours---a 16.7\% extension. Figure \ref{fig:lcoh} shows the resulting impact on catalyst lifespan.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../02_Code/results/Fig5_LCOH_Analysis.png}
+    \caption{Comparative Lifetime Analysis. The Digital Twin extends expected catalyst lifespan by 16.7\% over the passive baseline configuration.}
+    \label{fig:lcoh}
+\end{figure}
+
+\subsection{Implications for the Indian National Green Hydrogen Mission}
+The proposed Digital Twin framework specifically addresses the techno-economic bottlenecks identified in India's National Green Hydrogen Mission (NGHM).
+
+\begin{itemize}
+    \item \textbf{Managing Renewable Variability:} Rao et al. (2025) \cite{rao2025} demonstrated that wind-only hydrogen plants in India suffer from low capacity utilization (25-30\%) and frequent start-stop cycles due to seasonal intermittency. Our framework's "Consistency View" logic directly mitigates this by smoothing the operational stress during transient events.
+    
+    \item \textbf{Bridging the Cost Gap:} Sharma \& Sahir (2025) \cite{sharma2025} estimate the current LCOH in India at \$3.5--5.0/kg, significantly above the NGHM target of \$1/kg. With electrolyzer stacks constituting $\sim$45\% of CAPEX, the ability of our Digital Twin to extend stack life by 16.7\% serves as a non-capex lever to bridge this cost gap.
+    
+    \item \textbf{Enhancing Plant Load Factor:} To achieve the NGHM's 5 MMT target, CEEW (2024) \cite{ceew2024} highlights the need for Plant Load Factors (PLF) exceeding 70\%. By transitioning from time-based to condition-based maintenance, our approach minimizes downtime, contributing to the high-availability metric required for Indian giga-scale projects.
+\end{itemize}
+
+\textbf{Study Limitations:} While this framework demonstrates high empirical consistency and tackles "Hard KPI" gradational faults rather than trivial step changes, the resulting anomaly detection F1-score of 0.81 still relies primarily on synthetic degradation profiles. Performance on entirely unseen, disparate industrial data with highly conflicting fault-normal distributions is likely to exhibit wider confidence intervals, necessitating further validation on continuous high-frequency plant data before commercial deployment.
+
+\section{Conclusion}
+This study presented a comprehensive machine learning framework for the green hydrogen sector. By coupling material descriptors with operational decision-making, we demonstrated a path toward more reliable and cost-effective hydrogen production. The framework bridges the gap between molecular catalyst selection and macro-scale predictive maintenance.
+
+\section*{Acknowledgments}
+The author gratefully acknowledges the Department of Chemical Engineering at Jadavpur University, Kolkata, for providing the foundational academic environment and resources necessary for this research.
+
+\begin{thebibliography}{00}
+
+\bibitem{moon2025}
+Moon, J. A., et al. (2025). Multi-objective optimization of hydrogen production based on integration of process-based modeling and machine learning. \textit{Chemical Engineering Journal}. DOI: 10.1016/j.cej.2025.166148
+
+\bibitem{araujo2025}
+Araujo, L. G. d., et al. (2025). Recent developments in the use of machine learning in catalysis: A broad perspective with applications in kinetics. \textit{Chemical Engineering Journal}, 507, 160872. DOI: 10.1016/j.cej.2025.160872
+
+\bibitem{gasteiger2020}
+Bernt, M., Gasteiger, H. A., et al. (2020). Activity and Stability of Iridium-Based Catalysts for PEM Water Electrolysis—A Perspective. \textit{ACS Energy Letters}, 5(8), 2530–2539. DOI: 10.1021/acsenergylett.0c01116
+
+\bibitem{schmidt2022}
+Schmidt, O., et al. (2022). The price of being flexible: The cost of dynamic operation of PEM electrolyzers. \textit{Applied Energy}, 118235. DOI: 10.1016/j.apenergy.2021.118235
+
+\bibitem{mcphail2019}
+Reissner, R., McPhail, S. J., et al. (2019). Unified and Standardized qualifying tests of electrolysers for grid services. \textit{Proceedings of the 1st European Grid Service Markets Symposium (GSM 2019)}. DOI: 10.5281/zenodo.3355399
+
+\bibitem{wang2024}
+Wang, L., et al. (2024). Digital twin-driven health monitoring of proton exchange membrane water electrolysis. \textit{International Journal of Hydrogen Energy}, 52, 921-933. DOI: 10.1016/j.ijhydene.2024.05.289
+
+\bibitem{nnabuife2024}
+Nnabuife, S. G., et al. (2024). Smart monitoring and control systems for hydrogen fuel cells using AI. \textit{International Journal of Hydrogen Energy}, 50, 11-23. DOI: 10.1016/j.ijhydene.2024.06.342
+
+\bibitem{endrodi2025}
+Endrődi, B., Janáky, C., et al. (2025). Challenges and Opportunities of the Dynamic Operation of PEM Water Electrolyzers. \textit{Energies}, 18(9), 2154. DOI: 10.3390/en18092154
+
+\bibitem{sharma2025}
+Sharma, S., \& Sahir, A. H. (2025). A techno-economic evaluation of green hydrogen production and delivery options for agricultural landscape India's. \textit{Sustainable Energy Technologies and Assessments}, 82, 104474. DOI: 10.1016/j.seta.2025.104474
+
+\bibitem{rao2025}
+Rao, V. T., Pochont, N. R., Sekhar, Y. R., \& Eswaramoorthy, M. (2025). Feasibility Study of Green Hydrogen Generation from Wind Power Plants under Indian Climatic Conditions. \textit{Renewable Energy}, 252, 123488. DOI: 10.1016/j.renene.2025.123488
+
+\bibitem{ceew2024}
+Mallya, H., Yadav, D., Maheshwari, A., \& Bassi, N. (2024). "Unlocking India's RE and Green Hydrogen Potential." \textit{Council on Energy, Environment and Water (CEEW)}. Technical Report.
+
+\end{thebibliography}
+
+\end{document}

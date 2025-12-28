@@ -1,0 +1,33 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                   lcoh   R-squared:                       0.646
+Model:                            OLS   Adj. R-squared:                  0.642
+Method:                 Least Squares   F-statistic:                     179.6
+Date:                Mon, 29 Dec 2025   Prob (F-statistic):           4.00e-45
+Time:                        19:39:50   Log-Likelihood:                 34.066
+No. Observations:                 200   AIC:                            -62.13
+Df Residuals:                     197   BIC:                            -52.24
+Df Model:                           2                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          3.9749      0.154     25.800      0.000       3.671       4.279
+capex          0.0016      0.000     10.432      0.000       0.001       0.002
+life_ext      -0.1242      0.007    -16.743      0.000      -0.139      -0.110
+==============================================================================
+Omnibus:                       21.810   Durbin-Watson:                   1.921
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               30.033
+Skew:                           0.680   Prob(JB):                     3.01e-07
+Kurtosis:                       4.325   Cond. No.                     9.55e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 9.55e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+Baseline LCOH: 4.21
+DT LCOH: 3.90
+Reduction: 7.38%
+P-value (Life): 1.0203339268784278e-39
