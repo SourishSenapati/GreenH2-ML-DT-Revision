@@ -1,25 +1,33 @@
 # MACHINE LEARNING FOR PREDICTING CATALYST EFFICIENCY IN GREEN HYDROGEN PRODUCTION, PREDICTIVE MAINTENANCE, FAULT DETECTION AND MITIGATION
 
 ## Author
+
 Sourish Senapati¹
 
 **Affiliation of First Author:**
 Department of Chemical Engineering, Jadavpur University, B.E. Chemical Engineering, 3rd Year;
 
 **Corresponding Author:**
-Sourish Senapati, sourishs.chem.ug@jadavpuruniversity.in, +91 89722 09549.
+Sourish Senapati, <sourishs.chem.ug@jadavpuruniversity.in>, +91 89722 09549.
 
 ## Abstract Theme
 
-1.  **Renewable Energy and Sustainability:** Hydrogen and production and utilization, Hydrogen and Fuel Cells;
-2.  **Artificial Intelligence and Machine Learning (AIML):** in Process Automation in the Chemical Industry;
-3.  **Green Chemistry and Environment (CE):** Environmental and Green Chemistry;
-4.  **AIML in Process Automation in Chemical Industry:** Enhancing Sustainability through Smart Manufacturing, Data-Driven Decision-Making and Process Optimization, Quality Control and Assurance, Smart Chemical production and control, Plant Automation.
+1. **Renewable Energy and Sustainability:** Hydrogen and production and utilization, Hydrogen and Fuel Cells;
+2. **Artificial Intelligence and Machine Learning (AIML):** in Process Automation in the Chemical Industry;
+3. **Green Chemistry and Environment (CE):** Environmental and Green Chemistry;
+4. **AIML in Process Automation in Chemical Industry:** Enhancing Sustainability through Smart Manufacturing, Data-Driven Decision-Making and Process Optimization, Quality Control and Assurance, Smart Chemical production and control, Plant Automation.
 
 ## Abstract
-To ensure long-term system reliability, a predictive maintenance module continually monitors sensor data, achieving a Root Mean Square Error (RMSE) of **0.014 V**, enabling precise State-of-Health (SoH) forecasting. Additionally, an active anomaly detection system effectively identifies transient faults (F1-Score: 0.23 unoptimized, but high recall) to trigger safety responses.
 
-All of these components work together as part of a Digital Twin architecture. This integrated approach not only identifies the optimum catalyst morphology but also actively modulates operation, providing a verified techno-economic pathway to reduce the Levelized Cost of Hydrogen (LCOH) to **$1.5/kg**, consistent with 2030 global targets.
+As the world shifts towards renewables, hydrogen is increasingly viable for its unique energy density and portability. However, improving its production efficiency requires better catalyst design and reliable system operations. This study presents a machine learning–driven approach to tackle three key challenges in green hydrogen production: predicting catalyst efficiency, enabling predictive maintenance, and detecting operational faults in real time.
+
+This paper tries to develop an ML framework on data, such as catalyst morphology, composition, and electronic properties, to identify the optimum catalyst for operations. This reduces the time taken to set up operations and keep the plants operating at maximum possible efficiency for maximum possible time, thus being the most effective formulation of Green Hydrogen.
+
+To ensure long-term system reliability, a predictive maintenance module that continuously monitors sensor data like temperature, voltage, current density, and hydrogen purity is required. This allows us to detect signs of wear and tear or performance degradation early, so maintenance can be scheduled before failures are caused.
+
+Additionally, an anomaly detection system that monitors for unusual patterns, such as unexpected voltage spikes or pressure changes, is necessary to stop uncontrolled operations, leading to accidents. When anomalies are found, the system can trigger safety responses to minimise risk and keep operations stable.
+
+All of these components work together as part of a digital twin system that combines real-time monitoring, materials science, and time-based data analysis. This integrated approach helps us use more of our catalysts, avoid unexpected system failures, and lower downtime of operations. Also, it brings down costs and makes it easier to scale up green hydrogen production. Ultimately, trying to achieve the broader global goal towards a more sustainable future.
 
 **Keywords:** green hydrogen, catalyst efficiency, machine learning, predictive maintenance, fault detection, digital twin, sustainability, process optimisation.
 

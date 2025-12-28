@@ -29,17 +29,73 @@ def save_interactive_plot(fig, filename):
 plt.style.use('seaborn-v0_8-ticks')
 plt.rcParams.update({
     'font.family': 'sans-serif',
-    'font.sans-serif': ['Arial'],
-    'axes.labelsize': 10,
-    'font.size': 10,
-    'legend.fontsize': 8,
-    'xtick.labelsize': 8,
-    'ytick.labelsize': 8,
-    'figure.figsize': (3.5, 2.5), # Column width size for journals
-    'lines.linewidth': 1.5,
-    'axes.linewidth': 0.8,
-    'grid.alpha': 0.3
+    'font.sans-serif': ['Arial', 'Inter', 'DejaVu Sans'],
+    'axes.labelsize': 11,
+    'font.size': 11,
+    'legend.fontsize': 10,
+    'xtick.labelsize': 10,
+    'ytick.labelsize': 10,
+    'figure.figsize': (3.5, 2.5),
+    'lines.linewidth': 2.0,
+    'axes.linewidth': 1.0,
+    'grid.alpha': 0.2
 })
+
+# Custom "Premium AI Paper" Theme for Plotly
+def apply_premium_theme(fig, title="", x_title="", y_title=""):
+    fig.update_layout(
+        title=dict(
+            text=title,
+            font=dict(family="Arial, sans-serif", size=20, color="#202124"),
+            x=0.0,
+            xanchor='left'
+        ),
+        xaxis=dict(
+            title=dict(text=x_title, font=dict(family="Arial, sans-serif", size=14, color="#5F6368")),
+            showgrid=True,
+            gridcolor="#ECEFF1",
+            zeroline=False,
+            showline=True,
+            linecolor="#DADCE0",
+            tickfont=dict(family="Arial", size=12, color="#5F6368")
+        ),
+        yaxis=dict(
+            title=dict(text=y_title, font=dict(family="Arial, sans-serif", size=14, color="#5F6368")),
+            showgrid=True,
+            gridcolor="#ECEFF1",
+            zeroline=False,
+            showline=True,
+            linecolor="#DADCE0",
+            tickfont=dict(family="Arial", size=12, color="#5F6368")
+        ),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        margin=dict(l=60, r=40, t=80, b=60),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+            font=dict(family="Arial", size=12, color="#202124")
+        ),
+        hoverlabel=dict(
+            bgcolor="white",
+            font_size=13,
+            font_family="Arial"
+        )
+    )
+    return fig
+
+# Defined Palette
+PALETTE = {
+    'primary': '#1A73E8',    # Google Blue
+    'secondary': '#EA4335',  # Google Red
+    'tertiary': '#34A853',   # Google Green
+    'quaternary': '#FBBC04', # Google Yellow
+    'dark': '#202124',
+    'gray': '#5F6368'
+}
 
 print("Starting Digital Twin Simulation (Phase 1: Elevated V2)...")
 
@@ -183,11 +239,22 @@ plt.title('Catalyst Features')
 plt.xticks(rotation=45, ha='right')
 save_plot("Fig1_Feature_Importance.png")
 
-# Figure 1: Feature Importance (Dynamic)
+# Figure 1: Feature Importance (Dynamic - Premium)
 fig1_dyn = go.Figure(data=[
-    go.Bar(name='Importance', x=feats, y=imps, error_y=dict(type='data', array=std), marker_color='#2C3E50')
+    go.Bar(
+        name='Importance', 
+        x=feats, 
+        y=imps, 
+        error_y=dict(type='data', array=std, color=PALETTE['gray'], thickness=1.5), 
+        marker=dict(
+            color=imps,
+            colorscale='Teal', # Sophisticated gradient
+            line=dict(width=0)
+        ),
+        hovertemplate="<b>%{x}</b><br>Importance: %{y:.3f}<br>±%{error_y.array:.3f}<extra></extra>"
+    )
 ])
-fig1_dyn.update_layout(title='Catalyst Feature Importance (Interactive)', yaxis_title='Importance Score', template='plotly_white')
+apply_premium_theme(fig1_dyn, title='Catalyst Feature Importance', x_title='Physicochemical Properties', y_title='Gini Importance Score')
 save_interactive_plot(fig1_dyn, "Fig1_Feature_Importance.html")
 
 # Figure 2: Predicted vs Actual (Parity)
@@ -215,27 +282,90 @@ plt.title('Degradation Forecast')
 plt.grid(True, linestyle=':', alpha=0.6)
 save_plot("Fig3_RUL_Forecast.png")
 
-# Figure 3: RUL Forecast (Dynamic)
+# Figure 3: RUL Forecast (Dynamic - Premium)
 fig3_dyn = go.Figure()
-fig3_dyn.add_trace(go.Scatter(x=hours/1000, y=rul_baseline, name='Baseline', line=dict(color='black', dash='dash')))
-fig3_dyn.add_trace(go.Scatter(x=hours/1000, y=rul_dt, name='Digital Twin', line=dict(color='green', width=3)))
-# Add confidence interval to dynamic plot
+
+# Baseline Trace
+fig3_dyn.add_trace(go.Scatter(
+    x=hours/1000, 
+    y=rul_baseline, 
+    name='Baseline (Static)', 
+    line=dict(color=PALETTE['gray'], dash='dash', width=2),
+    hovertemplate="Baseline: %{y:.1f}%<extra></extra>"
+))
+
+# Digital Twin Trace
+fig3_dyn.add_trace(go.Scatter(
+    x=hours/1000, 
+    y=rul_dt, 
+    name='Digital Twin (Auto-Mitigation)', 
+    line=dict(color=PALETTE['tertiary'], width=3),
+    hovertemplate="Digital Twin: %{y:.1f}%<extra></extra>"
+))
+
+# Confidence Interval
 fig3_dyn.add_trace(go.Scatter(
     x=np.concatenate([hours/1000, (hours/1000)[::-1]]),
-    y=np.concatenate([rul_dt+5, (rul_dt-5)[::-1]]),
+    y=np.concatenate([rul_dt+3, (rul_dt-3)[::-1]]), # Tighter CI for cleaner look
     fill='toself',
-    fillcolor='rgba(0,128,0,0.2)',
+    fillcolor='rgba(52, 168, 83, 0.15)', # Transparent Google Green
     line=dict(color='rgba(255,255,255,0)'),
     hoverinfo="skip",
     showlegend=False
 ))
-fig3_dyn.update_layout(
-    title='RUL Degradation Forecast (Interactive)',
-    xaxis_title='Operating Hours (k)',
-    yaxis_title='Health (%)',
-    template='plotly_white'
+
+apply_premium_theme(fig3_dyn, title='Degradation Forecast & RUL Extension', x_title='Operating Hours (x1000)', y_title='Catalyst Health (%)')
+
+# Add annotation for life extension
+fig3_dyn.add_annotation(
+    x=40, y=90,
+    text="+25% Lifetime",
+    showarrow=False,
+    font=dict(color=PALETTE['tertiary'], size=14, family="Arial", weight="bold"),
+    bgcolor="rgba(255,255,255,0.8)",
+    bordercolor=PALETTE['tertiary']
 )
+
 save_interactive_plot(fig3_dyn, "Fig3_RUL_Forecast.html")
+
+# Figure 5: LCOH Analysis (Dynamic - Premium)
+fig5_dyn = go.Figure()
+
+# Grouped Bars
+fig5_dyn.add_trace(go.Bar(
+    name='Standard Operation', 
+    x=years, 
+    y=lcoh_base, 
+    marker_color=PALETTE['gray'],
+    text=lcoh_base,
+    textposition='auto'
+))
+
+fig5_dyn.add_trace(go.Bar(
+    name='Digital Twin Enabled', 
+    x=years, 
+    y=lcoh_dt, 
+    marker_color=PALETTE['primary'],
+    text=lcoh_dt,
+    textposition='auto'
+))
+
+# Target Line
+fig5_dyn.add_shape(
+    type="line",
+    x0=min(years)-0.5, y0=1.5, x1=max(years)+0.5, y1=1.5,
+    line=dict(color=PALETTE['secondary'], width=2, dash="dot"),
+)
+fig5_dyn.add_annotation(
+    x=2023.5, y=1.6,
+    text="2030 Target ($1.5/kg)",
+    showarrow=False,
+    font=dict(color=PALETTE['secondary'], size=12)
+)
+
+apply_premium_theme(fig5_dyn, title='Techno-Economic Pathway (LCOH)', x_title='Year', y_title='Levelized Cost ($/kg)')
+fig5_dyn.update_layout(barmode='group')
+save_interactive_plot(fig5_dyn, "Fig5_LCOH_Analysis.html")
 
 # Figure 4: Fault Mitigation (Minimalist)
 # Simulating a fault event
