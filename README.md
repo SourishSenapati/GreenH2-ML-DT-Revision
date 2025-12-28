@@ -25,3 +25,19 @@ Open these files in any web browser to explore the data dynamically.
    ```bash
    python code/main_simulation.py
    ```
+
+## 📅 Project Roadmap (Phase 0 - Nature Energy Submission)
+
+| Phase | Goal | Deadline | Status |
+| :--- | :--- | :--- | :--- |
+| **Phase 0** | **Setup & Integrity Baseline** | **Jan 12, 2026** | **Active** |
+| Phase 1 | Data Acquisition & Quantum Sim | Feb 2026 | Pending |
+| Phase 2 | Model Training & Validation | Mar 2026 | Pending |
+| Phase 3 | Manuscript Refinement | Apr 2026 | Pending |
+| Phase 4 | Submission | May 2026 | Pending |
+
+**Current Focus (Phase 0):**
+*   Secure Repository & Version Control.
+*   Audit and Fix References (100% DOI Validity).
+*   Establish Ethics & Bias Disclosures.
+*   Baseline KPI Logging.
