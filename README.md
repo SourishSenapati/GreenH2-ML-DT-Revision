@@ -37,7 +37,8 @@ Open these files in any web browser to explore the data dynamically.
 | Phase 4 | Submission | May 2026 | Pending |
 
 **Current Focus (Phase 0):**
-*   Secure Repository & Version Control.
-*   Audit and Fix References (100% DOI Validity).
-*   Establish Ethics & Bias Disclosures.
-*   Baseline KPI Logging.
+
+- Secure Repository & Version Control.
+- Audit and Fix References (100% DOI Validity).
+- Establish Ethics & Bias Disclosures.
+- Baseline KPI Logging.
