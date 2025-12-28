@@ -28,7 +28,7 @@ def save_plot(filename):
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
     plt.close()
 
-# Set publication-quality style (Nature/Google-Research style)
+# Set publication-quality style (consistent with high-impact journals)
 plt.rcParams.update({
     'font.family': 'sans-serif',
     'font.sans-serif': ['Arial', 'Helvetica', 'DejaVu Sans'],
@@ -51,14 +51,14 @@ plt.rcParams.update({
     'axes.spines.right': False,  # Remove right spine
 })
 
-# Google/Anthropic Color Palette for Static Plots
+# Professional Color Palette for Static Plots
 G_BLUE = '#1A73E8'
 G_RED = '#EA4335'
 G_GREEN = '#34A853'
 G_YELLOW = '#FBBC04'
 G_GREY = '#5F6368'
 
-# Custom "Premium AI Paper" Theme for Plotly
+# Custom "Publication-Ready" Theme for Plotly
 def apply_premium_theme(fig, title="", x_title="", y_title=""):
     fig.update_layout(
         title=dict(
