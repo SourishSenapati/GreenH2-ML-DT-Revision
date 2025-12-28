@@ -11,19 +11,22 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import os
 
-# Ensure directories exist
 # Ensure results directory exists for interactive plots
-if not os.path.exists("results"):
-    os.makedirs("results")
-os.makedirs("d:/PROJECT/SCI PAPERS/03_Figures", exist_ok=True)
-os.makedirs("d:/PROJECT/SCI PAPERS/02_Code/results", exist_ok=True)
+results_dir = os.path.join(os.path.dirname(__file__), "results")
+if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
 
 # Function to save interactive plots
 def save_interactive_plot(fig, filename):
-    # Use the absolute path for consistency with static plots
-    filepath = os.path.join("d:/PROJECT/SCI PAPERS/02_Code/results", filename)
+    filepath = os.path.join(results_dir, filename)
     fig.write_html(filepath)
     print(f"Saved interactive plot: {filepath}")
+
+# Function to save static plots
+def save_plot(filename):
+    filepath = os.path.join(results_dir, filename)
+    plt.savefig(filepath, dpi=300, bbox_inches='tight')
+    plt.close()
 
 # Set publication-quality style (Nature-style)
 plt.style.use('seaborn-v0_8-ticks')
@@ -328,7 +331,25 @@ fig3_dyn.add_annotation(
 
 save_interactive_plot(fig3_dyn, "Fig3_RUL_Forecast.html")
 
-# Figure 5: LCOH Analysis (Dynamic - Premium)
+# Figure 5: LCOH Analysis
+years = [2023, 2025, 2030]
+lcoh_base = [5.5, 4.2, 2.5]
+lcoh_dt = [5.5, 3.8, 1.5]
+
+# A. Static Plot
+plt.figure(figsize=(3.5, 3))
+width = 0.35
+x = np.arange(len(years))
+plt.bar(x - width/2, lcoh_base, width, label='Standard', color='#95A5A6')
+plt.bar(x + width/2, lcoh_dt, width, label='With DT', color='#2ECC71')
+plt.axhline(y=1.5, color='r', linestyle=':', alpha=0.5, label='Target')
+plt.xticks(x, years)
+plt.ylabel('LCOH ($/kg)')
+plt.title('Techno-Economic Path')
+plt.legend()
+save_plot("Fig5_LCOH_Analysis.png")
+
+# B. Dynamic Plot (Premium)
 fig5_dyn = go.Figure()
 
 # Grouped Bars
@@ -386,18 +407,11 @@ plt.title('Fault Mitigation')
 plt.legend()
 save_plot("Fig4_Fault_Mitigation.png")
 
-
-plt.figure(figsize=(3.5, 3))
-plt.bar(scenarios, lcoh_vals, yerr=errors, capsize=5, color=['#95A5A6', '#27AE60', '#F1C40F'])
-plt.ylabel('LCOH ($/kg)')
-plt.title('Pathway to $1.5/kg')
-plt.axhline(1.5, color='r', linestyle=':', lw=1)
-save_plot("Fig5_LCOH_Analysis.png")
-
 # Output Metrics to File
-with open("d:/PROJECT/SCI PAPERS/02_Code/results/metrics_report.txt", "w") as f:
+metrics_path = os.path.join(results_dir, "metrics_report.txt")
+with open(metrics_path, "w") as f:
     f.write(f"Catalyst Model CV R2: {cv_scores.mean():.4f} +/- {cv_scores.std()*2:.4f}\n")
     f.write(f"Prognostics RMSE: {rmse_ts:.4f}\n")
     f.write(f"Fault Detection F1: {f1:.4f}\n")
 
-print("Simulation Complete. Results saved.")
+print(f"Simulation Complete. Results saved to {results_dir}")
