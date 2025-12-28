@@ -1,3 +1,4 @@
+# Comparison Table
 
 | Metric | Baseline (Synthetic) | Phase 1 (Blended) | Target | Status |
 | :--- | :--- | :--- | :--- | :--- |

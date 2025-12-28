@@ -64,7 +64,8 @@ with open(os.path.join(LOGS_DIR, "data_provenance.json"), "w") as f:
 
 # 4. Comparison Table (Markdown)
 print("\nGenerating Comparison Table...")
-comp_table = f"""
+comp_table = f"""# Comparison Table
+
 | Metric | Baseline (Synthetic) | Phase 1 (Blended) | Target | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Data Source** | 100% Synthetic | {prov_data['real_data_fraction']:.1%} NREL | >85% Real | {("PASS" if prov_data['real_data_fraction'] > 0.85 else "FAIL")} |
