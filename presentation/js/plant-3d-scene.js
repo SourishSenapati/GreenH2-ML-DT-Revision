@@ -420,9 +420,47 @@ function createIBeam(x1, y1, z1, x2, y2, z2, depth, width, mat = matLib.steelDar
   return grp;
 }
 
+// --- Single Source of Truth: Dynamic Manifest Loader ---
+async function loadEngineeringManifest() {
+  try {
+    const res = await fetch('engineering_manifest.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const manifest = await res.json();
+    if (manifest && manifest.subsystems) {
+      window.engineeringManifest = manifest;
+      Object.keys(manifest.subsystems).forEach(tag => {
+        const sub = manifest.subsystems[tag];
+        if (plantCatalog[tag]) {
+          plantCatalog[tag].name = sub.name || plantCatalog[tag].name;
+          plantCatalog[tag].category = sub.category || plantCatalog[tag].category;
+          plantCatalog[tag].standard = sub.standard || plantCatalog[tag].standard;
+          plantCatalog[tag].duty = sub.mechanical_duty || plantCatalog[tag].duty;
+          plantCatalog[tag].bom = sub.bom || [];
+          plantCatalog[tag].governing_calculations = sub.governing_calculations || null;
+          plantCatalog[tag].operational_telemetry = sub.operational_telemetry || null;
+          if (sub.governing_calculations && sub.governing_calculations.script_source) {
+            plantCatalog[tag].script = sub.governing_calculations.script_source;
+          }
+          if (sub.bounding_box && sub.bounding_box.dimensions_m) {
+            plantCatalog[tag].dimensions = `${sub.bounding_box.dimensions_m[0]}m L × ${sub.bounding_box.dimensions_m[1]}m W × ${sub.bounding_box.dimensions_m[2]}m H`;
+          }
+        }
+      });
+      if (selectedSubsystem) {
+        selectSubsystem(selectedSubsystem);
+      }
+    }
+  } catch (e) {
+    console.warn('[3D Workstation] Loaded embedded baseline manifest:', e.message);
+  }
+}
+
 // --- Initialize Three.js WebGL Engine ---
 
 function initPlant3DScene() {
+  // Load dynamic single-source-of-truth manifest
+  loadEngineeringManifest();
+
   plantContainer = document.getElementById('plant3dCanvasContainer');
   if (!plantContainer) return;
 
@@ -1131,6 +1169,53 @@ function selectSubsystem(tag) {
 
   const hudScript = document.getElementById('cadSubsystemScript');
   if (hudScript) hudScript.textContent = data.script;
+
+  // 5. Update Governing Calculation Proof Box
+  const calcClause = document.getElementById('cadCalcClause');
+  const calcFormula = document.getElementById('cadCalcFormula');
+  const calcCitation = document.getElementById('cadCalcCitation');
+  if (data.governing_calculations) {
+    if (calcClause) calcClause.textContent = data.governing_calculations.code_clause || data.standard;
+    if (calcFormula) {
+      let formulaText = data.governing_calculations.formula || data.governing_calculations.formula_shell || data.governing_calculations.formula_von_mises || '';
+      if (data.governing_calculations.computed_value) formulaText += ` [${data.governing_calculations.computed_value}]`;
+      calcFormula.textContent = formulaText;
+    }
+    if (calcCitation) calcCitation.textContent = `Source: ${data.governing_calculations.script_source || data.script}`;
+  } else {
+    if (calcClause) calcClause.textContent = data.standard;
+    if (calcFormula) calcFormula.textContent = data.spec;
+    if (calcCitation) calcCitation.textContent = `Source: ${data.script}`;
+  }
+
+  // 6. Update BOM Table
+  const bomContainer = document.getElementById('cadSubsystemBomTable');
+  if (bomContainer && data.bom && data.bom.length > 0) {
+    bomContainer.innerHTML = `
+      <table class="cad-bom-table" style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 4px;">
+        <thead>
+          <tr style="background: #F1F5F9; text-align: left; border-bottom: 1px solid var(--border-subtle);">
+            <th style="padding: 4px 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">Component</th>
+            <th style="padding: 4px 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">Qty</th>
+            <th style="padding: 4px 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">Material</th>
+            <th style="padding: 4px 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace;">Specification</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.bom.map(b => `
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 4px 6px; font-weight: 600; color: var(--text-main);">${b.item}</td>
+              <td style="padding: 4px 6px; font-family: 'JetBrains Mono', monospace; color: #0284C7;">${b.qty}</td>
+              <td style="padding: 4px 6px; color: var(--text-body);">${b.material}</td>
+              <td style="padding: 4px 6px; font-size: 10.5px; color: var(--text-muted);">${b.spec}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } else if (bomContainer) {
+    bomContainer.innerHTML = '';
+  }
 
   // Sync modal trigger button
   const auditBtn = document.getElementById('cadInspectCodeBtn');

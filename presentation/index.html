@@ -92,7 +92,7 @@
       </h1>
 
       <p class="hero-lead">
-        Next-Generation Industrial PEM Water Electrolysis: Replacing catastrophic $420,000 reactive stack teardowns with closed-loop <strong>Physics-Informed Bayesian Transformers (PIBT)</strong>, in-operando bacterial biofilm isolation (&lt;1.4s SCADA trip), and turnkey ASME-certified 3D CAD manufacturing designs.
+        Next-Generation Industrial PEM Water Electrolysis: Replacing catastrophic $420,000 reactive stack teardowns with closed-loop <strong>Physics-Informed Bayesian Transformers (PIBT)</strong>, in-operando bacterial biofilm isolation (&lt;1.4s SCADA trip), and turnkey ASME BPVC Sec. VIII Div. 1 &amp; 3, API 618, and IEC 61511 SIL-2 calculated 3D CAD manufacturing designs.
       </p>
 
       <div class="metric-grid">
@@ -144,7 +144,7 @@
         <span class="eyebrow">Plant Reliability &bull; Total Cost of Ownership (TCO)</span>
         <h2 class="section-h2">Plant De-risking: Lifecycle Economics &amp; Total Cost of Ownership</h2>
         <p class="section-intro">
-          Electrolyzer procurement evaluations often fixate solely on initial stack CAPEX, leaving operators exposed to catastrophic $420,000 mid-life cell stack replacements and unmitigated warranty disputes. HYDROSENSE establishes guaranteed plant availability through certified ASME DFM B-Rep assemblies, continuous in-operando kinetic health monitoring, and decoupled dielectric fault mitigation.
+          Electrolyzer procurement evaluations often fixate solely on initial stack CAPEX, leaving operators exposed to catastrophic $420,000 mid-life cell stack replacements and unmitigated warranty disputes. HYDROSENSE establishes audited plant availability through deterministic ASME BPVC UG-27/KD-250 calculated B-Rep assemblies, continuous in-operando kinetic health monitoring, and decoupled dielectric fault mitigation.
         </p>
       </div>
 
@@ -154,7 +154,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.75"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             The Four Structural Pillars of Industrial Plant De-risking
           </div>
-          <span class="tag-badge">Guaranteed Availability</span>
+          <span class="tag-badge">IEC 61511 SIL-2 Validated Availability</span>
         </div>
 
         <table class="spec-table">
@@ -184,7 +184,7 @@
             <tr>
               <td><strong>4. DFM Compliance &amp; EPC Readiness</strong></td>
               <td><span class="badge-legacy">Theoretical Paper Models</span><br>Academic papers with unmachinable channel profiles, unvalidated vessel thicknesses, and zero CAD fabrication packages.</td>
-              <td><span class="badge-leap">Certified Heavy Machinery Reality</span><br>Full SolidWorks 2025 SP1.2 B-Rep assembly, AutoCAD ISO A1 shop drawings, ASME Section VIII Div 1 &amp; 3 wall sizing, and API 618 compliance.</td>
+              <td><span class="badge-leap">Fabrication-Ready Heavy Machinery Reality</span><br>Full SolidWorks 2025 SP1.2 B-Rep assembly, AutoCAD ISO A1 shop drawings, ASME BPVC Section VIII Div 1 (UG-27) &amp; Div 3 (KD-250) wall sizing, and API 618 compliance.</td>
             </tr>
           </tbody>
         </table>
@@ -287,8 +287,29 @@
               <div class="cad-param-box">
                 <div class="cad-param-title">Design Parameters &amp; Sensor Telemetry</div>
                 <div id="cadSubsystemParams">
-                  <!-- Dynamically populated from plantCatalog in plant-3d-scene.js -->
+                  <!-- Dynamically populated from engineering_manifest.json in plant-3d-scene.js -->
                 </div>
+              </div>
+
+              <!-- Governing Standard Calculation Box -->
+              <div id="cadSubsystemCalcBox" style="background: #F8FAFC; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-3); margin-bottom: var(--space-3);">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #0284C7; text-transform: uppercase; margin-bottom: 4px;">
+                  Governing Calculation Proof &bull; <span id="cadCalcClause">ISO 22734 / ASTM B265</span>
+                </div>
+                <div id="cadCalcFormula" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-main); margin-bottom: 4px; word-break: break-all;">
+                  sigma_contact = (16 * F_bolt) / A_gasket = 3.30 MPa
+                </div>
+                <div id="cadCalcCitation" style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-muted);">
+                  Source: code/engineering_standards/stack_30bar_differential_mechanics.py:L74
+                </div>
+              </div>
+
+              <!-- Bill of Materials (BOM) Container -->
+              <div id="cadSubsystemBomBox" style="margin-bottom: var(--space-3);">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">
+                  Subsystem Bill of Materials (BOM)
+                </div>
+                <div id="cadSubsystemBomTable"></div>
               </div>
 
               <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--space-2);">
@@ -308,17 +329,17 @@
                 <span class="tag-badge">100% Deterministic</span>
               </div>
 
-              <!-- Quick Drawing Switchers -->
+              <!-- 3D Subsystem Focus Buttons -->
               <div style="margin-top: var(--space-2); padding-top: var(--space-2); border-top: 1px solid var(--border-subtle);">
                 <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">
-                  Production 2D Drawings &amp; Shop Viewports:
+                  Direct 3D Subsystem Focus:
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png', 'AutoCAD 2025 ISO A1 Engineering Shop Drawing (ASME Sec VIII & B31.3)')">AutoCAD ISO A1</button>
-                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_Commercial_Plant_Isometric_HD.png', 'SolidWorks 3D Isometric View (300 DPI Studio Photography)')">Isometric View</button>
-                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_Commercial_Plant_PlotPlan_HD.png', 'AutoCAD Commercial Plant Plot Plan & Equipment Schedules')">Plot Plan</button>
-                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_10Cell_Industrial_Stack_Catalog_Render.png', '10-Cell Industrial B-Rep Stack Assembly (ASTM B265 Titanium)')">10-Cell Stack</button>
-                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_Cell_Exploded_Architecture_Diagram.png', 'Exploded Single-Cell Repeat Unit Architecture')">Exploded Cell</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('EL-200')">Unit 200 (Stack)</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('V-300')">Unit 300 (Knockout Drum)</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('DR-500')">Unit 500 (DeOxo/TSA)</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('ST-800')">Unit 800 (Buffer Storage)</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('PLC-1000')">Unit 1000 (Safety PLC)</button>
                 </div>
               </div>
             </div>
@@ -436,7 +457,7 @@
             <span class="tag-badge">Standardized ISMB 300 Skid Footprint</span>
           </div>
           <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: var(--space-4);">
-            Pre-engineered skid geometry enables turnkey integration into existing brownfield plants with zero civil redesign, zero substation reconstruction, and guaranteed SIL-2 LOPA process safety.
+            Pre-engineered skid geometry enables turnkey integration into existing brownfield plants with zero civil redesign, zero substation reconstruction, and IEC 61511 SIL-2 LOPA verified process safety.
           </p>
         </div>
 
@@ -761,7 +782,7 @@
               </li>
               <li>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                Full 25-page certified forensic dossier
+                Full 25-page engineering forensic dossier (ASME UG-27, Tafel slope &amp; ECSA decay)
               </li>
             </ul>
           </div>
@@ -1091,7 +1112,6 @@
   <script src="js/vendor/OrbitControls.js"></script>
   <script src="js/plant-3d-scene.js"></script>
   <script src="js/standards-modal.js"></script>
-  <script src="js/cad-studio.js"></script>
   <script src="js/ml-workbench.js"></script>
   <script src="js/roi-calculator.js"></script>
   <script src="js/telemetry-scope.js"></script>
