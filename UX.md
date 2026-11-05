@@ -18,3 +18,4 @@
 4. **Keyboard Accessibility**:
    - Modal lightboxes and 15-slide master deck support Escape, Left Arrow, and Right Arrow key navigation.
    - Interactive calculators update immediately on slider drag with full numerical input feedback.
+

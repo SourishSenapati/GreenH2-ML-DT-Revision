@@ -261,3 +261,4 @@ def run_lopa_functional_safety_audit():
 
 if __name__ == "__main__":
     run_lopa_functional_safety_audit()
+

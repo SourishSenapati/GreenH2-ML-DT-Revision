@@ -23,3 +23,4 @@ Deterministic mathematical verification across 5 industrial codebases:
 ## 2. Regression & Frontend Tests
 - **JavaScript Syntax Verification**: All frontend scripts (`main.js`, `cad-studio.js`, `plant-3d-scene.js`, `ml-workbench.js`, `roi-calculator.js`, `telemetry-scope.js`, `deck-modal.js`) verified via Node syntax compilation (`node -c`).
 - **LaTeX Math Containment**: Zero auto-render collisions between single dollar currency symbols (`$420,000`, `-$0.42/kg`) and LaTeX proofs; overflow containment enabled via `.katex-display { overflow-x: auto }`.
+

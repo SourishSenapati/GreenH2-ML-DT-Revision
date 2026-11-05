@@ -15,3 +15,4 @@
 - **Instanced & Parametric Meshing**: Rather than loading heavy multi-megabyte CAD binary blobs, components share reusable parametric geometries (standard I-beams, cylindrical pressure vessels, 2:1 ellipsoidal heads).
 - **Draw Call Containment**: Grouped materials using PBR technical slate, stainless steel satin, and safety yellow shaders, keeping total draw calls under 45 per frame.
 - **Responsive Damping**: OrbitControls employ inert damping with render-on-demand loops during idle states, reducing laptop battery drain and GPU temperature.
+

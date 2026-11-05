@@ -218,152 +218,109 @@
         </p>
       </div>
 
-      <div class="card">
-        <div class="card-top">
-          <div class="card-heading">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.75"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-            Interactive 3D WebGL Commercial Plant Model &amp; Subsystem Raycaster
+      <!-- Parametric Solid Model & Assembly Workstation (FinnoaQ Caliber) -->
+      <div class="cad-workstation">
+        <!-- Top Title Bar -->
+        <div class="cad-top-bar">
+          <div class="cad-title-group">
+            <span class="cad-badge">3D CAD Workstation</span>
+            <h3 class="cad-main-title">Parametric Solid Model &amp; Assembly Workstation</h3>
           </div>
-          <span class="tag-badge">11 Subsystems &bull; Click to Inspect</span>
+          <div class="cad-standards-pills">
+            <span class="cad-std-pill amber">SolidWorks 2025 SP01.2</span>
+            <span class="cad-std-pill green">ASME Sec VIII Div 1 &amp; 3</span>
+            <span class="cad-std-pill blue">API 618 / IEC 61511</span>
+          </div>
         </div>
 
-        <!-- Interactive 3D WebGL Plant Toolbar -->
-        <div class="plant-hud-toolbar">
-          <div class="plant-pill-group" id="plantPillTray">
+        <!-- Horizontal Subsystem Switcher Ribbon -->
+        <div class="cad-ribbon-bar">
+          <span class="cad-ribbon-label">CAD model:</span>
+          <div id="cadModelPillTray" style="display: flex; gap: 6px; align-items: center; overflow-x: auto;">
             <!-- 11 Subsystem Pills injected via plant-3d-scene.js -->
           </div>
-
-          <div class="plant-controls-group">
-            <label style="display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text-muted);">
-              Explode:
-              <input type="range" id="explodeSlider" min="0" max="1" step="0.01" value="0" oninput="setExplodeFactor(this.value)" style="width: 110px;">
-              <span id="explodeDisp" style="font-family: monospace; font-size: 11px; width: 34px;">0%</span>
-            </label>
-            <button class="btn btn-secondary" id="btnWireframe" onclick="togglePlantWireframe()" style="padding: 3px 8px; font-size: 11px;">Wireframe</button>
-            <button class="btn btn-secondary" onclick="resetPlantCamera()" style="padding: 3px 8px; font-size: 11px;">Reset View</button>
-          </div>
         </div>
 
-        <!-- WebGL 3D Canvas Viewport -->
-        <div id="plant3dCanvasContainer"></div>
-
-        <!-- Live Subsystem Engineering HUD Inspector Tray -->
-        <div class="plant-hud-tray">
-          <div>
-            <div class="hud-tag" id="hudTag">EL-200 &bull; COMMERCIAL ELECTROLYZER BAY</div>
-            <div class="hud-name" id="hudName">Unit 200: Commercial Electrolyzer Bay (4x Stacks)</div>
-            <div style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px;" id="hudStandard">ISO 22734 / ASTM B265 Grade 2 Titanium</div>
-            <div class="hud-spec" id="hudSpec">4x 50-Cell Stacks (250 cm² active area), 30-bar differential operation, 5000A DC copper busways, 16x M16 tie-rods torqued to 7.5 Nm (3.2 MPa uniform contact stress)</div>
-            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;" id="hudDuty">High-pressure water dissociation (2.0 A/cm² nominal current density, 100 TPD skid basis).</div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
-            <button class="btn btn-primary" onclick="openStandardFromCurrentSubsystem()" style="width: 100%; text-align: center; justify-content: center;">
-              Inspect Engineering Code &rarr;
-            </button>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-muted); text-align: right;" id="hudScript">engineering_standards/stack_30bar_differential_mechanics.py</div>
-          </div>
-        </div>
-
-        <!-- Secondary 2D CAD Drawings & Orthographic Switcher -->
-        <div style="margin-top: var(--space-6); border-top: 1px solid var(--border-subtle); padding-top: var(--space-5);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
-            <div style="font-size: 13.5px; font-weight: 700; color: var(--text-main);">
-              SolidWorks 2025 SP1.2 Production Drawings &amp; Orthographic Views
+        <!-- 2-Column Split Workstation -->
+        <div class="cad-split-grid">
+          <!-- 3D Canvas Viewport (8 Columns Equivalent) -->
+          <div class="cad-viewport-column">
+            <!-- Floating Camera Presets -->
+            <div class="cad-floating-views">
+              <span>View:</span>
+              <button class="cad-view-btn" onclick="setCameraPreset('iso')" title="Isometric 3D Projection">Iso</button>
+              <button class="cad-view-btn" onclick="setCameraPreset('front')" title="Front Elevation">Front</button>
+              <button class="cad-view-btn" onclick="setCameraPreset('side')" title="Side Elevation">Side</button>
+              <button class="cad-view-btn" onclick="setCameraPreset('top')" title="Top Plan View">Top</button>
+              <button class="cad-view-btn reset" onclick="setCameraPreset('reset')" title="Reset Camera Target">Reset</button>
             </div>
-            <div class="tab-strip">
-              <button class="tab-item active" onclick="setCadView('master', this)">Master Render</button>
-              <button class="tab-item" onclick="setCadView('iso', this)">Isometric 3D</button>
-              <button class="tab-item" onclick="setCadView('plotplan', this)">ISO Plot Plan</button>
-              <button class="tab-item" onclick="setCadView('front', this)">Front Elevation</button>
-              <button class="tab-item" onclick="setCadView('stack', this)">10-Cell Stack</button>
-              <button class="tab-item" onclick="setCadView('cell', this)">Exploded Cell</button>
-              <button class="tab-item" onclick="setCadView('dwg', this)">AutoCAD Drawing</button>
+
+            <!-- Floating View & Inspection Tools -->
+            <div class="cad-floating-tools">
+              <button class="cad-tool-btn" id="btnTurntable" onclick="togglePlantTurntable()" title="Auto-Turntable Rotation">Auto-Rotate</button>
+              <button class="cad-tool-btn" id="btnWireframe" onclick="togglePlantWireframe()" title="Toggle Wireframe Inspection">Wireframe</button>
+              <button class="cad-tool-btn active" id="btnGrid" onclick="togglePlantGrid()" title="Toggle Technical Grid">Grid</button>
+              <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); margin-left: 4px;">
+                Explode:
+                <input type="range" id="explodeSlider" min="0" max="1" step="0.01" value="0" oninput="setExplodeFactor(this.value)" style="width: 75px;">
+                <span id="explodeDisp" style="width: 28px; text-align: right;">0%</span>
+              </label>
             </div>
+
+            <!-- WebGL 3D Canvas Container -->
+            <div id="plant3dCanvasContainer"></div>
           </div>
 
-          <div class="viewport-box" onclick="zoomCurrentCad()">
-            <img id="cadDisplayImg" src="assets/PEM_Commercial_Plant_Catalog_Render.png" alt="SolidWorks Commercial Plant CAD Assembly">
-            <div class="viewport-caption">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-              Click to Inspect (300 DPI High-Res)
-            </div>
-          </div>
-        </div>
+          <!-- Subsystem Engineering Inspector Panel (4 Columns Equivalent) -->
+          <div class="cad-inspector-column">
+            <div>
+              <div class="cad-hud-header">
+                <div class="cad-hud-tag" id="cadSubsystemTag">EL-200 // COMMERCIAL ELECTROLYZER BAY</div>
+                <h4 class="cad-hud-title" id="cadSubsystemName">Unit 200: Commercial Electrolyzer Bay (4x Stacks)</h4>
+                <div class="cad-hud-standard" id="cadSubsystemStandard">ISO 22734 / ASTM B265 Grade 2 Titanium</div>
+                <div class="cad-hud-duty" id="cadSubsystemDuty">
+                  Continuous water dissociation at 2.00 A/cm² nominal current density delivering 100 TPD green hydrogen on multi-stack complex basis.
+                </div>
+              </div>
 
-        <!-- 11 Subsystem Equipment Schedule -->
-        <div style="margin-top: var(--space-6);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
-            <h3 style="font-size: 14.5px; font-weight: 700; color: var(--text-main);">
-              11-Subsystem Turnkey Plant Equipment Schedule (BOM)
-            </h3>
-            <span class="tag-badge">ASME Section VIII Div 1 &amp; 3 Compliant</span>
-          </div>
+              <!-- Live Engineering Parameters Grid -->
+              <div class="cad-param-box">
+                <div class="cad-param-title">Design Parameters &amp; Sensor Telemetry</div>
+                <div id="cadSubsystemParams">
+                  <!-- Dynamically populated from plantCatalog in plant-3d-scene.js -->
+                </div>
+              </div>
 
-          <div class="bom-matrix">
-            <div class="bom-item" onclick="selectSubsystem('STR-100')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">STR-100</div>
-              <div class="bom-name">Structural Mezzanine &amp; Pipe Rack</div>
-              <div class="bom-detail">Heavy-duty ISMB 300 structural steel frame with dual-level equipment skids and blast mitigation barriers.</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('EL-200')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">EL-200</div>
-              <div class="bom-name">Electrolyzer Bay (30 bar)</div>
-              <div class="bom-detail">Multi-stack commercial array with 50-channel stamped Titanium bipolar plates and automated compression tie-rods.</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--space-2);">
+                <strong>Dimensions / Footprint:</strong> <span id="cadSubsystemDims" style="font-family: 'JetBrains Mono', monospace; color: var(--text-main);">4.8m L × 2.4m W × 1.6m H</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-bottom: var(--space-3);" id="cadSubsystemSpec">
+                4x 50-Cell Stacks (250 cm² active area), 30-bar differential operation, 5000A DC polished electrolytic copper busways, 16x M16 tie-rods torqued to 7.5 Nm (3.3 MPa uniform contact stress).
+              </div>
             </div>
 
-            <div class="bom-item" onclick="selectSubsystem('V-300')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">V-300</div>
-              <div class="bom-name">High-Pressure H₂ Knockout Drum</div>
-              <div class="bom-detail">ASME UG-27 cylindrical vessel, SA-240 316L, 14mm shell, 35.28 bar MAWP, demister pad moisture knock-out.</div>
-            </div>
+            <div class="cad-hud-footer">
+              <button class="btn btn-primary" id="cadInspectCodeBtn" style="width: 100%; justify-content: center;">
+                Inspect Engineering Code &amp; KaTeX Proof &rarr;
+              </button>
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                <span style="font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 10.5px;" id="cadSubsystemScript">engineering_standards/stack_30bar_differential_mechanics.py</span>
+                <span class="tag-badge">100% Deterministic</span>
+              </div>
 
-            <div class="bom-item" onclick="selectSubsystem('V-400')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">V-400</div>
-              <div class="bom-name">Anode O₂ Cyclone Degasser</div>
-              <div class="bom-detail">Vortex gas-liquid phase separator stripping O₂ bubbles from the circulating anode water loop to prevent pump cavitation.</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('DR-500')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">DR-500</div>
-              <div class="bom-name">DeOxo &amp; Dual TSA Desiccant Dryers</div>
-              <div class="bom-detail">Catalytic palladium deoxygenation reactor followed by alternating 13X molecular sieve beds (-70&deg;C dewpoint).</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('WTR-600')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">WTR-600</div>
-              <div class="bom-name">DI Water Treatment &amp; Circulation</div>
-              <div class="bom-detail">ASTM D1193 Type 1 polishing resin bed with dual 100% ANSI pumps and plate heat exchanger chiller.</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('CMP-700')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">CMP-700</div>
-              <div class="bom-name">HP Diaphragm Compressor Array</div>
-              <div class="bom-detail">API 618 multi-stage oil-free hydrogen diaphragm compressor boosting gas from 30 bar to 350 / 700 bar mobility standards.</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('ST-800')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">ST-800</div>
-              <div class="bom-name">Hydrogen Buffer Storage Array</div>
-              <div class="bom-detail">ASME Section VIII Div 3 KD-250 forged high-pressure buffer cylinders (350 bar design, 2,196 bar burst).</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('ELE-900')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">ELE-900</div>
-              <div class="bom-name">Substation Transformer &amp; Rectifier</div>
-              <div class="bom-detail">11kV / 415V step-down transformer and 12-pulse thyristor rectifier delivering 5000A with &lt;3% harmonic THD.</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('PLC-1000')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">PLC-1000</div>
-              <div class="bom-name">Siemens S7-1500F &amp; Safety SCADA</div>
-              <div class="bom-detail">Redundant fail-safe automation cabinet running quantized PIBT firmware and IEC 61511 SIL-2 safety interlocks.</div>
-            </div>
-
-            <div class="bom-item" onclick="selectSubsystem('PIP-1100')" style="cursor: pointer;" title="Click to view in 3D WebGL Scene">
-              <div class="bom-code">PIP-1100</div>
-              <div class="bom-name">Interconnecting Process Piping</div>
-              <div class="bom-detail">Full 316L orbital-welded ASME B31.3 schedule 80S piping network with LOPA relief lines, N2 purge, and vent stacks.</div>
+              <!-- Quick Drawing Switchers -->
+              <div style="margin-top: var(--space-2); padding-top: var(--space-2); border-top: 1px solid var(--border-subtle);">
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">
+                  Production 2D Drawings &amp; Shop Viewports:
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png', 'AutoCAD 2025 ISO A1 Engineering Shop Drawing (ASME Sec VIII & B31.3)')">AutoCAD ISO A1</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_Commercial_Plant_Isometric_HD.png', 'SolidWorks 3D Isometric View (300 DPI Studio Photography)')">Isometric View</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_Commercial_Plant_PlotPlan_HD.png', 'AutoCAD Commercial Plant Plot Plan & Equipment Schedules')">Plot Plan</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_10Cell_Industrial_Stack_Catalog_Render.png', '10-Cell Industrial B-Rep Stack Assembly (ASTM B265 Titanium)')">10-Cell Stack</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="showModal('assets/PEM_Cell_Exploded_Architecture_Diagram.png', 'Exploded Single-Cell Repeat Unit Architecture')">Exploded Cell</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -457,74 +414,192 @@
         <div class="card-top">
           <div class="card-heading">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.75"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            Figure 7: DFM Channel Geometry, ASME Wall Sizing &amp; 5-Sector Matrix
+            Figure 7: Progressive Stamping DFM Tooling Profile &amp; ASME BPVC Sec. VIII Wall Sizing
           </div>
-          <span class="tag-badge">Zero Text Overlap &bull; 300 DPI</span>
+          <span class="tag-badge">300 DPI &bull; ADVEKT CAE Verified</span>
         </div>
 
-        <div class="viewport-box" onclick="showModal('assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png', 'Fig 7: DFM Progressive Stamping, ASME Sizing & Multi-Plant Matrix')">
-          <img src="assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png" alt="DFM Engineering and 5-Sector Matrix">
+        <div class="viewport-box" onclick="showModal('assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png', 'Fig 7: Progressive Stamping DFM Profile & ASME Sec VIII Wall Sizing (300 DPI)')">
+          <img src="assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png" alt="Progressive Stamping DFM Profile and ASME Sec VIII Wall Sizing">
           <div class="viewport-caption">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
             Click to Zoom (300 DPI Flawless)
           </div>
         </div>
 
-        <!-- 5 Sector Cards Details -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--space-3); margin-top: var(--space-5);">
-          <div class="bom-item" style="border-top: 3px solid var(--accent);">
-            <div class="bom-code">SEC-01 &bull; REFINERIES</div>
-            <div class="bom-name">Petrochemical &amp; Refining</div>
-            <div class="bom-detail">
-              <strong>Target Plants:</strong> Haldia, HMEL, Jamnagar, Paradip.<br>
-              <strong>Process Duty:</strong> Hydrotreating, sulfur recovery, fuel gas desulfurization loops.<br>
-              <strong>Value:</strong> Cuts 120,000 t/yr CO₂; direct 30-bar delivery.<br>
-              <strong>LOPA:</strong> SIL-2 high-P trip interlock; &lt;10 ppm O₂ quench.
+        <!-- Universal Multi-Plant Deployment Matrix Header -->
+        <div style="margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--border-subtle);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+            <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">
+              Universal Multi-Plant Deployment Matrix (Standardized Retrofit Across 5 Key Sectors)
+            </h3>
+            <span class="tag-badge">Standardized ISMB 300 Skid Footprint</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: var(--space-4);">
+            Pre-engineered skid geometry enables turnkey integration into existing brownfield plants with zero civil redesign, zero substation reconstruction, and guaranteed SIL-2 LOPA process safety.
+          </p>
+        </div>
+
+        <!-- Spacious High-Contrast 5-Sector Grid -->
+        <div class="sector-spacious-grid">
+          <!-- Sector 1 -->
+          <div class="sector-card accent-blue">
+            <div>
+              <div class="sector-card-top">
+                <span class="sector-code-pill">SEC-01 // REFINERIES</span>
+                <span class="sector-duty-pill">Duty: 50 – 100 TPD H₂</span>
+              </div>
+              <h4 class="sector-title">Petrochemical &amp; Refining</h4>
+              <div class="sector-data-list">
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Target Facilities:</span>
+                  <span class="sector-data-desc">Haldia Petrochemicals, HMEL Bathinda, RIL Jamnagar, IOCL Paradip.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Process Retrofit Duty:</span>
+                  <span class="sector-data-desc">Direct 30-bar cathode H₂ delivery into hydrotreating, hydrocracking, sulfur recovery units (SRU), and fuel gas desulfurization loops.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Commercial &amp; Carbon Value:</span>
+                  <span class="sector-data-desc">Abates 120,000 tonnes/yr CO₂ per facility; eliminates 1st-stage gas compressor OPEX via direct 30-bar delivery.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">LOPA Safety Integrity &amp; Code:</span>
+                  <span class="sector-data-desc">SIL-2 automated high-pressure shutdown interlock; &lt;10 ppm O₂ fast-quench purge; ASME B31.3 Cl 300 SS piping.</span>
+                </div>
+              </div>
             </div>
+            <button class="sector-action-btn" onclick="openStandardModal('asme')">
+              Inspect ASME / LOPA Compliance &rarr;
+            </button>
           </div>
 
-          <div class="bom-item" style="border-top: 3px solid var(--status-pass);">
-            <div class="bom-code" style="color: var(--status-pass);">SEC-02 &bull; CHLOR-ALKALI</div>
-            <div class="bom-name">Chlor-Alkali &amp; Chemicals</div>
-            <div class="bom-detail">
-              <strong>Target Plants:</strong> Grasim, DCM Shriram, Meghmani.<br>
-              <strong>Process Duty:</strong> Membrane brine BoP retrofit &amp; cathode H₂ recovery.<br>
-              <strong>Value:</strong> Connects to existing 5000A DC busbars; $0 substation CAPEX.<br>
-              <strong>LOPA:</strong> Chlorine crossover purge; differential-P radar.
+          <!-- Sector 2 -->
+          <div class="sector-card accent-green">
+            <div>
+              <div class="sector-card-top">
+                <span class="sector-code-pill" style="color: #059669;">SEC-02 // CHLOR-ALKALI</span>
+                <span class="sector-duty-pill">Duty: 20 – 40 TPD H₂</span>
+              </div>
+              <h4 class="sector-title">Chlor-Alkali &amp; Basic Chemicals</h4>
+              <div class="sector-data-list">
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Target Facilities:</span>
+                  <span class="sector-data-desc">Grasim Industries, DCM Shriram Chemicals, Meghmani Finechem.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Process Retrofit Duty:</span>
+                  <span class="sector-data-desc">Membrane brine balance-of-plant (BoP) retrofit, utilizing existing 5,000A DC substation infrastructure and recovering cathode-side hydrogen.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Commercial &amp; Carbon Value:</span>
+                  <span class="sector-data-desc">$0 Substation CAPEX required; integrates directly onto existing rectifier copper busbars; turns stranded off-gas into fuel cell grade H₂.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">LOPA Safety Integrity &amp; Code:</span>
+                  <span class="sector-data-desc">Continuous chlorine-in-hydrogen NDIR sensor trip; automated dual differential-P radar; Titanium Gr. 2 + PTFE-lined B31.3.</span>
+                </div>
+              </div>
             </div>
+            <button class="sector-action-btn" onclick="openStandardModal('diff_p')">
+              Inspect 30-Bar Differential Code &rarr;
+            </button>
           </div>
 
-          <div class="bom-item" style="border-top: 3px solid var(--status-notice);">
-            <div class="bom-code" style="color: var(--status-notice);">SEC-03 &bull; GREEN STEEL</div>
-            <div class="bom-name">Green Steel &amp; Metallurgy</div>
-            <div class="bom-detail">
-              <strong>Target Plants:</strong> Tata Steel, JSW Vijayanagar, JSPL.<br>
-              <strong>Process Duty:</strong> 100% H₂ Direct Reduced Iron (DRI) shaft furnaces.<br>
-              <strong>Value:</strong> Replaces metallurgical coke; eliminates 95% process CO₂.<br>
-              <strong>LOPA:</strong> Emergency N₂ sweep purge; fast-acting ESD valves (&lt;500ms).
+          <!-- Sector 3 -->
+          <div class="sector-card accent-amber">
+            <div>
+              <div class="sector-card-top">
+                <span class="sector-code-pill" style="color: #D97706;">SEC-03 // GREEN STEEL</span>
+                <span class="sector-duty-pill">Duty: 80 – 150 TPD H₂</span>
+              </div>
+              <h4 class="sector-title">Green Steel &amp; DRI Metallurgy</h4>
+              <div class="sector-data-list">
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Target Facilities:</span>
+                  <span class="sector-data-desc">Tata Steel Kalinganagar, JSW Steel Vijayanagar, Jindal Steel &amp; Power.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Process Retrofit Duty:</span>
+                  <span class="sector-data-desc">100% Pure H₂ Direct Reduced Iron (DRI) vertical shaft reduction furnaces, replacing carbon monoxide and blast furnace coal coke.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Commercial &amp; Carbon Value:</span>
+                  <span class="sector-data-desc">Eliminates 95% of primary ironmaking process CO₂; secures CBAM compliance for European export markets.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">LOPA Safety Integrity &amp; Code:</span>
+                  <span class="sector-data-desc">Automated emergency N₂ high-volume sweep purge; fast-acting ESD valves (&lt;500ms closure); ASME Sec VIII Div 1 SA-240 316L.</span>
+                </div>
+              </div>
             </div>
+            <button class="sector-action-btn" onclick="openStandardModal('asme')">
+              Inspect Structural &amp; ASME Code &rarr;
+            </button>
           </div>
 
-          <div class="bom-item" style="border-top: 3px solid var(--accent);">
-            <div class="bom-code">SEC-04 &bull; FERTILIZERS</div>
-            <div class="bom-name">Fertilizers &amp; Green Ammonia</div>
-            <div class="bom-detail">
-              <strong>Target Plants:</strong> IFFCO Aonla, KRIBHCO, National Fert.<br>
-              <strong>Process Duty:</strong> Haber-Bosch green ammonia loop feedstock &amp; syngas enrichment.<br>
-              <strong>Value:</strong> Decouples ammonia from LNG price volatility; direct 30-bar feed.<br>
-              <strong>LOPA:</strong> Syngas ratio interlock; automated PSV angle relief trip.
+          <!-- Sector 4 -->
+          <div class="sector-card accent-blue">
+            <div>
+              <div class="sector-card-top">
+                <span class="sector-code-pill">SEC-04 // FERTILIZERS</span>
+                <span class="sector-duty-pill">Duty: 100 – 250 TPD H₂</span>
+              </div>
+              <h4 class="sector-title">Fertilizers &amp; Green Ammonia</h4>
+              <div class="sector-data-list">
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Target Facilities:</span>
+                  <span class="sector-data-desc">IFFCO Aonla &amp; Kalol, KRIBHCO Hazira, National Fertilizers Limited.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Process Retrofit Duty:</span>
+                  <span class="sector-data-desc">Haber-Bosch green ammonia synthesis loop feedstock; enriching reforming syngas with zero-carbon hydrogen.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Commercial &amp; Carbon Value:</span>
+                  <span class="sector-data-desc">Fully decouples fertilizer plants from imported LNG price volatility; direct 30-bar pressure eliminates booster stages.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">LOPA Safety Integrity &amp; Code:</span>
+                  <span class="sector-data-desc">Automated syngas stoichiometric ratio trip; ASME angle relief PSV; 316L orbitally welded high-purity process lines.</span>
+                </div>
+              </div>
             </div>
+            <button class="sector-action-btn" onclick="openStandardModal('iso_purity')">
+              Inspect ISO 14687 Purity Proof &rarr;
+            </button>
           </div>
 
-          <div class="bom-item" style="border-top: 3px solid var(--status-pass);">
-            <div class="bom-code" style="color: var(--status-pass);">SEC-05 &bull; MOBILITY</div>
-            <div class="bom-name">Heavy Mobility &amp; Fueling</div>
-            <div class="bom-detail">
-              <strong>Target Plants:</strong> Hydrogen Refueling Stations (HRS).<br>
-              <strong>Process Duty:</strong> 3-stage diaphragm compression from 30 to 350 / 700 bar.<br>
-              <strong>Value:</strong> ISO 14687 Grade D fuel purity (&lt;1 ppm O₂, -70&deg;C dewpoint).<br>
-              <strong>LOPA:</strong> 350-bar burst disc + PRD thermal relief; breakaway coupling.
+          <!-- Sector 5 -->
+          <div class="sector-card accent-green">
+            <div>
+              <div class="sector-card-top">
+                <span class="sector-code-pill" style="color: #059669;">SEC-05 // HEAVY MOBILITY</span>
+                <span class="sector-duty-pill">Duty: 5 – 15 TPD H₂</span>
+              </div>
+              <h4 class="sector-title">Heavy Mobility &amp; Fueling (HRS)</h4>
+              <div class="sector-data-list">
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Target Facilities:</span>
+                  <span class="sector-data-desc">Hydrogen Refueling Stations (HRS) along national freight corridors and mining haulage depots.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Process Retrofit Duty:</span>
+                  <span class="sector-data-desc">Integrated 3-stage diaphragm compression from 30 bar up to 350 bar / 700 bar with -40°C pre-cooling dispenser chillers.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">Commercial &amp; Carbon Value:</span>
+                  <span class="sector-data-desc">Guarantees ISO 14687 Grade D fuel cell purity (&lt;1 ppm O₂, &lt;1 ppm H₂O, zero lube oil); protects vehicle PEM fuel cell stacks.</span>
+                </div>
+                <div class="sector-data-item">
+                  <span class="sector-data-lbl">LOPA Safety Integrity &amp; Code:</span>
+                  <span class="sector-data-desc">350-bar ASME Sec VIII Div 3 KD-250 burst discs; SAE J2601 fueling protocol; break-away breakaway hose couplings.</span>
+                </div>
+              </div>
             </div>
+            <button class="sector-action-btn" onclick="openStandardModal('iec')">
+              Inspect SIL-2 &amp; Dispenser Safety &rarr;
+            </button>
           </div>
         </div>
       </div>

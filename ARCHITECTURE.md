@@ -43,3 +43,4 @@
 - **Edge Computing Specifications**:
   - Hardware target: Siemens Microbox IPC427E / Advantech UNO-2484G running real-time Linux (PREEMPT_RT).
   - Model footprint: INT8 quantized PyTorch model (<45 MB RAM, inference latency <12 ms).
+

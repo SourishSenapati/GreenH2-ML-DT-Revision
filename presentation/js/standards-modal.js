@@ -186,3 +186,4 @@ function closeStandardModal(e) {
 
 window.openStandardModal = openStandardModal;
 window.closeStandardModal = closeStandardModal;
+

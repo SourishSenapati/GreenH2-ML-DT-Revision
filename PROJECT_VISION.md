@@ -18,3 +18,4 @@ HYDROSENSE™ transforms commercial PEM water electrolysis from high-risk, unmon
 - **Phase 1 (Commercial Validation)**: Complete 5 MW to 100 MW pilot retrofits across Petrochemical (Haldia/Jamnagar), Chlor-Alkali (Grasim), and Green Steel (Tata Steel).
 - **Phase 2 (Standardization)**: Establish ASD-STM100 as the open digital twin standard for pressurized PEM water electrolysis.
 - **Phase 3 (Multi-Sector Scaling)**: License turnkey modular skids to global EPCs (L&T, Technip, Linde, Air Liquide) with zero marginal software delivery cost (85%+ gross margin).
+

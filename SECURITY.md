@@ -15,3 +15,4 @@ The HYDROSENSE system bridges critical heavy infrastructure (high-pressure hydro
 - **TPM 2.0 Hardware Root of Trust**: Edge IPCs utilize hardware TPM chips to measure boot integrity and store private device certificates.
 - **Sanitized DOM & XSS Prevention**: All client-side telemetry charts and KaTeX mathematical proofs are sanitized; user inputs from sliders are bounded and clamped to physical limits before calculation.
 - **Local Host Hardening**: Automated Windows Hello & TPM desync remediation utility (`fix_windows_error_0x80284001.bat`) to maintain credential isolation integrity without disabling security controls.
+
