@@ -31,13 +31,42 @@ document.addEventListener('keydown', (e) => {
     if (modal && modal.classList.contains('active')) {
       modal.classList.remove('active');
     }
+    const stdModal = document.getElementById('standardsModal');
+    if (stdModal && stdModal.classList.contains('active')) {
+      stdModal.classList.remove('active');
+    }
   }
 });
+
+function openStandardFromCurrentSubsystem() {
+  const mapping = {
+    'STR-100': 'asme',
+    'EL-200': 'diff_p',
+    'V-300': 'asme',
+    'V-400': 'iec',
+    'DR-500': 'iso_purity',
+    'WTR-600': 'iec',
+    'CMP-700': 'asme',
+    'ST-800': 'asme',
+    'ELE-900': 'iec',
+    'PLC-1000': 'iec',
+    'PIP-1100': 'asme'
+  };
+  const activeId = window.selectedSubsystem || 'EL-200';
+  const targetKey = mapping[activeId] || 'asme';
+  if (typeof openStandardModal === 'function') {
+    openStandardModal(targetKey);
+  }
+}
 
 // Bootstrap application on DOM ready
 window.addEventListener('DOMContentLoaded', () => {
   console.log("HYDROSENSE™ Industrial Operating System initialized.");
   
+  if (typeof initPlant3DScene === 'function') {
+    initPlant3DScene();
+  }
+
   if (typeof calculateRoi === 'function') {
     calculateRoi();
   }
@@ -62,4 +91,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.showModal = showModal;
 window.hideModal = hideModal;
+window.openStandardFromCurrentSubsystem = openStandardFromCurrentSubsystem;
+
 

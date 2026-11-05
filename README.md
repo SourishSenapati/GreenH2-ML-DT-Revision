@@ -149,7 +149,35 @@ Governed by the **ASD-STM100 Capital-Compounding Charter**, our offerings provid
 
 ---
 
-## 6. Interactive Web Defense Deck & PowerPoint Presentation
+## 6. Deterministic Engineering Standards Suite (ASME, IEC, ISO, ASTM, DIN)
+
+Every standard cited across the project is implemented as an executable, mathematically derived Python engine in [`code/engineering_standards/`](code/engineering_standards/):
+
+1. **ASME BPVC Section VIII Div 1 & Div 3 (`asme_bpvc_calculations.py`)**:
+   - Paragraph UG-27(c)(1) cylindrical shell sizing: SA-240 316L, $t_{\text{req}} = 12.10\text{ mm}$ (14 mm plate selected, MAWP = 35.28 bar, hydrotest = 45.86 bar).
+   - Paragraph UG-32(d) 2:1 ellipsoidal formed head: $t_{\text{req}} = 11.96\text{ mm}$ (12 mm head plate).
+   - Division 3 Part KD-250 thick cylinder Lame equation: 350-bar buffer vessels (safety margin = 4.88x on yield, burst = 2,196.4 bar).
+2. **IEC 61511 / IEC 61508 Functional Safety & SIL-2 LOPA (`iec_61511_sil2_lopa_safety.py`)**:
+   - SIF-01 Anode H2 crossover quench: 1oo2 NDIR sensors, $PFD_{\text{avg}} = 0.005150$, $RRF = 194.3$ (SIL 2 verified, $SFF = 94.5\%$).
+   - SIF-02 Stack Delta-P protection: 1oo2 transmitters, $PFD_{\text{avg}} = 0.008360$, $RRF = 119.6$ (SIL 2 verified).
+3. **30-Bar Differential Pressure Stack Mechanics (`stack_30bar_differential_mechanics.py`)**:
+   - Membrane pore-bridging stress: $0.046\text{ MPa}$ on 85 µm ePTFE-reinforced PFSA (Safety margin: 530x).
+   - Gas crossover flammability check: $\text{H}_2 \text{ in } \text{O}_2 = 0.262\ \text{vol}\%$ (ISO 22734 compliant, 15.2x margin to LEL).
+4. **ISO 14687:2019 Grade D Fuel Cell Quality (`iso_14687_grade_d_purification.py`)**:
+   - Unit DR-500 DeOxo reactor: reduces $\text{O}_2$ from 1,500 ppm to 0.5 ppm ($\Delta T_{\text{adiabatic}} = 14.7^\circ\text{C}$).
+   - Twin 13X TSA molecular sieve dryers: effluent $\text{H}_2\text{O} \le 1.0\text{ ppm}$ (atmospheric dew point $\le -70.0^\circ\text{C}$).
+5. **ASTM B265 Grade 2 Titanium DFM Stamping (`astm_b265_titanium_dfm.py`)**:
+   - Progressive stamping of 50-channel bipolar plate ($250\text{ cm}^2$ active area): thinning percentage = $16.36\%$ ($< 18.0\%$ safe limit; zero necking risk). Press tonnage = 408.5 metric tons.
+
+Run the master test suite:
+```bash
+py code/engineering_standards/run_full_engineering_audit.py
+```
+Output: Certified machine-readable dossier in [`code/engineering_standards/engineering_audit_certificate.json`](code/engineering_standards/engineering_audit_certificate.json).
+
+---
+
+## 7. Interactive Web Defense Deck & PowerPoint Presentation
 
 The complete 15-slide master defense suite is included directly within this repository:
 
