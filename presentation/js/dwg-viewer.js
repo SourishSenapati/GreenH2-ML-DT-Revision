@@ -165,6 +165,15 @@ function generateAutoCADSvg() {
       <!-- Equipment Footprints from Above -->
       <!-- Mezzanine Deck Boundary -->
       <rect x="80" y="120" width="600" height="240" fill="none" stroke="#38BDF8" stroke-width="2"/>
+      
+      <!-- Unit 600 Water Treatment Skid -->
+      <rect x="100" y="150" width="85" height="70" fill="#0369A1" stroke="#06B6D4" stroke-width="1.2"/>
+      <text x="110" y="190" font-size="9" fill="#FFF" font-weight="bold">WTR-600</text>
+
+      <!-- Unit 700 Diaphragm Compressor -->
+      <rect x="100" y="270" width="85" height="60" fill="#475569" stroke="#94A3B8" stroke-width="1.2"/>
+      <text x="110" y="305" font-size="9" fill="#FFF" font-weight="bold">CMP-700</text>
+
       <!-- Stacks Footprint -->
       <rect x="230" y="150" width="180" height="90" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
       <text x="255" y="200" font-size="10" fill="#10B981" font-weight="bold">EL-200 BAY (4x STACKS)</text>
@@ -175,6 +184,10 @@ function generateAutoCADSvg() {
       <circle cx="525" cy="170" r="26" fill="#1E293B" stroke="#FBBF24" stroke-width="1.2"/>
       <text x="510" y="174" font-size="9" fill="#FBBF24" font-weight="bold">V-400</text>
 
+      <!-- Unit 500 DeOxo & TSA Dryers -->
+      <rect x="570" y="150" width="75" height="90" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
+      <text x="585" y="200" font-size="9" fill="#FFF" font-weight="bold">DR-500</text>
+
       <!-- Ground Level Buffers (ST-800) -->
       <rect x="210" y="270" width="220" height="70" fill="#1E293B" stroke="#38BDF8" stroke-width="1.2"/>
       <text x="245" y="310" font-size="10" fill="#38BDF8" font-weight="bold">ST-800 (4x 350-bar VESSELS)</text>
@@ -184,6 +197,45 @@ function generateAutoCADSvg() {
       <text x="490" y="305" font-size="9" fill="#FFF" font-weight="bold">ELE-900</text>
       <rect x="580" y="260" width="80" height="50" fill="#F1F5F9" stroke="#38BDF8" stroke-width="1.2"/>
       <text x="590" y="290" font-size="9" fill="#0F172A" font-weight="bold">PLC-1000</text>
+
+      <!-- Process Piping Routing Lines (100% Interconnected, No Open Ends) -->
+      <!-- Line 01 H2 Wet (EL-200 -> V-300) -->
+      <path d="M 410 180 L 440 180 L 440 170 L 460 170" fill="none" stroke="#F43F5E" stroke-width="2.5" marker-end="url(#arrow)"/>
+      <text x="415" y="174" font-size="7.5" fill="#F43F5E" font-weight="bold">LINE-01-H2-WET (DN80)</text>
+
+      <!-- Line 02 H2 DeOxo (V-300 -> DR-500) -->
+      <path d="M 484 170 L 540 170 L 540 185 L 570 185" fill="none" stroke="#F43F5E" stroke-width="2.0" marker-end="url(#arrow)"/>
+      <text x="488" y="164" font-size="7.5" fill="#F43F5E" font-weight="bold">LINE-02-H2-DEOXO (DN50)</text>
+
+      <!-- Line 03 H2 Compressor Suction (DR-500 -> CMP-700) -->
+      <path d="M 600 240 L 600 250 L 140 250 L 140 270" fill="none" stroke="#F43F5E" stroke-width="2.0" marker-end="url(#arrow)"/>
+      <text x="320" y="246" font-size="7.5" fill="#F43F5E" font-weight="bold">LINE-03-H2-CMP-SUCT (DN50)</text>
+
+      <!-- Line 04 H2 350-bar (CMP-700 -> ST-800) -->
+      <path d="M 185 305 L 210 305" fill="none" stroke="#E11D48" stroke-width="2.5" marker-end="url(#arrow)"/>
+      <text x="180" y="300" font-size="7" fill="#E11D48" font-weight="bold">LINE-04-350BAR</text>
+
+      <!-- Line 05 H2 Export Battery Limit (ST-800 -> BL-H2-EXP-01) -->
+      <path d="M 430 305 L 670 305" fill="none" stroke="#E11D48" stroke-width="2.5" marker-end="url(#arrow)"/>
+      <rect x="670" y="295" width="20" height="20" fill="#EAB308" stroke="#0F172A"/>
+      <text x="490" y="300" font-size="7.5" fill="#E11D48" font-weight="bold">LINE-05-H2-EXPORT (DN50 Cl 2500)</text>
+      <text x="630" y="290" font-size="8" fill="#EAB308" font-weight="bold">BL-H2-EXP-01 [TIE-IN]</text>
+
+      <!-- Line 06 O2 Slurry (EL-200 -> V-400) -->
+      <path d="M 410 160 L 500 160 L 500 170 L 525 170" fill="none" stroke="#0284C7" stroke-width="2.0" marker-end="url(#arrow)"/>
+      <text x="420" y="154" font-size="7.5" fill="#0284C7" font-weight="bold">LINE-06-O2-SLURRY (DN100)</text>
+
+      <!-- Line 07 DI Water Supply (WTR-600 -> EL-200) -->
+      <path d="M 185 190 L 230 190" fill="none" stroke="#06B6D4" stroke-width="2.2" marker-end="url(#arrow)"/>
+      <text x="188" y="185" font-size="7.5" fill="#06B6D4" font-weight="bold">LINE-07-DI-SUPPLY (DN65)</text>
+
+      <!-- Line 08 Water Recycle (V-300/400 -> WTR-600) -->
+      <path d="M 525 196 L 460 196 L 460 220 L 140 220 L 140 220 L 140 220" fill="none" stroke="#06B6D4" stroke-width="1.8" stroke-dasharray="4,2"/>
+      <text x="280" y="216" font-size="7.5" fill="#06B6D4">LINE-08-WTR-RECYCLE (DN50)</text>
+
+      <!-- Line 09 N2 Safety Purge -->
+      <path d="M 90 140 L 560 140 L 560 170" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="5,3"/>
+      <text x="110" y="135" font-size="7.5" fill="#F59E0B">LINE-09-N2-PURGE (DN40) &bull; BL-N2-SUP-01</text>
 
       <!-- Dimension Arrows -->
       <line x1="80" y1="390" x2="680" y2="390" stroke="#38BDF8" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
@@ -438,3 +490,4 @@ if (document.readyState === 'loading') {
 } else {
   setTimeout(initAutoCADViewer, 200);
 }
+

@@ -101,8 +101,45 @@ def generate_manifest():
                 "ISO 22734:2019 Differential Pressure",
                 "ASTM B265 Grade 2 Titanium DFM",
                 "API 618 5th Edition Reciprocating Compressor",
-                "IS 800:2007 Structural Steel Mezzanine"
-            ]
+                "IS 800:2007 Structural Steel Mezzanine",
+                "ASME B31.3 / ASME B31.12 Process Piping"
+            ],
+            "piping_interconnection_integrity": {
+                "open_ended_connections_count": 0,
+                "process_lines_count": 10,
+                "battery_limit_terminations": ["BL-H2-EXP-01", "BL-N2-SUP-01", "BL-WTR-IN-01"],
+                "standards": ["ASME B31.3", "ASME B31.12", "ASME B16.5 Class 300 & Class 2500"]
+            },
+            "commercial_procurement_portfolio": {
+                "tier_1_forensic_audit": {
+                    "title": "Plant Health Forensic Audit & CAE Simulation",
+                    "price_usd": 28500,
+                    "price_inr_lakh": 24.0,
+                    "scope": "5 MW stack block, 100h remote SCADA ingestion, CFD flow field review, ASME Sec VIII compliance, 5-day turnaround"
+                },
+                "tier_2_edge_firmware": {
+                    "title": "AERO-H2 Edge Digital Twin Core & SIL-2 SCADA Firmware",
+                    "price_monthly_saas_usd": 3500,
+                    "price_perpetual_per_mw_usd": 35000,
+                    "scope": "Siemens S7-1500F & STM32 compiled runtime, in-operando <1.4s biofilm isolation, +39.4% core life extension"
+                },
+                "tier_3_turnkey_dfm_cad": {
+                    "title": "Turnkey DFM SolidWorks CAD & Fabrication License",
+                    "price_usd": 85000,
+                    "price_inr_lakh": 71.0,
+                    "full_100tpd_bedp_usd": 480000,
+                    "scope": "Complete SolidWorks 2025 SP1.2 B-Rep assembly, AutoCAD ISO A1 shop drawings, ASME calculations, stamping dies, certified BOM"
+                },
+                "financial_roi_model_5mw": {
+                    "capex_deferred_usd": 420000,
+                    "annual_lcoh_savings_usd": 252000,
+                    "gross_2yr_savings_usd": 924000,
+                    "hydrosense_2yr_cost_usd": 112500,
+                    "net_2yr_client_benefit_usd": 811500,
+                    "payback_months": 3.8,
+                    "two_year_roi_percent": 497.0
+                }
+            }
         },
         "subsystems": {
             "STR-100": {

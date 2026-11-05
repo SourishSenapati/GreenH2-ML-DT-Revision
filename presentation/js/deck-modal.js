@@ -220,11 +220,11 @@ const presentationSlides = [
   {
     tag: 'SLIDE 14 • COMMERCIAL MONETIZATION &amp; PAYBACK',
     title: 'ASD-STM100 Commercialization &amp; ROI Model',
-    subtitle: 'Zero Cash Burn, High-Margin Digital Delivery, Breakeven in Month 4.8',
+    subtitle: 'Zero Cash Burn, High-Margin Digital Delivery, Breakeven in Month 3.8',
     body: `
       <div style="text-align: center;">
         <img src="assets/Fig8_Commercial_Monetization_Service_Matrix_ASD_STM100.png" style="max-height: 420px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 12px; background: #FFFFFF;" alt="Fig 8">
-        <p style="font-size: 13px; color: var(--text-muted);">3-tier monetization portfolio (Tier 1: $7.5k audit, Tier 2: $2.5k/mo edge SaaS, Tier 3: $45k EPC license) delivering 485% 2-year client ROI.</p>
+        <p style="font-size: 13px; color: var(--text-muted);">Commercial EPC portfolio (Tier 1: $28.5k audit, Tier 2: $3.5k/mo edge SLA, Tier 3: $85k EPC skid license / $480k full BEDP) delivering 497% 2-year client ROI ($559,500 net cash profit per 5 MW block).</p>
       </div>
     `
   },

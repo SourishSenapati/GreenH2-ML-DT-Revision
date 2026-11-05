@@ -1089,37 +1089,151 @@ function buildAllSubsystems() {
 
   // --------------------------------------------------------------------------
   // 11. PIP-1100: Interconnecting Process Piping Network (ASME B31.3 / B31.12)
+  // 100% Closed Physical Routing: Connects all 10 skid modules with zero open ends
   // --------------------------------------------------------------------------
   const pipGrp = new THREE.Group();
 
-  // Main Hydrogen Header (Rose Red)
-  const h2Header = makeMesh(new THREE.CylinderGeometry(0.05, 0.05, 7.8, 16), matLib.pipingH2);
-  h2Header.rotation.z = Math.PI / 2;
-  h2Header.position.set(0, 3.8, -1.8);
-  pipGrp.add(h2Header);
+  function createPipeRunMesh(points, radius, mat, addFlanges = true) {
+    const runGrp = new THREE.Group();
+    for (let i = 0; i < points.length - 1; i++) {
+      const p1 = new THREE.Vector3(...points[i]);
+      const p2 = new THREE.Vector3(...points[i + 1]);
+      const vec = new THREE.Vector3().subVectors(p2, p1);
+      const len = vec.length();
+      if (len < 1e-4) continue;
+      const geom = new THREE.CylinderGeometry(radius, radius, len, 16);
+      const cyl = new THREE.Mesh(geom, mat);
+      cyl.castShadow = true;
+      cyl.receiveShadow = true;
+      const mid = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
+      cyl.position.copy(mid);
+      const up = new THREE.Vector3(0, 1, 0);
+      const quat = new THREE.Quaternion().setFromUnitVectors(up, vec.clone().normalize());
+      cyl.setRotationFromQuaternion(quat);
+      runGrp.add(cyl);
 
-  // Main DI Water Header (Cyan)
-  const diHeader = makeMesh(new THREE.CylinderGeometry(0.06, 0.06, 7.8, 16), matLib.pipingDI);
-  diHeader.rotation.z = Math.PI / 2;
-  diHeader.position.set(0, 3.6, -2.1);
-  pipGrp.add(diHeader);
+      if (i < points.length - 2) {
+        const joint = new THREE.Mesh(new THREE.SphereGeometry(radius * 1.08, 12, 12), mat);
+        joint.position.copy(p2);
+        runGrp.add(joint);
+      }
+    }
+    if (addFlanges && points.length >= 2) {
+      [0, points.length - 1].forEach(idx => {
+        const pt = points[idx];
+        const flg = createFlange(radius, radius * 1.8, radius * 0.45, matLib.flangeMat, 6);
+        flg.position.set(...pt);
+        runGrp.add(flg);
+      });
+    }
+    return runGrp;
+  }
 
-  // Nitrogen Purge Header (Amber)
-  const n2Header = makeMesh(new THREE.CylinderGeometry(0.035, 0.035, 7.8, 16), matLib.pipingN2);
-  n2Header.rotation.z = Math.PI / 2;
-  n2Header.position.set(0, 4.0, -2.1);
-  pipGrp.add(n2Header);
-
-  // Flanged Dropper Tees to Vessels
-  [2.2, 4.2, -3.8].forEach(dx => {
-    const drop = makeMesh(new THREE.CylinderGeometry(0.04, 0.04, 1.2, 12), matLib.pipingH2);
-    drop.position.set(dx, 3.2, -1.8);
-    pipGrp.add(drop);
-
-    const f1 = createFlange(0.04, 0.08, 0.02);
-    f1.position.set(dx, 2.6, -1.8);
-    pipGrp.add(f1);
+  // 1. LINE-01-H2-WET: Cathode 30-bar Wet H2 Collector -> V-300 Knockout Drum
+  [-3.0, -1.0, 1.0, 3.0].forEach(sx => {
+    pipGrp.add(createPipeRunMesh([
+      [sx + 0.25, 5.08, 0.63],
+      [sx + 0.25, 5.08, 1.20]
+    ], 0.038, matLib.pipingH2, true));
   });
+  pipGrp.add(createPipeRunMesh([
+    [-2.75, 5.08, 1.20],
+    [3.25, 5.08, 1.20],
+    [3.25, 4.80, 1.20],
+    [3.25, 4.80, -2.00],
+    [2.68, 4.80, -2.00],
+    [2.68, 1.80, -2.00] // Direct mate into V-300 tangential inlet nozzle
+  ], 0.045, matLib.pipingH2, true));
+
+  // 2. LINE-02-H2-DEOXO: V-300 Top Gas Outlet -> DR-500 DeOxo Catalytic Reactor
+  pipGrp.add(createPipeRunMesh([
+    [2.20, 3.10, -2.00], // V-300 Top Outlet Nozzle
+    [2.20, 4.80, -2.00],
+    [2.20, 4.80, 1.60],
+    [3.40, 4.80, 1.60],
+    [3.40, 6.03, 1.60]  // Direct mate into DR-500 top reactor flange
+  ], 0.040, matLib.pipingH2, true));
+
+  // 3. LINE-03-H2-CMP-SUCT: DR-500 Pure Dry H2 -> CMP-700 3-Stage Compressor Suction
+  pipGrp.add(createPipeRunMesh([
+    [3.40, 4.34, 1.60],  // DR-500 Bottom Discharge Flange
+    [3.40, 1.20, 1.60],
+    [0.00, 1.20, 1.60],
+    [-4.65, 1.20, 1.60],
+    [-4.65, 1.42, 1.55] // Direct mate into CMP-700 suction dampener flange
+  ], 0.040, matLib.pipingH2, true));
+
+  // 4. LINE-04-H2-HP-350BAR: CMP-700 350-bar Discharge -> ST-800 Buffer Storage
+  pipGrp.add(createPipeRunMesh([
+    [-2.95, 1.42, 1.55], // CMP-700 Discharge Dampener Flange
+    [-2.95, 0.55, 1.55],
+    [-2.95, 0.55, 3.50],
+    [1.85, 0.55, 3.50]  // Direct mate into ST-800 350-bar manifold
+  ], 0.028, matLib.safetyRed, true));
+
+  // 5. LINE-05-H2-BATTERY-LIMIT: ST-800 Offtake -> Skid Battery Limit (BL-H2-EXP-01)
+  pipGrp.add(createPipeRunMesh([
+    [-1.85, 0.55, 3.50], // ST-800 Offtake Flange
+    [-5.50, 0.55, 3.50]  // Skid Boundary Battery Limit
+  ], 0.035, matLib.safetyRed, true));
+
+  const specBlindMesh = makeMesh(new THREE.BoxGeometry(0.04, 0.22, 0.12), matLib.safetyYellow);
+  specBlindMesh.position.set(-5.52, 0.55, 3.50);
+  pipGrp.add(specBlindMesh);
+
+  // 6. LINE-06-O2-SLURRY: Stack Anode Outlets -> V-400 O2 Cyclone Degasser
+  [-3.0, -1.0, 1.0, 3.0].forEach(sx => {
+    pipGrp.add(createPipeRunMesh([
+      [sx - 0.25, 5.08, -0.63],
+      [sx - 0.25, 5.08, -1.00]
+    ], 0.038, matLib.processBlue, true));
+  });
+  pipGrp.add(createPipeRunMesh([
+    [-3.25, 5.08, -1.00],
+    [3.75, 5.08, -1.00],
+    [3.75, 4.80, -2.00],
+    [3.75, 1.80, -2.00]  // Direct mate into V-400 tangential inlet nozzle
+  ], 0.050, matLib.processBlue, true));
+
+  // 7. LINE-07-DI-SUPPLY: WTR-600 High-Pressure Pump -> 4x Stack Anode Inlets
+  pipGrp.add(createPipeRunMesh([
+    [-3.15, 0.58, -1.55], // WTR-600 Pump Discharge Flange
+    [-3.15, 0.58, -1.00],
+    [-3.25, 0.58, -1.00],
+    [-3.25, 4.63, -1.00], // Riser to Mezzanine
+    [2.75, 4.63, -1.00]   // Distribution header
+  ], 0.045, matLib.pipingDI, true));
+
+  [-3.0, -1.0, 1.0, 3.0].forEach(sx => {
+    pipGrp.add(createPipeRunMesh([
+      [sx - 0.25, 4.63, -1.00],
+      [sx - 0.25, 4.63, -0.63] // Direct mate into Stack Anode Inlet Flange
+    ], 0.035, matLib.pipingDI, true));
+  });
+
+  // 8. LINE-08-WATER-RECYCLE: V-300 & V-400 Bottom Drains -> WTR-600 Sump
+  pipGrp.add(createPipeRunMesh([
+    [4.20, 0.30, -2.00], // V-400 Bottom Drain
+    [2.20, 0.25, -2.00], // V-300 Bottom Drain Tee
+    [-3.80, 0.25, -2.00],
+    [-4.25, 0.25, -2.00],
+    [-4.25, 2.68, -2.00] // Direct mate into WTR-600 tank recycle nozzle
+  ], 0.035, matLib.pipingDI, true));
+
+  // 9. LINE-09-N2-PURGE: Battery Limit (BL-N2-SUP-01) -> V-300 / DR-500 Purge
+  pipGrp.add(createPipeRunMesh([
+    [-5.50, 4.95, 0.00], // Battery Limit N2 Supply Interface BL-N2-SUP-01
+    [3.40, 4.95, 0.00],  // Central Mezzanine Overhead Pipe Rack
+    [3.40, 4.95, 1.60],
+    [3.40, 5.21, 1.60]   // Connects into DR-500 purge port
+  ], 0.025, matLib.pipingN2, true));
+
+  // 10. BUS-01-DC: 5000A Solid Copper Busbar from ELE-900 to Stacks
+  pipGrp.add(createPipeRunMesh([
+    [-2.70, 1.80, 0.00], // ELE-900 Rectifier Busduct
+    [-2.70, 5.20, 0.00], // Vertical copper riser to mezzanine
+    [3.00, 5.20, 0.00]   // Horizontal copper distribution busway
+  ], 0.040, matLib.copper, false));
 
   attachSubsystem('PIP-1100', pipGrp);
 }

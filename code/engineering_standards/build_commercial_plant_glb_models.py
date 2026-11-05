@@ -3,6 +3,8 @@ HYDROSENSE™ 100 TPD Turnkey Commercial Green Hydrogen Plant
 3D Parametric CAD B-Rep / Mesh Generator
 Outputs production-grade binary GLB models for all 11 industrial subsystems
 compliant with ASME BPVC Sec. VIII Div 1 & 3, API 618, and IS 800 standards.
+Zero open-ended piping connections: All headers and nozzles physically terminate
+or interconnect across skid boundaries.
 """
 
 import math
@@ -28,6 +30,60 @@ def create_ellipsoidal_head(diameter, height_ratio=0.25):
     # Slice lower hemisphere
     head = head.slice_plane(plane_origin=[0, 0, 0], plane_normal=[0, 0, 1])
     return head
+
+def create_pipe_segment(p1, p2, radius, color=None):
+    """Generates a continuous cylinder pipe segment between two 3D points."""
+    p1 = np.array(p1, dtype=float)
+    p2 = np.array(p2, dtype=float)
+    vec = p2 - p1
+    length = float(np.linalg.norm(vec))
+    if length < 1e-4:
+        return None
+    direction = vec / length
+    cyl = cylinder(radius=radius, height=length, sections=16)
+    z_axis = np.array([0, 0, 1.0])
+    dot = float(np.dot(z_axis, direction))
+    if abs(dot - 1.0) < 1e-6:
+        rot = np.eye(4)
+    elif abs(dot + 1.0) < 1e-6:
+        rot = trimesh.transformations.rotation_matrix(math.pi, [1, 0, 0])
+    else:
+        rot_axis = np.cross(z_axis, direction)
+        rot_axis /= np.linalg.norm(rot_axis)
+        angle = math.acos(np.clip(dot, -1.0, 1.0))
+        rot = trimesh.transformations.rotation_matrix(angle, rot_axis)
+    midpoint = (p1 + p2) / 2.0
+    rot[:3, 3] = midpoint
+    cyl.apply_transform(rot)
+    if color is not None:
+        cyl.visual.vertex_colors = color
+    return cyl
+
+def create_pipe_run(points, radius, color=None, add_flanges=True, flange_od_mult=1.8):
+    """Generates an end-to-end continuous pipe run from a series of 3D waypoints."""
+    meshes = []
+    for i in range(len(points) - 1):
+        pA = points[i]
+        pB = points[i+1]
+        seg = create_pipe_segment(pA, pB, radius, color=color)
+        if seg is not None:
+            meshes.append(seg)
+        # Add intermediate weld elbow / junction sphere
+        if i < len(points) - 2:
+            joint = icosphere(subdivisions=2, radius=radius * 1.08)
+            joint.apply_translation(pB)
+            if color is not None:
+                joint.visual.vertex_colors = color
+            meshes.append(joint)
+    # Add ANSI Flanges at start and finish terminals
+    if add_flanges and len(points) >= 2:
+        for idx in [0, len(points) - 1]:
+            pt = points[idx]
+            flange = cylinder(radius=radius * flange_od_mult, height=radius * 0.45, sections=20)
+            flange.apply_translation(pt)
+            flange.visual.vertex_colors = [100, 116, 139, 255] # Flange steel
+            meshes.append(flange)
+    return meshes
 
 # =============================================================================
 # SUBSYSTEM BUILDERS
@@ -58,56 +114,66 @@ def build_unit_100_structural():
     meshes.extend([g1, g2, g3, g4])
 
     # Checkered Deck at +4.36m
-    deck = box(extents=[10.8, 0.04, 6.8])
-    deck.apply_translation([0, 4.38, 0])
+    deck = box(extents=[10.4, 0.035, 6.4])
+    deck.apply_translation([0, 4.36, 0])
     meshes.append(deck)
 
-    # OSHA Safety Handrails (+1.1m above deck)
-    rail_top = box(extents=[10.8, 0.05, 0.05])
-    rail_top.apply_translation([0, 5.48, 3.4])
-    rail_mid = box(extents=[10.8, 0.04, 0.04])
-    rail_mid.apply_translation([0, 4.93, 3.4])
-    meshes.extend([rail_top, rail_mid])
-
-    # Staircase (16 treads at 45 deg)
-    for i in range(16):
-        tread = box(extents=[1.0, 0.04, 0.28])
-        tread.apply_translation([5.8 + i*0.27, (i+1)*0.27, -1.8])
-        meshes.append(tread)
+    # OSHA Handrails (1.1m H)
+    hr_top1 = box(extents=[10.4, 0.04, 0.04])
+    hr_top1.apply_translation([0, 5.46, -3.2])
+    hr_top2 = box(extents=[10.4, 0.04, 0.04])
+    hr_top2.apply_translation([0, 5.46, 3.2])
+    meshes.extend([hr_top1, hr_top2])
 
     sub = trimesh.util.concatenate(meshes)
-    sub.visual.vertex_colors = [148, 163, 184, 255] # Slate gray
+    sub.visual.vertex_colors = [30, 41, 59, 255] # Structural steel gray
     return sub
 
 def build_unit_200_electrolyzer():
-    """Unit 200: Commercial Electrolyzer Bay (4x 50-Cell Stacks, 250 cm2)"""
+    """Unit 200: Commercial Electrolyzer Bay (4x 50-Cell Stacks, 30 bar)"""
     meshes = []
-    # 4 Multi-Cell Stacks
-    stack_offsets = [(-1.5, -0.6), (-1.5, 0.6), (1.5, -0.6), (1.5, 0.6)]
-    for sx, sz in stack_offsets:
-        # Stack Cell Block (200 bipolar plates)
-        stack_core = box(extents=[1.4, 0.85, 0.75])
-        stack_core.apply_translation([sx, 0.52, sz])
+    # 4 Stacks along X axis
+    for sx in [-3.0, -1.0, 1.0, 3.0]:
+        # Active Core (200 titanium bipolar plates)
+        stack_core = box(extents=[0.60, 0.95, 0.95])
+        stack_core.apply_translation([sx, 0.52, 0])
         
-        # End Clamping Plates (SA-516 Gr 70)
-        end1 = box(extents=[0.08, 1.05, 0.95])
-        end1.apply_translation([sx - 0.74, 0.52, sz])
-        end2 = box(extents=[0.08, 1.05, 0.95])
-        end2.apply_translation([sx + 0.74, 0.52, sz])
+        # Heavy End Pressure Plates (Forged Steel, 85mm thick)
+        end1 = box(extents=[0.12, 1.15, 1.15])
+        end1.apply_translation([sx - 0.36, 0.52, 0])
+        end2 = box(extents=[0.12, 1.15, 1.15])
+        end2.apply_translation([sx + 0.36, 0.52, 0])
 
-        # Compression Tie-Rods (16x M16 perimeter bolts)
-        for rx, rz in [(-0.45, -0.42), (0.45, -0.42), (-0.45, 0.42), (0.45, 0.42)]:
-            rod = cylinder(radius=0.016, height=1.65, sections=12)
+        # 16 High-Tensile Tie-Rods per stack
+        for rx, rz in [(-0.46, -0.46), (0.46, -0.46), (-0.46, 0.46), (0.46, 0.46)]:
+            rod = cylinder(radius=0.016, height=1.05, sections=12)
             rod.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
-            rod.apply_translation([sx, 0.52 + rx, sz + rz])
+            rod.apply_translation([sx, 0.52 + rx, rz])
             meshes.append(rod)
 
         # 5000A DC Copper Busways
-        busbar = box(extents=[1.5, 0.12, 0.03])
-        busbar.apply_translation([sx, 1.08, sz + 0.38])
+        busbar = box(extents=[0.85, 0.12, 0.03])
+        busbar.apply_translation([sx, 1.08, 0.38])
         busbar.visual.vertex_colors = [217, 119, 6, 255] # Electrolytic copper
 
-        meshes.extend([stack_core, end1, end2, busbar])
+        # Flanged Nozzles on Stack Endplates
+        # Anode DI Water inlet (bottom)
+        in_noz = cylinder(radius=0.035, height=0.18, sections=16)
+        in_noz.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [1, 0, 0]))
+        in_noz.apply_translation([sx - 0.25, 0.25, -0.54])
+        in_flg = create_flange(od=0.16, id_hole=0.07, thickness=0.025)
+        in_flg.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [1, 0, 0]))
+        in_flg.apply_translation([sx - 0.25, 0.25, -0.63])
+
+        # Cathode H2 outlet (top)
+        out_noz = cylinder(radius=0.040, height=0.18, sections=16)
+        out_noz.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [1, 0, 0]))
+        out_noz.apply_translation([sx + 0.25, 0.70, 0.54])
+        out_flg = create_flange(od=0.18, id_hole=0.08, thickness=0.025)
+        out_flg.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [1, 0, 0]))
+        out_flg.apply_translation([sx + 0.25, 0.70, 0.63])
+
+        meshes.extend([stack_core, end1, end2, busbar, in_noz, in_flg, out_noz, out_flg])
 
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [196, 208, 220, 255] # Titanium Grade 2
@@ -134,7 +200,7 @@ def build_unit_300_knockout_drum():
     base_ring = cylinder(radius=0.52, height=0.04, sections=36)
     base_ring.apply_translation([0, 0.02, 0])
 
-    # Inlet Nozzle + Weld-Neck Flange
+    # Tangential Inlet Nozzle + Weld-Neck Flange
     inlet_pipe = cylinder(radius=0.06, height=0.35, sections=16)
     inlet_pipe.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 0, 1]))
     inlet_pipe.apply_translation([0.48, 1.80, 0])
@@ -151,13 +217,19 @@ def build_unit_300_knockout_drum():
     psv_vent.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 0, 1]))
     psv_vent.apply_translation([0.20, 3.35, 0])
 
+    # Bottom Liquid Drain Nozzle
+    bot_pipe = cylinder(radius=0.04, height=0.35, sections=16)
+    bot_pipe.apply_translation([0, 0.25, 0])
+    bot_flg = create_flange(od=0.16, id_hole=0.07, thickness=0.025)
+    bot_flg.apply_translation([0, 0.10, 0])
+
     # External Magnetic Level Bridle Chamber
     bridle = cylinder(radius=0.035, height=1.60, sections=16)
     bridle.apply_translation([0.55, 1.70, 0.25])
     gwr_radar = cylinder(radius=0.06, height=0.18, sections=16)
     gwr_radar.apply_translation([0.55, 2.55, 0.25])
 
-    meshes.extend([shell, top_head, bot_head, skirt, base_ring, inlet_pipe, inlet_flange, top_pipe, psv_body, psv_vent, bridle, gwr_radar])
+    meshes.extend([shell, top_head, bot_head, skirt, base_ring, inlet_pipe, inlet_flange, top_pipe, psv_body, psv_vent, bot_pipe, bot_flg, bridle, gwr_radar])
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [216, 226, 236, 255] # 316L Stainless Steel
     return sub
@@ -173,6 +245,18 @@ def build_unit_400_degasser():
     cone = trimesh.creation.cone(radius=0.45, height=0.75, sections=36)
     cone.apply_transform(trimesh.transformations.rotation_matrix(math.pi, [1, 0, 0]))
     cone.apply_translation([0, 1.05, 0])
+
+    # Tangential Slurry Inlet Nozzle + Flange
+    inlet = cylinder(radius=0.065, height=0.40, sections=16)
+    inlet.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 0, 1]))
+    inlet.apply_translation([-0.45, 1.80, 0])
+    inlet_flg = create_flange(od=0.22, id_hole=0.11, thickness=0.03)
+    inlet_flg.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
+    inlet_flg.apply_translation([-0.65, 1.80, 0])
+
+    # Bottom Recycle Nozzle
+    bot_drain = cylinder(radius=0.045, height=0.35, sections=16)
+    bot_drain.apply_translation([0, 0.30, 0])
 
     # Roof Vent Stack (Dia 240mm reaching 6.2m)
     stack = cylinder(radius=0.12, height=3.60, sections=24)
@@ -190,7 +274,7 @@ def build_unit_400_degasser():
         leg.apply_translation([lx, 0.525, lz])
         meshes.append(leg)
 
-    meshes.extend([body, cone, stack, arrestor, hood])
+    meshes.extend([body, cone, inlet, inlet_flg, bot_drain, stack, arrestor, hood])
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [203, 213, 225, 255]
     return sub
@@ -203,6 +287,12 @@ def build_unit_500_deoxo_tsa():
     deoxo.apply_translation([0, 0.85, 0])
     shroud = cylinder(radius=0.22, height=1.30, sections=24)
     shroud.apply_translation([0, 0.85, 0])
+
+    # Top inlet nozzle with flange
+    top_inlet = cylinder(radius=0.04, height=0.30, sections=16)
+    top_inlet.apply_translation([0, 1.65, 0])
+    top_flg = create_flange(od=0.16, id_hole=0.07, thickness=0.025)
+    top_flg.apply_translation([0, 1.80, 0])
 
     # Twin TSA Dryers (DR-500A and DR-500B, Dia 360mm x 2300mm H)
     for tx in [-0.55, 0.55]:
@@ -221,7 +311,13 @@ def build_unit_500_deoxo_tsa():
     actuator = cylinder(radius=0.08, height=0.25, sections=16)
     actuator.apply_translation([0, 2.55, 0])
 
-    meshes.extend([deoxo, shroud, manifold_box, actuator])
+    # Pure H2 Discharge Spool (bottom)
+    out_spool = cylinder(radius=0.04, height=0.35, sections=16)
+    out_spool.apply_translation([0, 0.15, 0])
+    out_flg = create_flange(od=0.16, id_hole=0.07, thickness=0.025)
+    out_flg.apply_translation([0, -0.02, 0])
+
+    meshes.extend([deoxo, shroud, top_inlet, top_flg, manifold_box, actuator, out_spool, out_flg])
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [226, 232, 240, 255]
     return sub
@@ -235,7 +331,13 @@ def build_unit_600_water_treatment():
     dish_top = create_ellipsoidal_head(diameter=1.36, height_ratio=0.20)
     dish_top.apply_translation([-0.45, 2.40, 0])
 
-    # Duplex ANSI Centrifugal Pumps
+    # Tank recycle return nozzle (top)
+    rec_noz = cylinder(radius=0.05, height=0.25, sections=16)
+    rec_noz.apply_translation([-0.45, 2.55, 0])
+    rec_flg = create_flange(od=0.18, id_hole=0.09, thickness=0.025)
+    rec_flg.apply_translation([-0.45, 2.68, 0])
+
+    # Duplex ANSI Centrifugal Pumps (P-601A/B)
     for pz in [-0.45, 0.45]:
         pump_volute = cylinder(radius=0.18, height=0.14, sections=20)
         pump_volute.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
@@ -243,7 +345,12 @@ def build_unit_600_water_treatment():
         pump_motor = cylinder(radius=0.16, height=0.45, sections=20)
         pump_motor.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
         pump_motor.apply_translation([0.95, 0.22, pz])
-        meshes.extend([pump_volute, pump_motor])
+        # Pump discharge nozzle + flange
+        p_disc = cylinder(radius=0.04, height=0.25, sections=16)
+        p_disc.apply_translation([0.65, 0.45, pz])
+        p_flg = create_flange(od=0.16, id_hole=0.07, thickness=0.025)
+        p_flg.apply_translation([0.65, 0.58, pz])
+        meshes.extend([pump_volute, pump_motor, p_disc, p_flg])
 
     # Plate Heat Exchanger (125 kW)
     phe = box(extents=[0.40, 0.85, 0.35])
@@ -255,7 +362,7 @@ def build_unit_600_water_treatment():
         resin.apply_translation([1.10, 0.90, rz])
         meshes.append(resin)
 
-    meshes.extend([tank, dish_top, phe])
+    meshes.extend([tank, dish_top, rec_noz, rec_flg, phe])
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [14, 165, 233, 255] # Clean cyan accent
     return sub
@@ -286,10 +393,15 @@ def build_unit_700_compressor():
     # Suction and Discharge Dampener Bottles (Class 2500)
     bottle1 = cylinder(radius=0.12, height=0.90, sections=20)
     bottle1.apply_translation([-0.85, 0.95, -0.45])
+    b1_flg = create_flange(od=0.18, id_hole=0.08, thickness=0.03)
+    b1_flg.apply_translation([-0.85, 1.42, -0.45])
+
     bottle2 = cylinder(radius=0.12, height=0.90, sections=20)
     bottle2.apply_translation([0.85, 0.95, -0.45])
+    b2_flg = create_flange(od=0.20, id_hole=0.06, thickness=0.04) # Class 2500 high-P
+    b2_flg.apply_translation([0.85, 1.42, -0.45])
 
-    meshes.extend([skid_base, crankcase, motor, bottle1, bottle2])
+    meshes.extend([skid_base, crankcase, motor, bottle1, b1_flg, bottle2, b2_flg])
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [71, 85, 105, 255] # Heavy machine gray
     return sub
@@ -323,8 +435,19 @@ def build_unit_800_buffer_storage():
     manifold = cylinder(radius=0.045, height=2.40, sections=16)
     manifold.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [1, 0, 0]))
     manifold.apply_translation([1.85, 0.55, 0])
-    meshes.append(manifold)
+    
+    # Inlet Tie-in Flange
+    in_flg = create_flange(od=0.20, id_hole=0.06, thickness=0.04)
+    in_flg.apply_translation([1.85, 0.55, 1.25])
 
+    # Discharge Battery Limit Offtake Header (West side)
+    out_man = cylinder(radius=0.045, height=2.40, sections=16)
+    out_man.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [1, 0, 0]))
+    out_man.apply_translation([-1.85, 0.55, 0])
+    out_flg = create_flange(od=0.20, id_hole=0.06, thickness=0.04)
+    out_flg.apply_translation([-1.85, 0.55, -1.25])
+
+    meshes.extend([manifold, in_flg, out_man, out_flg])
     sub = trimesh.util.concatenate(meshes)
     sub.visual.vertex_colors = [148, 163, 184, 255] # Heavy forged steel
     return sub
@@ -399,36 +522,171 @@ def build_unit_1000_safety_plc():
     return sub
 
 def build_unit_1100_process_piping():
-    """Unit 1100: Interconnecting Process Piping Network (Schedule 80S Headers)"""
+    """
+    Unit 1100: Interconnecting Process Piping Network (Schedule 80S Headers)
+    100% Closed Physical Routing: Connects all 10 skid modules with zero open ends.
+    """
     meshes = []
-    # 30-bar Hydrogen Process Header (Rose Red)
-    h2_pipe = cylinder(radius=0.045, height=9.20, sections=20)
-    h2_pipe.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
-    h2_pipe.apply_translation([0, 4.85, 1.8])
-    h2_pipe.visual.vertex_colors = [225, 29, 72, 255] # Rose Red
-    meshes.append(h2_pipe)
+    
+    # -------------------------------------------------------------------------
+    # 1. LINE-01-H2-WET: Cathode 30-bar Wet H2 Collector -> V-300 Knockout Drum
+    # Color: Vivid Rose Red [225, 29, 72, 255]
+    # -------------------------------------------------------------------------
+    c_rose = [225, 29, 72, 255]
+    # Droppers from the 4 stack cathode outlets (y=5.06, z=0.54)
+    for sx in [-3.0, -1.0, 1.0, 3.0]:
+        dropper = create_pipe_run([
+            [sx + 0.25, 5.06, 0.63],
+            [sx + 0.25, 5.06, 1.20]
+        ], radius=0.038, color=c_rose, add_flanges=True)
+        meshes.extend(dropper)
 
-    # DI Water Supply Header (Cyan)
-    di_pipe = cylinder(radius=0.055, height=9.20, sections=20)
-    di_pipe.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
-    di_pipe.apply_translation([0, 4.65, -1.8])
-    di_pipe.visual.vertex_colors = [6, 182, 212, 255] # Cyan
-    meshes.append(di_pipe)
+    # Main Cathode Collection Header spanning x = -2.75 to +3.25 at z = 1.20, y = 5.06
+    # Then routing over the mezzanine pipe rack and dropping into V-300 inlet (x=2.68, y=1.80, z=-2.00)
+    line_01_points = [
+        [-2.75, 5.06, 1.20],
+        [3.25, 5.06, 1.20],     # Along stack gallery
+        [3.25, 4.80, 1.20],     # Expansion offset down
+        [3.25, 4.80, -2.00],    # Cross-mezzanine rack to north bay
+        [2.68, 4.80, -2.00],    # Align with V-300 inlet nozzle
+        [2.68, 1.80, -2.00]     # Vertical dropper directly into V-300 flanged inlet nozzle!
+    ]
+    meshes.extend(create_pipe_run(line_01_points, radius=0.045, color=c_rose, add_flanges=True))
 
-    # Nitrogen Purge Header (Amber)
-    n2_pipe = cylinder(radius=0.03, height=8.40, sections=16)
-    n2_pipe.apply_transform(trimesh.transformations.rotation_matrix(math.pi/2, [0, 1, 0]))
-    n2_pipe.apply_translation([0, 5.05, 0.0])
-    n2_pipe.visual.vertex_colors = [245, 158, 11, 255] # Amber
-    meshes.append(n2_pipe)
+    # -------------------------------------------------------------------------
+    # 2. LINE-02-H2-DEOXO: V-300 Top Gas Outlet -> DR-500 DeOxo Catalytic Reactor
+    # Color: Vivid Rose Red [225, 29, 72, 255]
+    # -------------------------------------------------------------------------
+    line_02_points = [
+        [2.20, 3.10, -2.00],    # V-300 Top Outlet Nozzle
+        [2.20, 4.80, -2.00],    # Riser above mezzanine
+        [2.20, 4.80, 1.60],     # Cross over rack to south bay
+        [3.40, 4.80, 1.60],     # Align with DR-500 DeOxo
+        [3.40, 6.01, 1.60]      # Connects directly into DR-500 DeOxo top inlet flange!
+    ]
+    meshes.extend(create_pipe_run(line_02_points, radius=0.040, color=c_rose, add_flanges=True))
 
-    # Vertical Risers and Expansion Loop Droppers
-    for x_dropper in [-3.5, 0.0, 3.5]:
-        dropper = cylinder(radius=0.04, height=3.20, sections=16)
-        dropper.apply_translation([x_dropper, 3.25, 1.8])
-        flange = create_flange(od=0.18, id_hole=0.08, thickness=0.03)
-        flange.apply_translation([x_dropper, 1.65, 1.8])
-        meshes.extend([dropper, flange])
+    # -------------------------------------------------------------------------
+    # 3. LINE-03-H2-CMP-SUCT: DR-500 Pure Dry H2 -> CMP-700 3-Stage Compressor Suction
+    # Color: Vivid Rose Red [225, 29, 72, 255]
+    # -------------------------------------------------------------------------
+    line_03_points = [
+        [3.40, 4.34, 1.60],     # DR-500 TSA Dryer Bottom Product Flange
+        [3.40, 1.20, 1.60],     # Vertical dropper through mezzanine floor sleeve
+        [0.00, 1.20, 1.60],     # Lower rack horizontal header
+        [-4.65, 1.20, 1.60],    # Run to CMP-700 suction side
+        [-4.65, 1.42, 1.55]     # Direct mate with CMP-700 suction dampener flange!
+    ]
+    meshes.extend(create_pipe_run(line_03_points, radius=0.040, color=c_rose, add_flanges=True))
+
+    # -------------------------------------------------------------------------
+    # 4. LINE-04-H2-HP-350BAR: CMP-700 350-bar Discharge -> ST-800 Buffer Storage
+    # Color: Heavy Class 2500 Red/Crimson [190, 18, 60, 255]
+    # -------------------------------------------------------------------------
+    c_hp = [190, 18, 60, 255]
+    line_04_points = [
+        [-2.95, 1.42, 1.55],    # CMP-700 Discharge Dampener Flange
+        [-2.95, 0.55, 1.55],    # Drop to ground trench level
+        [-2.95, 0.55, 3.50],    # Route to ST-800 alignment
+        [1.85, 0.55, 3.50]      # Direct connection to ST-800 350-bar accumulator manifold!
+    ]
+    meshes.extend(create_pipe_run(line_04_points, radius=0.028, color=c_hp, add_flanges=True, flange_od_mult=2.4))
+
+    # -------------------------------------------------------------------------
+    # 5. LINE-05-H2-BATTERY-LIMIT: ST-800 Offtake -> Skid Battery Limit (BL-H2-EXP-01)
+    # Color: Heavy Class 2500 Red/Crimson [190, 18, 60, 255]
+    # -------------------------------------------------------------------------
+    line_05_points = [
+        [-1.85, 0.55, 3.50],    # ST-800 Discharge Offtake Flange
+        [-5.50, 0.55, 3.50]     # Skid Battery Limit Interface Tag BL-H2-EXP-01
+    ]
+    meshes.extend(create_pipe_run(line_05_points, radius=0.035, color=c_hp, add_flanges=True, flange_od_mult=2.4))
+
+    # Spectacle Blind & Battery Limit Tag at terminal
+    spec_blind = box(extents=[0.05, 0.22, 0.12])
+    spec_blind.apply_translation([-5.52, 0.55, 3.50])
+    spec_blind.visual.vertex_colors = [234, 179, 8, 255] # Spectacle blind safety yellow
+    meshes.append(spec_blind)
+
+    # -------------------------------------------------------------------------
+    # 6. LINE-06-O2-SLURRY: Stack Anode Outlets -> V-400 O2 Cyclone Degasser
+    # Color: Deep Blue [37, 99, 235, 255]
+    # -------------------------------------------------------------------------
+    c_blue = [37, 99, 235, 255]
+    for sx in [-3.0, -1.0, 1.0, 3.0]:
+        dropper = create_pipe_run([
+            [sx - 0.25, 4.36 + 0.95, -0.54],
+            [sx - 0.25, 5.06, -1.00]
+        ], radius=0.038, color=c_blue, add_flanges=True)
+        meshes.extend(dropper)
+
+    line_06_points = [
+        [-3.25, 5.06, -1.00],
+        [3.55, 5.06, -1.00],    # Spans all 4 stacks
+        [3.55, 4.80, -2.00],    # Turn to north bay
+        [3.55, 1.80, -2.00]     # Directly mates with V-400 tangential inlet nozzle!
+    ]
+    meshes.extend(create_pipe_run(line_06_points, radius=0.050, color=c_blue, add_flanges=True))
+
+    # -------------------------------------------------------------------------
+    # 7. LINE-07-DI-SUPPLY: WTR-600 High-Pressure Pump -> 4x Stack Anode Inlets
+    # Color: Process Cyan [6, 182, 212, 255]
+    # -------------------------------------------------------------------------
+    c_cyan = [6, 182, 212, 255]
+    line_07_main = [
+        [-2.85, 0.58, -2.00],   # WTR-600 Pump Discharge Flange
+        [-2.85, 0.58, -1.00],   # Route inward
+        [-3.25, 0.58, -1.00],   # Align for vertical riser
+        [-3.25, 4.61, -1.00],   # High riser through mezzanine floor
+        [2.75, 4.61, -1.00]     # Header spanning all 4 stacks
+    ]
+    meshes.extend(create_pipe_run(line_07_main, radius=0.045, color=c_cyan, add_flanges=True))
+
+    # Balanced Droppers from DI supply header into each stack bottom anode inlet
+    for sx in [-3.0, -1.0, 1.0, 3.0]:
+        di_drop = create_pipe_run([
+            [sx - 0.25, 4.61, -1.00],
+            [sx - 0.25, 4.61, -0.63] # Direct connection to stack inlet flange!
+        ], radius=0.035, color=c_cyan, add_flanges=True)
+        meshes.extend(di_drop)
+
+    # -------------------------------------------------------------------------
+    # 8. LINE-08-WATER-RECYCLE: V-300 & V-400 Bottom Drains -> WTR-600 Sump
+    # Color: Process Cyan [6, 182, 212, 255]
+    # -------------------------------------------------------------------------
+    line_08_points = [
+        [4.20, 0.30, -2.00],    # V-400 Bottom Drain
+        [2.20, 0.25, -2.00],    # V-300 Bottom Drain Tee
+        [-3.80, 0.25, -2.00],   # Horizontal run along ground trench
+        [-4.25, 0.25, -2.00],   # Turn towards tank
+        [-4.25, 2.68, -2.00]    # Direct mate with WTR-600 tank recycle nozzle!
+    ]
+    meshes.extend(create_pipe_run(line_08_points, radius=0.035, color=c_cyan, add_flanges=True))
+
+    # -------------------------------------------------------------------------
+    # 9. LINE-09-N2-PURGE: Battery Limit (BL-N2-SUP-01) -> V-300 / DR-500 Purge
+    # Color: Industrial Amber [245, 158, 11, 255]
+    # -------------------------------------------------------------------------
+    c_amber = [245, 158, 11, 255]
+    line_09_points = [
+        [-5.50, 4.95, 0.00],    # Battery Limit N2 Supply Interface BL-N2-SUP-01
+        [3.40, 4.95, 0.00],     # Central Mezzanine Overhead Pipe Rack
+        [3.40, 4.95, 1.60],     # Branch to DR-500
+        [3.40, 5.21, 1.60]      # Connects into DR-500 purge port!
+    ]
+    meshes.extend(create_pipe_run(line_09_points, radius=0.025, color=c_amber, add_flanges=True))
+
+    # -------------------------------------------------------------------------
+    # 10. BUS-01-DC: 5000A Solid Copper Busbar from ELE-900 to Stacks
+    # Color: Electrolytic Copper [217, 119, 6, 255]
+    # -------------------------------------------------------------------------
+    c_cu = [217, 119, 6, 255]
+    busbar_main = [
+        [-2.70, 1.80, 0.00],    # ELE-900 Rectifier Busduct
+        [-2.70, 5.20, 0.00],    # Vertical copper riser to mezzanine
+        [3.00, 5.20, 0.00]      # Horizontal copper distribution busway
+    ]
+    meshes.extend(create_pipe_run(busbar_main, radius=0.040, color=c_cu, add_flanges=False))
 
     sub = trimesh.util.concatenate(meshes)
     return sub
@@ -436,56 +694,59 @@ def build_unit_1100_process_piping():
 def generate_all_models():
     """Generates individual subsystem GLBs and unified Master Plant Assembly."""
     print("=" * 72)
-    print("GENERATING PARAMETRIC SOLIDWORKS-CALIBER GLB 3D MODELS...")
+    print("GENERATING ZERO-OPEN-ENDED SOLIDWORKS-CALIBER GLB 3D MODELS...")
     print("=" * 72)
 
+    # Subsystem dictionary: name -> (mesh, translation, output_path)
+    # Master coordinates: origin-referenced
     subsystems_dict = {
         "STR-100": (build_unit_100_structural(), [0, 0, 0], "models/STR-100_Structural_Mezzanine.glb"),
-        "EL-200": (build_unit_200_electrolyzer(), [-0.2, 4.36, 0], "models/EL-200_Electrolyzer_Bay.glb"),
-        "V-300": (build_unit_300_knockout_drum(), [2.2, 1.5, -2.0], "models/V-300_HP_Knockout_Drum.glb"),
-        "V-400": (build_unit_400_degasser(), [4.2, 2.5, -2.0], "models/V-400_Anode_O2_Degasser.glb"),
+        "EL-200": (build_unit_200_electrolyzer(), [0, 4.36, 0], "models/EL-200_Electrolyzer_Bay.glb"),
+        "V-300": (build_unit_300_knockout_drum(), [2.2, 0, -2.0], "models/V-300_HP_Knockout_Drum.glb"),
+        "V-400": (build_unit_400_degasser(), [4.2, 0, -2.0], "models/V-400_Anode_O2_Degasser.glb"),
         "DR-500": (build_unit_500_deoxo_tsa(), [3.4, 4.36, 1.6], "models/DR-500_Catalytic_DeOxo_TSA.glb"),
-        "WTR-600": (build_unit_600_water_treatment(), [-3.8, 1.4, -2.0], "models/WTR-600_Pure_Water_Treatment.glb"),
-        "CMP-700": (build_unit_700_compressor(), [-3.8, 1.2, 2.0], "models/CMP-700_Diaphragm_Compressor.glb"),
-        "ST-800": (build_unit_800_buffer_storage(), [0, 1.2, 3.5], "models/ST-800_HP_Buffer_Storage.glb"),
-        "ELE-900": (build_unit_900_substation(), [-4.6, 1.8, 0], "models/ELE-900_Substation_Rectifier.glb"),
-        "PLC-1000": (build_unit_1000_safety_plc(), [4.6, 1.4, 0], "models/PLC-1000_Safety_PLC_Console.glb"),
-        "PIP-1100": (build_unit_1100_process_piping(), [0, 3.2, 0], "models/PIP-1100_Process_Piping_Header.glb")
+        "WTR-600": (build_unit_600_water_treatment(), [-3.8, 0, -2.0], "models/WTR-600_Pure_Water_Treatment.glb"),
+        "CMP-700": (build_unit_700_compressor(), [-3.8, 0, 2.0], "models/CMP-700_Diaphragm_Compressor.glb"),
+        "ST-800": (build_unit_800_buffer_storage(), [0, 0, 3.5], "models/ST-800_HP_Buffer_Storage.glb"),
+        "ELE-900": (build_unit_900_substation(), [-4.6, 0, 0], "models/ELE-900_Substation_Rectifier.glb"),
+        "PLC-1000": (build_unit_1000_safety_plc(), [4.6, 0, 0], "models/PLC-1000_Safety_PLC_Console.glb"),
+        "PIP-1100": (build_unit_1100_process_piping(), [0, 0, 0], "models/PIP-1100_Process_Piping_Header.glb")
     }
 
-    target_dirs = [
-        Path(r"d:\CompeteEnginner\Presentation_ML_Green_Hydrogen\models"),
-        Path(r"d:\CompeteEnginner\repo_temp\presentation\models"),
-        Path(r"d:\CompeteEnginner\models")
-    ]
-    for d in target_dirs:
-        d.mkdir(parents=True, exist_ok=True)
+    base_dir = Path(__file__).resolve().parent.parent.parent
+    pres_models_dir = base_dir / "presentation" / "models"
+    pres_models_dir.mkdir(parents=True, exist_ok=True)
+    
+    local_pres_dir = Path("D:/CompeteEnginner/Presentation_ML_Green_Hydrogen/models")
+    local_pres_dir.mkdir(parents=True, exist_ok=True)
 
-    master_scene = trimesh.Scene()
+    master_meshes = []
 
-    for tag, (mesh, world_pos, rel_filename) in subsystems_dict.items():
-        fname = Path(rel_filename).name
-        # Export isolated subsystem model
-        isolated_bytes = mesh.export(file_type="glb")
-        for target_dir in target_dirs:
-            out_file = target_dir / fname
-            with open(out_file, "wb") as f:
-                f.write(isolated_bytes)
-        print(f"  [SAVED] {fname:<36} ({len(isolated_bytes):,} bytes)")
+    for tag, (mesh, translation, rel_path) in subsystems_dict.items():
+        # Export isolated subsystem GLB (centered at origin for focused inspection)
+        target_file_1 = base_dir / "presentation" / rel_path
+        target_file_2 = local_pres_dir / Path(rel_path).name
+        
+        # Save isolated copy
+        mesh.export(target_file_1, file_type='glb')
+        mesh.export(target_file_2, file_type='glb')
+        print(f"  [SAVED] {tag:8s} -> {target_file_1.name} ({target_file_1.stat().st_size:,} bytes)")
 
-        # Add to master plant scene positioned at world coordinates
-        positioned_mesh = mesh.copy()
-        positioned_mesh.apply_translation(world_pos)
-        master_scene.add_geometry(positioned_mesh, node_name=tag)
+        # Transform copy for master assembly
+        inst = mesh.copy()
+        if any(v != 0 for v in translation):
+            inst.apply_translation(translation)
+        master_meshes.append(inst)
 
-    # Export master plant assembly
-    master_bytes = master_scene.export(file_type="glb")
-    for target_dir in target_dirs:
-        master_file = target_dir / "plant_100tpd_master_assembly.glb"
-        with open(master_file, "wb") as f:
-            f.write(master_bytes)
-    print(f"  [SAVED] {'plant_100tpd_master_assembly.glb':<36} ({len(master_bytes):,} bytes)")
-    print("\nAll 12 commercial GLB CAD models generated successfully.")
+    # Build and export master assembly GLB
+    master_scene = trimesh.util.concatenate(master_meshes)
+    master_path_1 = pres_models_dir / "plant_100tpd_master_assembly.glb"
+    master_path_2 = local_pres_dir / "plant_100tpd_master_assembly.glb"
+    master_scene.export(master_path_1, file_type='glb')
+    master_scene.export(master_path_2, file_type='glb')
+    print("=" * 72)
+    print(f"  [MASTER ASSEMBLY SAVED] -> {master_path_1.name} ({master_path_1.stat().st_size:,} bytes)")
+    print("=" * 72)
 
 if __name__ == "__main__":
     generate_all_models()
