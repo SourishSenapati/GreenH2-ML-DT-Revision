@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning for Green Hydrogen Electrolysers | Applied Thermal &amp; Fuel Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    /* Unslop Design System: Ink/Graphite Industrial Palette, 4px Grid Rhythm */
+    :root {
+      --bg-deep: #090d14;
+      --bg-page: #0e131d;
+      --bg-card: #151b27;
+      --bg-raised: #1d2535;
+      --bg-raised-hover: #263145;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 255, 255, 0.16);
+
+      --text-primary: #f0f4f8;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent: #10b981;
+      --accent-muted: rgba(16, 185, 129, 0.12);
+      --accent-text: #34d399;
+
+      --status-pos: #34d399;
+      --status-neg: #f87171;
+      --status-info: #38bdf8;
+
+      --radius-panel: 16px;
+      --radius-card: 12px;
+      --radius-control: 8px;
+      --radius-tag: 4px;
+
+      --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+
+    /* Quiet Top Chrome */
+    header {
+      height: 56px;
+      background: var(--bg-deep);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+
+    .brand-badge {
+      background: var(--accent-muted);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--accent-text);
+      padding: 2px 8px;
+      border-radius: var(--radius-tag);
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      background: var(--bg-raised);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 6px 14px;
+      border-radius: var(--radius-control);
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 150ms var(--ease-standard), border-color 150ms var(--ease-standard);
+      text-decoration: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .btn:hover {
+      background: var(--bg-raised-hover);
+      border-color: var(--border-focus);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #041f14;
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    .btn-primary:hover {
+      background: #059669;
+      border-color: #059669;
+      color: #ffffff;
+    }
+
+    /* Main Viewport */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 32px;
+    }
+
+    .slide-deck {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      height: 100%;
+      max-height: 800px;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 180ms var(--ease-standard), transform 180ms var(--ease-standard);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-panel);
+      padding: 32px 36px;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Typography & Header Rhythm */
+    .slide-header {
+      margin-bottom: 24px;
+    }
+
+    .slide-category {
+      font-size: 11.5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-category span.badge-num {
+      color: var(--accent-text);
+      background: var(--accent-muted);
+      padding: 1px 6px;
+      border-radius: var(--radius-tag);
+    }
+
+    .slide-title {
+      font-size: 25px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    /* Card Utilities */
+    .card {
+      background: var(--bg-raised);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+    }
+
+    .card-title.accent { color: var(--accent-text); }
+    .card-title.info { color: var(--status-info); }
+    .card-title.neg { color: var(--status-neg); }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .card-desc strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .stat-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-control);
+      padding: 16px;
+      text-align: left;
+    }
+
+    .stat-val {
+      font-size: 26px;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .stat-val.accent { color: var(--accent-text); }
+    .stat-val.neg { color: var(--status-neg); }
+    .stat-val.info { color: var(--status-info); }
+
+    .stat-lbl {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Image Display Frame */
+    .image-box {
+      flex: 1.35;
+      background: #0a0e16;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: zoom-in;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 16px;
+    }
+
+    .image-caption {
+      position: absolute;
+      bottom: 8px;
+      left: 12px;
+      right: 12px;
+      background: rgba(10, 14, 22, 0.92);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 12px;
+      border-radius: var(--radius-control);
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    /* Subsystem List */
+    .cad-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    .cad-table th {
+      padding: 8px 12px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-subtle);
+      font-weight: 500;
+      font-size: 11px;
+    }
+
+    .cad-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    .cad-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-primary);
+    }
+
+    .tag-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 2px 6px;
+      border-radius: var(--radius-tag);
+      font-size: 11px;
+    }
+
+    /* Quiet Bottom Status Bar */
+    footer {
+      height: 48px;
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      z-index: 50;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 320px;
+      height: 3px;
+      background: var(--bg-raised);
+      border-radius: 2px;
+      margin: 0 24px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 6.66%;
+      background: var(--accent);
+      transition: width 180ms var(--ease-standard);
+    }
+
+    /* Speaker Notes Drawer */
+    #speaker-notes-drawer {
+      position: fixed;
+      bottom: 48px;
+      left: 0;
+      right: 0;
+      max-height: 240px;
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border-focus);
+      padding: 20px 32px;
+      transform: translateY(110%);
+      transition: transform 220ms var(--ease-standard);
+      z-index: 60;
+      overflow-y: auto;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    #speaker-notes-drawer.open {
+      transform: translateY(0);
+    }
+
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 11.5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: var(--accent-text);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .notes-content {
+      font-size: 13.5px;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* Modal Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 13, 20, 0.95);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      cursor: zoom-out;
+    }
+
+    #lightbox.active {
+      display: flex;
+    }
+
+    #lightbox img {
+      max-width: 95%;
+      max-height: 95%;
+      object-fit: contain;
+      border-radius: var(--radius-control);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Modal Help */
+    #help-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 13, 20, 0.85);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #help-modal.active {
+      display: flex;
+    }
+
+    .help-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 28px;
+      max-width: 440px;
+      width: 90%;
+    }
+
+    .shortcut-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    kbd {
+      background: var(--bg-raised);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-tag);
+      padding: 2px 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-primary);
+    }
+
+    /* Icon Helper */
+    .icon {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.5;
+      stroke: currentColor;
+      fill: none;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <!-- Top Quiet Chrome -->
+    <header>
+      <div class="brand">
+        <span class="brand-badge">ALTFS Research Defense</span>
+        <span>Machine Learning for Green Hydrogen Production</span>
+      </div>
+      <div class="controls">
+        <button class="btn" id="btn-notes" title="Toggle Speaker Notes (S)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          Speaker Notes <kbd>S</kbd>
+        </button>
+        <button class="btn" id="btn-help" title="Keyboard Shortcuts (?)">
+          <kbd>?</kbd>
+        </button>
+        <button class="btn" id="btn-fullscreen" title="Toggle Fullscreen (F)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+        </button>
+        <a href="Green_Hydrogen_ML_Presentation.pptx" class="btn btn-primary" download title="Download Presentation (.pptx)">
+          <svg class="icon" viewBox="0 0 24 24" style="stroke: #041f14;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download .PPTX
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Viewport Deck -->
+    <main>
+      <div class="slide-deck">
+
+        <!-- SLIDE 1: Title & Authorship -->
+        <div class="slide active" data-notes="Good morning/afternoon everyone. I am Sourish Senapati from Jadavpur University Chemical Engineering, presenting alongside Srestha Biswash from Sister Nivedita University. Today we present our multidisciplinary research on building a dual-layer Digital Twin combining materials informatics and physics-informed deep learning to solve catalyst wear, biofouling, and operational downtime in green hydrogen production.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">DEFENSE</span> Applied Thermal &amp; Fuel Systems &bull; Multi-Plant Production</div>
+            <h1 class="slide-title">
+              Machine Learning for Predicting Catalyst Efficiency in Green Hydrogen Production
+            </h1>
+            <p style="font-size: 15px; color: var(--text-secondary); margin-top: 6px;">
+              Predictive Maintenance, Fault Detection, and Closed-Loop Degradation Mitigation
+            </p>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Authors &amp; Academic Affiliations
+              </div>
+              <p style="font-size: 14.5px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px;">
+                Sourish Senapati¹* <span style="font-size: 11.5px; color: var(--accent-text);">(Corresponding Author)</span>
+              </p>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
+                ¹Department of Chemical Engineering, Jadavpur University, Kolkata<br>
+                Email: <code style="color: var(--status-info);">sourishs.chem.ug@jadavpuruniversity.in</code> &bull; ORCID: 0009-0000-8799-4340
+              </p>
+              <p style="font-size: 14.5px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px;">
+                Srestha Biswash²
+              </p>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;">
+                ²Department of Microbiology &amp; Biotechnology, Sister Nivedita University, Kolkata<br>
+                ORCID: 0009-0006-4345-2025
+              </p>
+            </div>
+            <div class="card" style="flex: 1.25;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                Dual-Layer Supervisory Framework Summary
+              </div>
+              <ul style="font-size: 13px; color: var(--text-secondary); line-height: 1.7; padding-left: 18px;">
+                <li><strong style="color: var(--text-primary);">Virtual Sensing (Phase 1):</strong> GPU-resident XGBoost (RTX 4050 VRAM) predicts catalyst decay with sub-microvolt accuracy (\(R^2 = 0.9287\), \(\text{RMSE} = 1.9110\ \mu\text{V/h}\)).</li>
+                <li><strong style="color: var(--text-primary);">Prognostics (Phase 2):</strong> Physics-Informed Bayesian Transformer (PIBT) with Butler-Volmer constraint (\(\text{NRMSE} = 0.5428\)).</li>
+                <li><strong style="color: var(--text-primary);">Decoupled Safety Logic:</strong> Isolates Ostwald ripening chemical drift from acute bacterial EPS biofilms (\(F_1 = 0.990\)).</li>
+                <li><strong style="color: var(--text-primary);">Industrial Payback:</strong> +39.4% Stack Lifespan Extension (21,428h to 29,879h), lowering Levelized Cost of Hydrogen ($/kg).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: Problem & LCOH -->
+        <div class="slide" data-notes="Commercial adoption of green hydrogen is gated by LCOH. Platinum and Iridium electrocatalysts dominate stack CAPEX. When stacks run under fluctuating solar/wind power, unplanned failures occur, multiplying OPEX by up to 3x. We need a digital twin to monitor catalyst state in-operando without expensive stack teardowns.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">01</span> Industry Background &bull; Economic Bottleneck</div>
+            <h2 class="slide-title">The Commercial Barrier: Levelized Cost of Hydrogen (LCOH)</h2>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+                Stack CAPEX &amp; Precious Metals
+              </div>
+              <p class="card-desc">
+                Proton Exchange Membrane (PEM) water electrolysis offers rapid dynamic response for renewable integration, but relies on scarce noble metals:<br><br>
+                &bull; <strong>Platinum (Pt)</strong> at cathode for Hydrogen Evolution Reaction (HER).<br>
+                &bull; <strong>Iridium (\(\text{IrO}_2\))</strong> at anode for Oxygen Evolution Reaction (OER).<br><br>
+                Precious metal loadings represent a massive portion of stack capital cost.
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title neg">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Unplanned Downtime &amp; OPEX
+              </div>
+              <p class="card-desc">
+                Current industrial operations follow a reactive <em>run-to-failure</em> approach.<br><br>
+                Under fluctuating wind/solar power, localized hot spots and membrane degradation cause unexpected cell teardowns.<br><br>
+                Unscheduled plant shutdowns multiply maintenance OPEX by up to <strong>3&times;</strong>, destroying operational profitability.
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                The Digital Twin Mandate
+              </div>
+              <p class="card-desc">
+                In-operando physical characterization of pressurized multi-MW stacks is technically impossible and cost-prohibitive.<br><br>
+                <strong>Our Solution:</strong> A virtual sensor pipeline that utilizes macroscopic sensors (voltage, current, temperature) to reverse-engineer catalyst state in real time without taking stacks offline.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3: Dual Degradation Dilemma -->
+        <div class="slide" data-notes="We identify two completely decoupled degradation mechanisms. First: Ostwald ripening, where catalyst nanoparticles dissolve and merge, causing a very slow microvolt-per-hour voltage creep. Second: biological biofouling. Oligocarbotolerant Pseudomonas bacteria colonize the membrane in ultrapure water and secrete an EPS biofilm. This causes sudden dielectric ohmic jumps that mimic mechanical ruptures.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">02</span> Electrochemical &amp; Microbiological Physics</div>
+            <h2 class="slide-title">The Dual Degradation Dilemma: Ostwald Ripening vs. EPS Biofilms</h2>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 0 0 18v-9"></path></svg>
+                Mechanism 1: Nanoscale Chemical Wear
+              </div>
+              <p class="card-desc">
+                <strong>Physical Phenomenon:</strong> Ostwald Ripening<br>
+                &bull; <em>Driver:</em> Dynamic potential cycling from intermittent renewables.<br>
+                &bull; <em>Nanoscale Dynamic:</em> Smaller nanoparticles thermodynamically dissolve and redeposit onto larger crystals.<br>
+                &bull; <em>Consequence:</em> Shrinkage of Electrochemically Active Surface Area (ECSA).<br>
+                &bull; <em>Signature:</em> Slow, continuous, near-monotonic voltage creep (\(\approx 1\text{--}2\ \mu\text{V/h}\)) over tens of thousands of hours.<br>
+                &bull; <em>Role in Model:</em> Baseline thermodynamic noise floor.
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title neg">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Mechanism 2: Acute Biological Biofouling
+              </div>
+              <p class="card-desc">
+                <strong>Biological Phenomenon:</strong> Microbial Biofilm Deposition<br>
+                &bull; <em>Driver:</em> Recirculation of Type 1 ultrapure deionized feedwater.<br>
+                &bull; <em>Colonization:</em> Oligocarbotolerant bacteria (<em>Pseudomonas spp.</em>) adhere to porous transport layers (PTL).<br>
+                &bull; <em>Bio-matrix:</em> Secretion of Exopolysaccharide (EPS) matrices.<br>
+                &bull; <em>Impact:</em> Forms an insulating dielectric barrier and mass-transport obstruction.<br>
+                &bull; <em>Signature:</em> Sudden, acute non-linear ohmic heating and pressure jumps that mimic catastrophic mechanical rupture.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4: End-to-End System Pipeline -->
+        <div class="slide" data-notes="Here is our end-to-end digital twin pipeline. In-operando sensor data feeds into Phase 1 GPU-XGBoost for initial morphology assessment. Phase 2 PIBT tracks long-term time-series degradation with Butler-Volmer constraints. When EPS biofouling breaches our 99.5th percentile Bayesian threshold, automated current density curtailment is executed.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">03</span> Methodology &amp; System Engineering</div>
+            <h2 class="slide-title">Dual-Layer Digital Twin Framework: Complete Supervisory Pipeline</h2>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1;">
+              <div class="card-title" style="color: var(--text-primary);">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                0. In-Operando Telemetry
+              </div>
+              <p class="card-desc">
+                Continuous logging of non-invasive sensors:<br>
+                &bull; Cell Voltage \(V(t)\)<br>
+                &bull; Current Density \(j(t)\)<br>
+                &bull; Operating Temp \(T\)<br>
+                &bull; Pressures \(p_{\text{cat}}, p_{\text{an}}\)<br>
+                &bull; Thermal gradients
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line></svg>
+                Phase 1: Materials Informatics
+              </div>
+              <p class="card-desc">
+                <strong>GPU-Resident XGBoost:</strong><br>
+                &bull; Deployed in RTX 4050 VRAM<br>
+                &bull; Zero PCIe bus latency<br>
+                &bull; Tafel slope, ECSA, porosity<br>
+                &bull; \(R^2 = 0.9287\), \(\text{RMSE} = 1.911\ \mu\text{V/h}\)
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                Phase 2: Deep Prognostics
+              </div>
+              <p class="card-desc">
+                <strong>Physics-Informed PIBT:</strong><br>
+                &bull; Multi-Head Self-Attention<br>
+                &bull; Inverted Butler-Volmer constraint<br>
+                &bull; Monte Carlo Epistemic UQ<br>
+                &bull; Dynamic FP16 variance clamping<br>
+                &bull; \(\text{NRMSE} = 0.5428\)
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title neg">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Safety &amp; Control
+              </div>
+              <p class="card-desc">
+                <strong>Decoupled Safety Logic:</strong><br>
+                &bull; Dynamic 99.5% Bayesian threshold<br>
+                &bull; Detects EPS biofilm matrix (\(F_1 = 0.990\))<br>
+                &bull; Proactive load curtailment<br>
+                &bull; <strong>+39.4% Lifespan Extension</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 5: Figure 1 - XGBoost Feature Importance -->
+        <div class="slide" data-notes="Figure 1 shows our XGBoost feature importance scores across 5-fold cross-validation. Notice that Tafel slope, ECSA, and Porosity Index account for over 74% of the cumulative predictive gain. This confirms our core hypothesis that macroscopic operational data contains rich enough signals to reverse-engineer nanoscale catalyst states.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">04</span> Materials Informatics &bull; Figure 1</div>
+            <h2 class="slide-title">Virtual Sensing: Reverse-Engineering Latent Nanoscale Morphology</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/Fig1_XGBoost_Feature_Importance.png')">
+              <img src="assets/Fig1_XGBoost_Feature_Importance.png" alt="XGBoost Feature Importance">
+              <div class="image-caption">Fig. 1: Normalized XGBoost feature importance ranking (5-fold CV)</div>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                Hardware-Accelerated Feature Gain
+              </div>
+              <p class="card-desc">
+                &bull; <strong>GPU-Resident Deployment:</strong> Hosted in 6GB VRAM of an NVIDIA RTX 4050 GPU, reducing inference latency to &lt; 0.4 ms.<br><br>
+                &bull; <strong>Over 74% Model Gain:</strong> Dominated by three fundamental descriptors:<br>
+                &nbsp;&nbsp;1. <em>Tafel Slope:</em> Dictates charge-transfer activation barrier.<br>
+                &nbsp;&nbsp;2. <em>ECSA:</em> Measures available active catalytic sites.<br>
+                &nbsp;&nbsp;3. <em>Porosity Index:</em> Governs two-phase mass transport.<br><br>
+                &bull; <strong>Significance:</strong> Bypasses costly ex-situ physical teardowns by using operational sensor arrays as high-fidelity virtual sensors.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 6: Figure 2 - Parity Plot -->
+        <div class="slide" data-notes="Figure 2 displays the parity plot of predicted vs empirical catalyst decay rates in microvolts per hour. We achieve an R-squared of 0.9287 and an RMSE of 1.911 uV/h. The errors are completely homoscedastic with zero systematic bias, confirming sub-microvolt precision.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">05</span> Materials Informatics &bull; Figure 2</div>
+            <h2 class="slide-title">Sub-Microvolt Accuracy in Catalyst Decay Rate Prediction</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/Fig2_Parity_Plot_Predicted_vs_Empirical.png')">
+              <img src="assets/Fig2_Parity_Plot_Predicted_vs_Empirical.png" alt="Parity Plot">
+              <div class="image-caption">Fig. 2: Empirical vs Predicted catalyst degradation rates (held-out test set)</div>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
+              <div class="card" style="border-color: rgba(16, 185, 129, 0.3);">
+                <div class="card-title accent">
+                  <svg class="icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                  Quantitative Test Benchmarks
+                </div>
+                <div class="badge-grid" style="margin-top: 6px;">
+                  <div class="stat-badge">
+                    <div class="stat-val accent">0.9287</div>
+                    <div class="stat-lbl">Coefficient of Determination (R²)</div>
+                  </div>
+                  <div class="stat-badge">
+                    <div class="stat-val info">1.9110</div>
+                    <div class="stat-lbl">RMSE (&mu;V/hour)</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="flex: 1;">
+                <div class="card-title info">
+                  <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                  Statistical Validation
+                </div>
+                <p class="card-desc">
+                  &bull; <strong>1:1 Unity Alignment:</strong> Points cluster tightly along the ideal diagonal with zero systematic bias.<br>
+                  &bull; <strong>Homoscedastic Stability:</strong> No variance fanning at extreme degradation boundaries.<br>
+                  &bull; <strong>Practical Value:</strong> Sub-microvolt resolution detects subtle catalyst degradation months before standard industrial alarms trip.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 7: Phase 2 - PIBT Math -->
+        <div class="slide" data-notes="Slide 7 details our deep learning formulation: the Physics-Informed Bayesian Transformer. We use Multi-Head Self-Attention to correlate events across distant time horizons without vanishing gradients. To keep predictions physically realistic, we penalize the loss with the inverted Butler-Volmer equation. Dynamic variance clamping ensures FP16 stability on Tensor Cores.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">06</span> Deep Learning Formulation &bull; Mathematical Rigor</div>
+            <h2 class="slide-title">Physics-Informed Bayesian Transformer (PIBT) Architecture</h2>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                Multi-Head Self-Attention
+              </div>
+              <p class="card-desc">
+                $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V$$
+                &bull; Computes all temporal correlations simultaneously.<br>
+                &bull; Overcomes catastrophic forgetting and gradient saturation common to LSTMs.<br>
+                &bull; \(\sqrt{d_k}\) prevents dot-product explosion into flat softmax regions.
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Butler-Volmer Physics Constraint
+              </div>
+              <p class="card-desc">
+                $$\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{NLL}} + \lambda \left\| \hat{\eta} - \text{arcsinh}\left(\frac{j}{2 i_0}\right) \frac{2RT}{zF} \right\|^2$$
+                &bull; Enforces electrochemical charge transfer kinetics.<br>
+                &bull; Eliminates unphysical overpotential predictions.<br>
+                &bull; Anchors the predictive manifold to real thermodynamics.
+              </p>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title neg">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                AMP Tensor Core Stability
+              </div>
+              <p class="card-desc">
+                <strong>Dynamic Variance Clamping:</strong><br>
+                Clamps \(\hat{\sigma}^2\) during FP16 backward passes to prevent division-by-zero / NaN gradient collapse.<br><br>
+                <strong>Optimization:</strong> AdamW + Cosine Annealing Warm Restarts to escape localized saddle points.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 8: Figure 3 - Time-Series Forecast -->
+        <div class="slide" data-notes="Figure 3 illustrates the PIBT's prognostic degradation tracking. The solid blue line tracks the empirical ground truth with an NRMSE of 0.5428. Notice how the shaded 95% uncertainty envelope narrows during steady-state operation; this proves that our Butler-Volmer constraint actively bounds the model's confidence to physical reality.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">07</span> Deep Learning Formulation &bull; Figure 3</div>
+            <h2 class="slide-title">Time-Series Prognostic Degradation Tracking &amp; Uncertainty Quantification</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/Fig3_PIBT_Time_Series_Degradation_Forecast.png')">
+              <img src="assets/Fig3_PIBT_Time_Series_Degradation_Forecast.png" alt="PIBT Time Series Forecast">
+              <div class="image-caption">Fig. 3: Long-horizon voltage degradation forecast with 95% Bayesian uncertainty band</div>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                Prognostic Evaluation
+              </div>
+              <p class="card-desc">
+                &bull; <strong>Dimensionless Tracking Error:</strong> Achieves \(\text{NRMSE} = 0.5428\) across normalized feature space.<br><br>
+                &bull; <strong>Trajectory Convergence:</strong> Solid blue curve (PIBT forecast) maintains sustained alignment with dashed black curve (empirical ground truth).<br><br>
+                &bull; <strong>Bayesian Confidence Bounds:</strong> Shaded cyan envelope delineates 95th percentile aleatoric uncertainty via stochastic Monte Carlo (MC) passes.<br><br>
+                &bull; <strong>Physics Anchoring:</strong> The envelope narrows during steady-state, confirming the Butler-Volmer constraint prevents unphysical divergence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 9: Figure 4 - Bayesian Anomaly Detection -->
+        <div class="slide" data-notes="Figure 4 is the centerpiece of our fault detection logic. The top panel shows raw voltage residuals capturing background Ostwald ripening noise. The bottom panel overlays our dynamic 99.5th percentile Bayesian threshold. When an acute EPS biofilm forms, the residual pierces the threshold immediately. On an out-of-distribution test set, we achieve an F1-score of 0.990 with near-zero false alarms.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">08</span> Anomaly Detection &amp; Safety &bull; Figure 4</div>
+            <h2 class="slide-title">Decoupled Fault Mitigation: Isolating EPS Biofilm Anomalies</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/Fig4_Bayesian_Anomaly_Detection_EPS_Biofilm.png')">
+              <img src="assets/Fig4_Bayesian_Anomaly_Detection_EPS_Biofilm.png" alt="Bayesian Anomaly Detection">
+              <div class="image-caption">Fig. 4: Dual-panel Bayesian threshold isolating EPS biofilms (F1 = 0.990)</div>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title neg">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+                Decoupled Safety Logic
+              </div>
+              <p class="card-desc">
+                &bull; <strong>Upper Panel:</strong> Residual signal \(e(t) = |V(t) - \hat{\mu}(t)|\) tracks the active thermodynamic noise floor of Ostwald ripening.<br><br>
+                &bull; <strong>Lower Panel:</strong> Dynamic 99.5th percentile Bayesian threshold adjusts continuously to operating load.<br><br>
+                &bull; <strong>Out-of-Distribution F1-Score: 0.990:</strong> Injected EPS dielectric resistance jumps are detected instantly (True Positives, red) while normal aging is ignored (green).<br><br>
+                &bull; <strong>Actionable Output:</strong> Signals supervisory control to initiate immediate current density curtailment before membrane rupture.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 10: Figure 5 - Lifespan Extension -->
+        <div class="slide" data-notes="What does a 0.990 F1-score mean economically? Under reactive run-to-failure, stacks last ~21,428 hours. By dynamically curtailing current density upon PIBT anomaly flags, we avoid hot spots and extend stack lifespan to 29,879 hours—a 39.4% improvement. In multi-MW plants, postponing catalyst replacement cycles by over 8,400 hours drastically cuts LCOH.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">09</span> Techno-Economic Feasibility &bull; Figure 5</div>
+            <h2 class="slide-title">Translating Anomaly Detection into +39.4% Stack Lifespan Extension</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/Fig5_Lifespan_Extension_Techno_Economic.png')">
+              <img src="assets/Fig5_Lifespan_Extension_Techno_Economic.png" alt="Lifespan Extension">
+              <div class="image-caption">Fig. 5: Operational lifespan extension: Baseline vs AI-driven mitigation</div>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
+              <div class="card" style="border-color: rgba(16, 185, 129, 0.3);">
+                <div class="card-title accent">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  Operational Lifespan Extension
+                </div>
+                <div class="badge-grid" style="margin-top: 6px;">
+                  <div class="stat-badge">
+                    <div class="stat-val neg">21,428h</div>
+                    <div class="stat-lbl">Baseline Reactive Lifespan</div>
+                  </div>
+                  <div class="stat-badge">
+                    <div class="stat-val accent">29,879h</div>
+                    <div class="stat-lbl">AI-Mitigated (+39.4%)</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="flex: 1;">
+                <div class="card-title info">
+                  <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  Techno-Economic Value
+                </div>
+                <p class="card-desc">
+                  &bull; <strong>+8,451 Additional Operational Hours:</strong> Nearly 1 full additional calendar year of continuous 24/7 duty.<br>
+                  &bull; <strong>Catalyst CAPEX Amortization:</strong> Postpones costly Platinum and Iridium recoating and stack refurbishment cycles by ~40%.<br>
+                  &bull; <strong>LCOH Reductions:</strong> Directly lowers Levelized Cost of Hydrogen ($/kg H₂), making green hydrogen competitive against fossil fuels.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 11: Figure 6 - Validation & Green Chem -->
+        <div class="slide" data-notes="Figure 6 confirms model transferability against independent bench-top datasets. Furthermore, our digital twin delivers significant Green Chemistry benefits: by preventing catalyst dissolution, we eliminate toxic Platinum and Iridium leaching into effluent water. And by catching biofilms early, we eliminate the need for harsh chemical biocides.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">10</span> Generalizability &amp; Sustainability &bull; Figure 6</div>
+            <h2 class="slide-title">Cross-Sectoral Validation &amp; Green Chemistry Bioremediation</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/Fig6_Cross_Sectoral_Validation.png')">
+              <img src="assets/Fig6_Cross_Sectoral_Validation.png" alt="Cross Sectoral Validation">
+              <div class="image-caption">Fig. 6: Empirical validation against independent bench-top galvanostatic datasets</div>
+            </div>
+            <div class="card" style="flex: 1;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Cross-Scale Generalization &amp; Ecology
+              </div>
+              <p class="card-desc">
+                &bull; <strong>Independent Zenodo Datasets:</strong> Confirms the physics-informed constraint enables reliable cross-sectoral transfer across multi-scale configurations.<br><br>
+                &bull; <strong>Preventing Heavy Metal Leaching:</strong> Catalyst dissolution releases cytotoxic Pt and Ir nanoparticles into effluent water. Algorithmic load dampening preserves lattice integrity.<br><br>
+                &bull; <strong>Elimination of Toxic Biocides:</strong> Eliminates the need to flush stacks with synthetic biocides (quaternary ammonium salts) by mitigating biofilms at onset through load control.<br><br>
+                &bull; <strong>Non-Chemical Remediation:</strong> The digital twin operates as software-based environmental remediation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 12: Hardware Production & Multi-Plant DFM (Figure 7) -->
+        <div class="slide" data-notes="Slide 12 details our Design for Manufacturing framework. Every single component of our electrolyzer stack and turnkey facility is modeled in SolidWorks 2025 using standard mill stock and high-throughput fabrication routes. Our titanium flow fields feature a 7-degree draft angle for progressive die stamping without thinning. Our ASME Section VIII pressure vessels are sized using our ADVEKT calculation engine, and our modular balance-of-plant drops directly into refineries, chlor-alkali plants, green steel DRI furnaces, and mobility refueling stations.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">11</span> Hardware Production &bull; DFM &bull; Multi-Plant Sizing</div>
+            <h2 class="slide-title">Design for Manufacturing (DFM) &amp; Universal Industrial Deployment</h2>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1;">
+              <div class="card-title info">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                DFM Engineering &amp; ASME Code Compliance
+              </div>
+              <ul style="margin: 8px 0 0 16px; padding: 0; font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
+                <li><strong>Progressive Stamping DFM:</strong> ASTM B265 Grade 2 Titanium bipolar plates with \(\theta = 7.0^\circ\) draft angle, \(R_{\min} = 0.30\ \text{mm}\) to prevent thinning during deep draw.</li>
+                <li><strong>ASME BPVC Section VIII Div 1:</strong> Knockout Drum &amp; Separators calculated via ADVEKT autonomous CAE (SA-240 316L, 12mm wall, MAWP = 33.89 bar, 39.0 bar hydrotest).</li>
+                <li><strong>SolidWorks 2025 B-Rep Kernel:</strong> 11 reconciled industrial subsystems assembled in SolidWorks (.SLDASM, .STEP) with ISMB 300 structural mezzanine frame.</li>
+                <li><strong>Universal Multi-Plant Retrofit:</strong> Drop-in compatibility for Refineries (hydrotreating), Chlor-Alkali (brine H2 recovery), Green Steel (DRI reduction), and Heavy Mobility (350 bar).</li>
+              </ul>
+            </div>
+            <div class="image-box" onclick="openLightbox('assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png')">
+              <img src="assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png" alt="DFM Engineering and Multi-Plant Matrix">
+              <div class="image-caption">Fig. 7: DFM progressive stamping channel profile, ASME Section VIII UG-27 wall thickness curves, and 5-sector industrial deployment matrix</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 13: SolidWorks 2025 Commercial Plant & AutoCAD Package -->
+        <div class="slide" data-notes="Slide 13 displays our fully assembled commercial plant modeled in SolidWorks 2025 SP1.2 and plotted in AutoCAD 2025. This 100 TPD multi-megawatt facility includes eleven reconciled subsystems: 10-cell high-pressure PEM stacks, dual high-pressure gas-liquid separators, heat exchangers, deoxygenation reactors, 350-bar hydrogen compressors, buffer storage, and the AERO-PURE Unit 650 water ultrafiltration skid. Every pipe, valve, and LOPA safety interconnect is physically modeled.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">12</span> Turnkey Facility Engineering &bull; SolidWorks 2025 Master Assembly</div>
+            <h2 class="slide-title">100 TPD Commercial Plant Mechanical &amp; Process Architecture</h2>
+          </div>
+          <div class="slide-body">
+            <div class="image-box" onclick="openLightbox('assets/PEM_Commercial_Plant_Catalog_Render.png')">
+              <img src="assets/PEM_Commercial_Plant_Catalog_Render.png" alt="SolidWorks 2025 Commercial Plant Assembly">
+              <div class="image-caption">SolidWorks 2025 SP1.2 Master Assembly: PEM_Commercial_Green_Hydrogen_Production_Plant.SLDASM (1.1 MB, 11 Subsystems)</div>
+            </div>
+            <div class="card" style="flex: 1.1;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                Subsystem Equipment Schedule (ISA-5.1 Tags)
+              </div>
+              <div style="overflow-y: auto; max-height: 280px; margin-top: 8px;">
+                <table class="cad-table">
+                  <thead>
+                    <tr><th>Tag</th><th>Subsystem Description</th><th>Design Code</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><span class="tag-badge">STK-100</span></td><td>10-Cell High-Pressure PEM Stack (Ti Gr 2)</td><td>ASME BPVC VIII</td></tr>
+                    <tr><td><span class="tag-badge">SEP-201</span></td><td>Gas-Liquid H2 Separator (SA-240 316L, 30 bar)</td><td>ASME UG-27</td></tr>
+                    <tr><td><span class="tag-badge">O2S-202</span></td><td>Oxygen / Water Separation Vessel (30 bar)</td><td>ASME UG-27</td></tr>
+                    <tr><td><span class="tag-badge">HEX-301</span></td><td>Process Heat Exchanger (Shell &amp; Tube)</td><td>TEMA Class C</td></tr>
+                    <tr><td><span class="tag-badge">DEO-401</span></td><td>Catalytic Deoxygenation Reactor (Pd/Al2O3)</td><td>API 520</td></tr>
+                    <tr><td><span class="tag-badge">CMP-501</span></td><td>Diaphragm H2 Compressor (30 &rarr; 350 bar)</td><td>API 618</td></tr>
+                    <tr><td><span class="tag-badge">BUF-502</span></td><td>High-Pressure Buffer Storage Rack (350 bar)</td><td>DOT-3AA / ISO</td></tr>
+                    <tr><td><span class="tag-badge">WTR-650</span></td><td>AERO-PURE Water Ultrafiltration Skid</td><td>ASTM D1193 Type 1</td></tr>
+                    <tr><td><span class="tag-badge">STR-701</span></td><td>ISMB 300 Mezzanine Skid &amp; Piping Gallery</td><td>IS 800 / AISC 360</td></tr>
+                    <tr><td><span class="tag-badge">SAF-801</span></td><td>LOPA Triple-Redundant Relief &amp; Bleed Header</td><td>IEC 61511 / SIL-2</td></tr>
+                    <tr><td><span class="tag-badge">DCS-901</span></td><td>Prognostic Digital Twin Telemetry Cabinet</td><td>IP66 / NEMA 4X</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 14: ASD-STM100 Commercialization & Industrial Service Portfolio -->
+        <div class="slide" data-notes="Slide 14 presents our commercialization roadmap governed by the ASD-STM100 Zero-Loss Charter. We monetize this technology through three high-margin digital offerings: first, remote diagnostic audits; second, edge-embedded digital twin firmware licensing on PLCs; and third, full turnkey DFM CAD packages for EPC contractors. For an industrial client operating a 5 MW stack, the system pays for itself in just 4.8 months by deferring $420,000 in stack replacement costs. Thank you for your time, and we look forward to industrial partnerships.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">13</span> ASD-STM100 Commercialization &bull; Monetization &bull; ROI</div>
+            <h2 class="slide-title">AERO-H2 Commercial Service Portfolio &amp; Industrial Payback Model</h2>
+          </div>
+          <div class="slide-body">
+            <div class="card" style="flex: 1.05;">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                ASD-STM100 Commercial Service Portfolio
+              </div>
+              <ul style="margin: 8px 0 0 16px; padding: 0; font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
+                <li><strong>Tier 1: Plant Health Diagnostic Audit ($7,500 / &#8377;6.2 Lakh):</strong> Non-invasive baseline degradation audit, CFD flow field review, and ASME code compliance check. 5-day remote delivery.</li>
+                <li><strong>Tier 2: 'AERO-H2' Edge Digital Twin ($2,500/mo or $25k/MW):</strong> Quantized PIBT inference deployed onto Siemens S7-1500 / Jetson / STM32 for 24/7 biofilm tracking and automated load mitigation.</li>
+                <li><strong>Tier 3: Turnkey DFM SolidWorks Package ($45,000 / &#8377;37.5 Lakh):</strong> Complete SolidWorks 2025 3D B-Rep master assembly, AutoCAD ISO A1 shop drawings, BOM, and stamping tool designs for EPC fabricators.</li>
+                <li><strong>Audited Payback: 4.8 Months (ROI = 485%):</strong> Defers $420,000 stack replacement CAPEX on a 5 MW plant, cutting LCOH by $0.42/kg H2.</li>
+              </ul>
+            </div>
+            <div class="image-box" onclick="openLightbox('assets/Fig8_Commercial_Monetization_Service_Matrix_ASD_STM100.png')">
+              <img src="assets/Fig8_Commercial_Monetization_Service_Matrix_ASD_STM100.png" alt="Commercial Service Delivery Matrix and ROI Payback Curve">
+              <div class="image-caption">Fig. 8: ASD-STM100 high-margin commercial service delivery portfolio and 5 MW industrial customer ROI payback trajectory</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 15: Conclusions & Roadmap -->
+        <div class="slide" data-notes="In conclusion, our digital twin unites materials informatics, electrochemistry, and deep learning to deliver sub-microvolt virtual sensing, physics-constrained degradation tracking, and a 39.4% lifespan extension. Our next steps involve deploying PIBT onto edge microcontrollers directly mounted on stack bipolar plates and in-situ feedwater metagenomic sequencing. Thank you for your attention.">
+          <div class="slide-header">
+            <div class="slide-category"><span class="badge-num">14</span> Conclusions &bull; Next-Generation Roadmap</div>
+            <h2 class="slide-title">Conclusions &amp; The Edge-AI Green Hydrogen Roadmap</h2>
+          </div>
+          <div class="slide-body" style="flex-direction: column; gap: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+              <div class="card">
+                <div class="card-title info" style="font-size: 13.5px;">1. Virtual Sensing</div>
+                <p class="card-desc" style="font-size: 12.5px;">
+                  GPU-XGBoost predicts catalyst morphology with sub-microvolt precision (\(R^2 = 0.9287\), \(\text{RMSE} = 1.911\ \mu\text{V/h}\)).
+                </p>
+              </div>
+              <div class="card">
+                <div class="card-title accent" style="font-size: 13.5px;">2. Physics-Informed AI</div>
+                <p class="card-desc" style="font-size: 12.5px;">
+                  PIBT self-attention with Butler-Volmer constraint prevents unphysical extrapolation (\(\text{NRMSE} = 0.5428\)).
+                </p>
+              </div>
+              <div class="card">
+                <div class="card-title neg" style="font-size: 13.5px;">3. Decoupled Safety</div>
+                <p class="card-desc" style="font-size: 12.5px;">
+                  Dynamic 99.5% Bayesian threshold isolates bacterial EPS biofilms from Ostwald ripening (\(F_1 = 0.990\)).
+                </p>
+              </div>
+              <div class="card">
+                <div class="card-title accent" style="font-size: 13.5px;">4. Techno-Economics</div>
+                <p class="card-desc" style="font-size: 12.5px;">
+                  <strong>+39.4% Stack Lifespan Extension</strong>, lowering LCOH and eliminating chemical biocides.
+                </p>
+              </div>
+            </div>
+            <div class="card" style="border-color: rgba(16, 185, 129, 0.3);">
+              <div class="card-title accent">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Next-Generation Industrial Roadmap
+              </div>
+              <p class="card-desc">
+                <strong>1. Edge-AI Hardware Deployment:</strong> Compiling quantized PIBT models onto bipolar-plate microcontrollers for sub-millisecond load shedding.<br>
+                <strong>2. In-Situ Feedwater Metagenomic Sequencing:</strong> Cross-referencing bacterial genomic markers with voltage residuals in AERO-PURE Unit 650.<br>
+                <strong>3. Autonomous Self-Healing Membranes:</strong> Closed-loop thermal/chemical pulse activation upon anomaly detection.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Bottom Quiet Status Bar -->
+    <footer>
+      <div>
+        <span id="slide-num">Slide 1 of 15</span> &bull; 
+        <span style="color: var(--accent-text);">ALTFS Peer-Reviewed Manuscript Defense</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div>
+        Use <kbd>&larr;</kbd> <kbd>&rarr;</kbd> or <kbd>Space</kbd> to navigate &bull; Press <kbd>S</kbd> for notes
+      </div>
+    </footer>
+
+    <!-- Speaker Notes Drawer -->
+    <div id="speaker-notes-drawer">
+      <div class="notes-header">
+        <span>Presenter Script &amp; Talking Points</span>
+        <span style="cursor: pointer;" onclick="toggleNotes()">Close [S] &times;</span>
+      </div>
+      <div class="notes-content" id="notes-text">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Enlarged view">
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" onclick="closeHelp()">
+      <div class="help-card" onclick="event.stopPropagation()">
+        <h3 style="margin-bottom: 16px; color: var(--text-primary); font-size: 16px; font-weight: 600;">Keyboard Shortcuts</h3>
+        <div class="shortcut-row"><span>Next Slide</span> <div><kbd>&rarr;</kbd> or <kbd>Space</kbd></div></div>
+        <div class="shortcut-row"><span>Previous Slide</span> <div><kbd>&larr;</kbd></div></div>
+        <div class="shortcut-row"><span>Toggle Speaker Notes</span> <div><kbd>S</kbd></div></div>
+        <div class="shortcut-row"><span>Toggle Fullscreen</span> <div><kbd>F</kbd></div></div>
+        <div class="shortcut-row"><span>Close Modals</span> <div><kbd>Esc</kbd></div></div>
+        <button class="btn btn-primary" style="width: 100%; margin-top: 20px; justify-content: center;" onclick="closeHelp()">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slideNumEl = document.getElementById('slide-num');
+    const progressBar = document.getElementById('progress-bar');
+    const notesDrawer = document.getElementById('speaker-notes-drawer');
+    const notesText = document.getElementById('notes-text');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const helpModal = document.getElementById('help-modal');
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides.forEach((s, i) => {
+        s.classList.remove('active');
+        if (i === index) s.classList.add('active');
+      });
+
+      currentSlide = index;
+      slideNumEl.textContent = `Slide ${currentSlide + 1} of ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      
+      const note = slides[currentSlide].getAttribute('data-notes') || 'No speaker notes for this slide.';
+      notesText.textContent = `"${note}"`;
+
+      // Render math on active slide if KaTeX is loaded
+      if (window.renderMathInElement) {
+        renderMathInElement(slides[currentSlide], {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\[', right: '\\]', display: true},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+    }
+
+    function nextSlide() { updateSlide(currentSlide + 1); }
+    function prevSlide() { updateSlide(currentSlide - 1); }
+    function toggleNotes() { notesDrawer.classList.toggle('open'); }
+    function toggleHelp() { helpModal.classList.toggle('active'); }
+    function closeHelp() { helpModal.classList.remove('active'); }
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    // Keyboard Event Listeners
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 's' || e.key === 'S') {
+        toggleNotes();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === '?' || e.key === 'h' || e.key === 'H') {
+        toggleHelp();
+      } else if (e.key === 'Escape') {
+        closeLightbox();
+        closeHelp();
+        notesDrawer.classList.remove('open');
+      }
+    });
+
+    document.getElementById('btn-notes').addEventListener('click', toggleNotes);
+    document.getElementById('btn-fullscreen').addEventListener('click', toggleFullscreen);
+    document.getElementById('btn-help').addEventListener('click', toggleHelp);
+
+    // Initial render
+    window.addEventListener('DOMContentLoaded', () => {
+      updateSlide(0);
+      setTimeout(() => {
+        if (window.renderMathInElement) {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '\\[', right: '\\]', display: true},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '$', right: '$', display: false}
+            ]
+          });
+        }
+      }, 300);
+    });
+  </script>
+</body>
+</html>
