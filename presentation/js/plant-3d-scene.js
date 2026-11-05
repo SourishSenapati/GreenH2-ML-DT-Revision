@@ -34,6 +34,29 @@ let targetLookAt = null;
 
 // --- Subsystem Engineering Catalog & Specifications ---
 const plantCatalog = {
+  'PLANT-100T': {
+    name: 'HYDROSENSE™ 100 TPD Turnkey Commercial Plant Master Skid',
+    tag: 'PLANT-100T',
+    category: 'Commercial Turnkey Complex (11 Subsystems)',
+    standard: 'ASME Sec VIII Div 1 & 3 / API 618 / IS 800 / IEC 61511',
+    spec: 'Full 11-subsystem industrial green hydrogen complex. 100 TPD capacity @ 30-bar direct delivery, 4x 50-cell stacks, 350-bar buffer accumulators, dual 13X TSA drying, and SIL-2 HIPPS safety loops.',
+    dimensions: '12.0m L × 8.0m W × 6.2m H (Complete Skid)',
+    duty: 'Continuous water dissociation, gas-liquid separation, catalytic DeOxo, desiccation, 350-bar compression, and automated edge digital twin governance.',
+    opParams: {
+      'Plant Production Capacity': '100 TPD (4,166 kg/h pure H₂)',
+      'Stack Direct Delivery Pressure': '30.0 bar (Balanced differential)',
+      'Purity Standard': 'ISO 14687:2019 Grade D (>99.97% H₂)',
+      'Specific Energy Consumption': '51.2 kWh / kg H₂ (Stack level)',
+      'Core Life Extension': '+39.4% (21,428h → 29,879h via PIBT)',
+      'LCOH Reduction': '-$0.42 / kg H₂ ($4.82 → $4.40 / kg)'
+    },
+    script: 'code/engineering_standards/generate_engineering_manifest.py',
+    standardModalKey: 'asme',
+    basePos: [0, 0, 0],
+    focusPos: [0, 2.6, 0],
+    camFocus: [15, 11, 18],
+    explodeDir: [0, 0, 0]
+  },
   'STR-100': {
     name: 'Unit 100: Structural Mezzanine & Pipe Rack Skid',
     tag: 'STR-100',
@@ -1102,6 +1125,167 @@ function buildAllSubsystems() {
 }
 
 // ============================================================================
+// SOLIDWORKS GLB MODEL CATALOG & REAL-TIME TESSELATION LOADER
+// ============================================================================
+
+const glbModelCatalog = {
+  'PLANT-100T': {
+    tag: 'PLANT-100T',
+    shortName: '100 TPD Master Skid',
+    file: 'models/plant_100tpd_master_assembly.glb',
+    name: '100 TPD Commercial Green Hydrogen Master Assembly (11 Subsystems)'
+  },
+  'STR-100': {
+    tag: 'STR-100',
+    shortName: 'Mezzanine Skid',
+    file: 'models/STR-100_Structural_Mezzanine.glb',
+    name: 'Unit 100: Structural Mezzanine Platform & Pipe Rack Skid'
+  },
+  'EL-200': {
+    tag: 'EL-200',
+    shortName: '50-Cell Stacks',
+    file: 'models/EL-200_Electrolyzer_Bay.glb',
+    name: 'Unit 200: Commercial Electrolyzer Bay (4x Stacks, 250 cm²)'
+  },
+  'V-300': {
+    tag: 'V-300',
+    shortName: 'Knockout Drum',
+    file: 'models/V-300_HP_Knockout_Drum.glb',
+    name: 'Unit 300: HP Hydrogen Knockout Drum (ASME Sec VIII Div 1)'
+  },
+  'V-400': {
+    tag: 'V-400',
+    shortName: 'Cyclone Degasser',
+    file: 'models/V-400_Anode_O2_Degasser.glb',
+    name: 'Unit 400: Anode O₂ Cyclone Degasser & 6.2m Vent Stack'
+  },
+  'DR-500': {
+    tag: 'DR-500',
+    shortName: 'DeOxo & TSA',
+    file: 'models/DR-500_Catalytic_DeOxo_TSA.glb',
+    name: 'Unit 500: Catalytic DeOxo Reactor & Dual 13X TSA Dryers'
+  },
+  'WTR-600': {
+    tag: 'WTR-600',
+    shortName: 'Water Skid',
+    file: 'models/WTR-600_Pure_Water_Treatment.glb',
+    name: 'Unit 600: Ultra-Pure DI Water Treatment Skid (3,000L)'
+  },
+  'CMP-700': {
+    tag: 'CMP-700',
+    shortName: 'Diaphragm Comp',
+    file: 'models/CMP-700_Diaphragm_Compressor.glb',
+    name: 'Unit 700: 3-Stage HP Diaphragm Compressor (API 618)'
+  },
+  'ST-800': {
+    tag: 'ST-800',
+    shortName: 'Buffer Storage',
+    file: 'models/ST-800_HP_Buffer_Storage.glb',
+    name: 'Unit 800: 350-bar HP Buffer Storage Array (4x Forged SA-723)'
+  },
+  'ELE-900': {
+    tag: 'ELE-900',
+    shortName: 'Rectifier Bay',
+    file: 'models/ELE-900_Substation_Rectifier.glb',
+    name: 'Unit 900: 11kV Substation & 12-Pulse Thyristor Rectifier'
+  },
+  'PLC-1000': {
+    tag: 'PLC-1000',
+    shortName: 'Safety SCADA',
+    file: 'models/PLC-1000_Safety_PLC_Console.glb',
+    name: 'Unit 1000: Siemens S7-1500F Safety PLC & SCADA Suite'
+  },
+  'PIP-1100': {
+    tag: 'PIP-1100',
+    shortName: 'Process Headers',
+    file: 'models/PIP-1100_Process_Piping_Header.glb',
+    name: 'Unit 1100: Interconnecting Process Piping Network (Sched 80S)'
+  }
+};
+
+let glbSceneNode = null;
+let gltfLoaderInstance = null;
+
+function loadSubsystemGlb(tag) {
+  const modelInfo = glbModelCatalog[tag];
+  if (!modelInfo || !THREE.GLTFLoader) return;
+
+  const overlay = document.getElementById('cadTesselateOverlay');
+  const bar = document.getElementById('cadTesselateBar');
+  const text = document.getElementById('cadTesselateText');
+  const fileDisp = document.getElementById('cadTesselateFile');
+
+  if (overlay) overlay.style.display = 'flex';
+  if (fileDisp) fileDisp.textContent = modelInfo.file;
+  if (bar) bar.style.width = '25%';
+  if (text) text.textContent = 'Tesselating Parametric Solid (25%)...';
+
+  if (!gltfLoaderInstance) {
+    gltfLoaderInstance = new THREE.GLTFLoader();
+  }
+
+  gltfLoaderInstance.load(
+    modelInfo.file,
+    gltf => {
+      if (bar) bar.style.width = '100%';
+      if (text) text.textContent = 'Solid Model Tesselated (100%)';
+
+      if (glbSceneNode) {
+        plantScene.remove(glbSceneNode);
+        glbSceneNode = null;
+      }
+
+      glbSceneNode = gltf.scene;
+
+      // Auto-center on bounding box and ground plane
+      const bbox = new THREE.Box3().setFromObject(glbSceneNode);
+      const center = bbox.getCenter(new THREE.Vector3());
+      const size = bbox.getSize(new THREE.Vector3());
+      glbSceneNode.position.set(-center.x, -bbox.min.y, -center.z);
+
+      glbSceneNode.traverse(child => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          origSubsystemMaterials.set(child, child.material);
+          if (isWireframe) child.material.wireframe = true;
+        }
+      });
+
+      plantScene.add(glbSceneNode);
+      // Hide procedural scene while GLB model is active
+      Object.values(subsystems).forEach(g => { g.visible = false; });
+
+      // Auto-fit camera
+      const maxDim = Math.max(size.x, size.y, size.z) || 6;
+      const dist = maxDim / (2 * Math.tan((plantCamera.fov * Math.PI) / 360)) * 1.45;
+      targetCamPos = new THREE.Vector3(dist * 0.85, dist * 0.65, dist);
+      targetLookAt = new THREE.Vector3(0, size.y * 0.4, 0);
+
+      setTimeout(() => {
+        if (overlay) overlay.style.display = 'none';
+      }, 250);
+    },
+    xhr => {
+      if (xhr.total > 0) {
+        const pct = Math.round((xhr.loaded / xhr.total) * 100);
+        if (bar) bar.style.width = `${pct}%`;
+        if (text) text.textContent = `Tesselating Parametric Solid (${pct}%)...`;
+      }
+    },
+    err => {
+      console.warn('[GLTF Loader] Seamless procedural CAD assembly active:', err.message);
+      if (overlay) overlay.style.display = 'none';
+      if (glbSceneNode) {
+        plantScene.remove(glbSceneNode);
+        glbSceneNode = null;
+      }
+      Object.values(subsystems).forEach(g => { g.visible = true; });
+    }
+  );
+}
+
+// ============================================================================
 // INTERACTIVE SELECTION, HUD UPDATE & CAMERA CONTROLS
 // ============================================================================
 
@@ -1109,6 +1293,9 @@ function selectSubsystem(tag) {
   if (!plantCatalog[tag]) return;
   selectedSubsystem = tag;
   const data = plantCatalog[tag];
+
+  // Try loading GLTF binary model (with smooth procedural fallback)
+  loadSubsystemGlb(tag);
 
   // 1. Highlight 3D Group & Restore Others
   Object.keys(subsystems).forEach(k => {

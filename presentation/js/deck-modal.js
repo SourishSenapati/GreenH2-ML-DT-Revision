@@ -2,6 +2,7 @@
  * HYDROSENSE™ 15-Slide Master Presentation Deck Modal
  * Pure Architectural Light Mode, WCAG AAA High Contrast,
  * Zero Dark Voids, Keyboard Navigable (Arrow Keys / Escape).
+ * Fully Integrates Peter Thiel's Zero to One Strategic Framework.
  */
 
 let deckIdx = 0;
@@ -16,10 +17,10 @@ const presentationSlides = [
         <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
           <h4 style="color: var(--accent); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Academic Affiliations</h4>
           <p style="font-size: 13px; line-height: 1.5;"><strong>Sourish Senapati</strong> (Corresponding Author)<br>Dept. of Chemical Engineering, Jadavpur University<br><span style="font-family: monospace; font-size: 11.5px; color: var(--text-muted);">sourishs.chem.ug@jadavpuruniversity.in</span></p>
-          <p style="margin-top: 10px; font-size: 13px; line-height: 1.5;"><strong>Srestha Biswash</strong><br>Dept. of Microbiology & Biotech, Sister Nivedita University</p>
+          <p style="margin-top: 10px; font-size: 13px; line-height: 1.5;"><strong>Srestha Biswash</strong><br>Dept. of Microbiology &amp; Biotech, Sister Nivedita University</p>
         </div>
         <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Commercial & Technical Summary</h4>
+          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Commercial &amp; Technical Summary</h4>
           <p style="font-size: 13px; line-height: 1.6;">• <strong>Phase 1:</strong> Virtual sensing XGBoost (R² = 0.963, sub-microvolt accuracy: 1.911 µV/h).</p>
           <p style="font-size: 13px; line-height: 1.6;">• <strong>Phase 2:</strong> PIBT Transformer anchored by Butler-Volmer constraint (NRMSE = 0.054).</p>
           <p style="font-size: 13px; line-height: 1.6;">• <strong>Phase 3:</strong> Decoupled Bayesian fault isolation (&lt;1.4s trip latency, F1 = 0.990).</p>
@@ -29,7 +30,86 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 2 • THE $420,000 PROBLEM',
+    tag: 'SLIDE 2 • THIEL PILLAR 1: NICHE MONOPOLY',
+    title: 'Conquer a Small Market, Then Expand to Adjacent Sectors',
+    subtitle: 'Zero Greenfield Competition: Capturing the 250 MW Brownfield Industrial Beachhead',
+    body: `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
+        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <h4 style="color: var(--accent); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">The Beachhead Monopoly (Chlor-Alkali &amp; Refineries)</h4>
+          <p style="font-size: 13px; line-height: 1.55; margin-bottom: 8px;">Rather than burning billions competing for speculative greenfield tenders, HYDROSENSE captures existing brownfield chlor-alkali and refinery hydrogen loops:</p>
+          <ul style="margin-left: 18px; line-height: 1.7; font-size: 12.5px; color: var(--text-body);">
+            <li><strong>250 MW addressable fleet</strong> across India and Southeast Asia.</li>
+            <li><strong>$0 new substation CAPEX:</strong> Plugs directly into existing 5,000A DC busbars and 30-bar delivery headers.</li>
+            <li><strong>High urgency pain:</strong> Biofilm-induced trips and unmonitored degradation cost operators $420,000 per stack teardown.</li>
+          </ul>
+        </div>
+        <div style="background: #FFFFFF; padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <h4 style="color: #0284C7; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Sequential Adjacent Market Expansion</h4>
+          <p style="font-size: 13px; line-height: 1.55; margin-bottom: 8px;">Once cash-flow positive and entrenched with compounding Bayesian fleet priors, the modular architecture scales outward:</p>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #0284C7; border-radius: 2px;"><strong>Step 1:</strong> Brownfield Chlor-Alkali &amp; Refineries (Immediate cash-flow)</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #D97706; border-radius: 2px;"><strong>Step 2:</strong> Green Steel DRI Shaft Furnaces (100% H₂ Direct Reduced Iron)</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #059669; border-radius: 2px;"><strong>Step 3:</strong> Heavy Mobility &amp; Fueling (350/700 bar ISO 14687 Grade D)</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #7C3AED; border-radius: 2px;"><strong>Step 4:</strong> GW-Scale Utility Green Ammonia &amp; Synthetic E-Fuels</div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  {
+    tag: 'SLIDE 3 • THIEL PILLAR 2: VERTICAL INTEGRATION',
+    title: 'Vertical Integration Eliminates EPC Margin Destruction',
+    subtitle: 'Full-Stack Ownership: Kinetic Priors + Edge AI Firmware + SolidWorks DFM + DI Chemistry',
+    body: `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
+        <div style="background: var(--status-alert-bg); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--status-alert-border);">
+          <h4 style="color: var(--status-alert); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Conventional Fragmented EPC Architecture (Fails)</h4>
+          <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-main);">
+            • <strong>Disjointed Supply Chain:</strong> Stack OEM blames compressor vendor; compressor vendor blames SCADA contractor.<br>
+            • <strong>Layered EPC Markups:</strong> 2.0x to 2.5x markups passed to asset owner with zero performance liability.<br>
+            • <strong>Unmonitored Stack Degradation:</strong> Disconnected generic PLCs fail to catch sub-microvolt degradation or biofilm drift.
+          </p>
+        </div>
+        <div style="background: #F0FDF4; padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid #BBF7D0;">
+          <h4 style="color: #15803D; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">HYDROSENSE Vertically Integrated Architecture</h4>
+          <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-main);">
+            • <strong>Layer 1 (Physics Core):</strong> Butler-Volmer and ECSA electrochemical state estimators.<br>
+            • <strong>Layer 2 (Edge Firmware):</strong> AERO-H2 compiled directly for Siemens S7-1500F / STM32.<br>
+            • <strong>Layer 3 (Mechanical Reality):</strong> Turnkey SolidWorks 2025 SP1.2 B-Rep skids &amp; ASME Sec VIII Div 1 &amp; 3 vessels.<br>
+            • <strong>Layer 4 (Water Chemistry):</strong> Closed-loop AERO-PURE Unit 650 with automated DI surge mitigations.
+          </p>
+        </div>
+      </div>
+    `
+  },
+  {
+    tag: 'SLIDE 4 • THIEL PILLAR 3: LAST MOVER ADVANTAGE',
+    title: 'The Last Mover Advantage: Synthesizing Early Bird Inventions',
+    subtitle: 'Let Early Birds Burn Billions on Hardware; Standardize the Missing Intelligent Layer',
+    body: `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
+        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <h4 style="color: var(--accent); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">What Early Birds De-Risked (Capital Burnt)</h4>
+          <p style="font-size: 12.5px; line-height: 1.6;">
+            • <strong>Electrochemical Chemistry:</strong> Nel, ITM, and Plug Power invested billions de-risking Nafion 117 membranes, Pt/C cathode formulations, and IrO₂ anode catalysts.<br>
+            • <strong>Industrial SCADA Standards:</strong> Siemens and Schneider standardized PROFINET, SIL-2 safety PLC architectures, and 12-pulse thyristor rectifiers.<br>
+            • <em>Result:</em> The physical hardware is now commoditized and reliable when operated at static steady-state.
+          </p>
+        </div>
+        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">The Decisive Missing Innovation We Invented</h4>
+          <p style="font-size: 12.5px; line-height: 1.6;">
+            • <strong>Dynamic Degradation Mitigation:</strong> Early birds collapsed under renewable power ramps because generic PLCs could not model kinetic decay.<br>
+            • <strong>The PIBT Transformer Digital Twin:</strong> We engineered the deterministic software and CAD layer that makes early bird hardware commercially viable.<br>
+            • <strong>Compounding Fleet Moat:</strong> +39.4% core life extension (21,428h &rarr; 29,879h) and -$0.42/kg H₂ LCOH capture the dominant market share.
+          </p>
+        </div>
+      </div>
+    `
+  },
+  {
+    tag: 'SLIDE 5 • THE $420,000 PROBLEM',
     title: 'The Multi-Megawatt Degradation Dilemma',
     subtitle: 'Why Unmitigated Dynamic Cycling Destroys Commercial PEM Electrolyzers',
     body: `
@@ -50,7 +130,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 3 • SOLIDWORKS MASTER ASSEMBLY',
+    tag: 'SLIDE 6 • SOLIDWORKS MASTER ASSEMBLY',
     title: 'Commercial Turnkey Hydrogen Plant (100 TPD)',
     subtitle: '11 Subsystems Parameterized in SolidWorks 2025 SP1.2 (B-Rep Geometry)',
     body: `
@@ -61,9 +141,9 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 4 • AUTOCAD ISO A1 DRAWING',
-    title: 'AutoCAD Plot Plan & Engineering Schedules',
-    subtitle: 'DWG-PEM-H2-COMMERCIAL-PLANT-002: Fully Documented P&ID and LOPA Safety Loops',
+    tag: 'SLIDE 7 • AUTOCAD ISO A1 DRAWING',
+    title: 'AutoCAD Plot Plan &amp; Engineering Schedules',
+    subtitle: 'DWG-PEM-H2-COMM-002 Rev 5: Fully Documented P&amp;ID, ASME UG-27 Proofs &amp; LOPA Safety',
     body: `
       <div style="text-align: center;">
         <img src="assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png" style="max-height: 420px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 12px; background: #FFFFFF;" alt="AutoCAD Drawing">
@@ -72,7 +152,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 5 • PHASE 1 VIRTUAL SENSING',
+    tag: 'SLIDE 8 • PHASE 1 VIRTUAL SENSING',
     title: 'XGBoost Feature Importance Attribution',
     subtitle: 'Sub-Microvolt Accuracy on Anode Kinetic Decay Descriptors',
     body: `
@@ -83,7 +163,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 6 • PHASE 1 PARITY VALIDATION',
+    tag: 'SLIDE 9 • PHASE 1 PARITY VALIDATION',
     title: 'Empirical Parity Plot (n = 140 Samples)',
     subtitle: 'Sub-Microvolt Fidelity Across Galvanostatic Operating Regimes',
     body: `
@@ -94,7 +174,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 7 • PHASE 2 PIBT TRANSFORMER',
+    tag: 'SLIDE 10 • PHASE 2 PIBT TRANSFORMER',
     title: 'Physics-Informed Bayesian Degradation Tracking',
     subtitle: 'Butler-Volmer Thermodynamic Loss Prevents Divergence Under Fluctuating Loads',
     body: `
@@ -105,9 +185,9 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 8 • PHASE 3 FAULT MITIGATION',
+    tag: 'SLIDE 11 • PHASE 3 FAULT MITIGATION',
     title: 'Dual-Panel Decoupled Biofilm Anomaly Detection',
-    subtitle: 'Isolating Dielectric Biofilm from Electrochemical Decay (<1.4s Latency, F1 = 0.990)',
+    subtitle: 'Isolating Dielectric Biofilm from Electrochemical Decay (&lt;1.4s Latency, F1 = 0.990)',
     body: `
       <div style="text-align: center;">
         <img src="assets/Fig4_Bayesian_Anomaly_Detection_EPS_Biofilm.png" style="max-height: 420px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 12px; background: #FFFFFF;" alt="Fig 4">
@@ -116,9 +196,9 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 9 • TECHNO-ECONOMIC PAYBACK',
+    tag: 'SLIDE 12 • TECHNO-ECONOMIC PAYBACK',
     title: '+39.4% Stack Lifespan Extension',
-    subtitle: 'Extends Core Life by 8,451 Hours & Reduces LCOH by $0.42/kg H₂',
+    subtitle: 'Extends Core Life by 8,451 Hours &amp; Reduces LCOH by $0.42/kg H₂',
     body: `
       <div style="text-align: center;">
         <img src="assets/Fig5_Lifespan_Extension_Techno_Economic.png" style="max-height: 420px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 12px; background: #FFFFFF;" alt="Fig 5">
@@ -127,30 +207,19 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 10 • CROSS-SECTORAL GENERALIZATION',
-    title: 'Multi-Scale Validation Across 4 Regimes',
-    subtitle: 'Consistent >93% Accuracy from 25 cm² Single Cells to 100 TPD Pilot Plants',
-    body: `
-      <div style="text-align: center;">
-        <img src="assets/Fig6_Cross_Sectoral_Validation.png" style="max-height: 420px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 12px; background: #FFFFFF;" alt="Fig 6">
-        <p style="font-size: 13px; color: var(--text-muted);">Proven transferability across benchtop single cells, 250 cm² 10-cell industrial stacks, chlor-alkali brine cells, and multi-MW arrays.</p>
-      </div>
-    `
-  },
-  {
-    tag: 'SLIDE 11 • DFM MULTI-PLANT ARCHITECTURE',
-    title: 'Design for Manufacturing (DFM) & Multi-Plant Retrofit',
-    subtitle: 'Progressive Stamping of Titanium Plates & ASME Sizing for 5 Heavy Sectors',
+    tag: 'SLIDE 13 • UNIVERSAL MULTI-PLANT MATRIX',
+    title: 'Standardized Turnkey Deployment Across 5 Heavy Sectors',
+    subtitle: 'ISMB 300 Mezzanine Skid Footprint Enables Plug-and-Play Integration Without Civil Redesign',
     body: `
       <div style="text-align: center;">
         <img src="assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png" style="max-height: 420px; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 12px; background: #FFFFFF;" alt="Fig 7">
-        <p style="font-size: 13px; color: var(--text-muted);">Validated ASTM B265 Gr. 2 channel profile (w=1.2mm, d=0.8mm, &theta;=7°), ASME UG-27 shell sizing (30 bar), and 5-sector deployment matrix.</p>
+        <p style="font-size: 13px; color: var(--text-muted);">Modular adaptation across Refineries (50-100 TPD), Chlor-Alkali (20-40 TPD), Green Steel (80-150 TPD), Fertilizers (100-250 TPD), and Heavy Mobility (5-15 TPD).</p>
       </div>
     `
   },
   {
-    tag: 'SLIDE 12 • COMMERCIAL MONETIZATION',
-    title: 'ASD-STM100 Commercialization & ROI Model',
+    tag: 'SLIDE 14 • COMMERCIAL MONETIZATION &amp; PAYBACK',
+    title: 'ASD-STM100 Commercialization &amp; ROI Model',
     subtitle: 'Zero Cash Burn, High-Margin Digital Delivery, Breakeven in Month 4.8',
     body: `
       <div style="text-align: center;">
@@ -160,45 +229,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 13 • DUAL-REVENUE AERO-PURE 650',
-    title: 'AERO-PURE Unit 650 Ultrafiltration',
-    subtitle: 'Repurposing Industrial Wastewater for Electrolysis & Secondary Water Sales',
-    body: `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
-        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--accent); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Primary Electrolyzer Duty</h4>
-          <p style="font-size: 13px; line-height: 1.6;">• Produces ASTM D1193 Type 1 ultrapure water (&gt;18.2 M&Omega;·cm).</p>
-          <p style="font-size: 13px; line-height: 1.6;">• Cuts TOC &lt; 20 ppb and eliminates multivalent metal ions.</p>
-          <p style="font-size: 13px; line-height: 1.6;">• Protects titanium PTLs and membrane electrode assemblies.</p>
-        </div>
-        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Secondary Revenue Monetization</h4>
-          <p style="font-size: 13px; line-height: 1.6;">• Filters cooling tower blowdown and boiler feed water.</p>
-          <p style="font-size: 13px; line-height: 1.6;">• Adds $85,000/yr in secondary purified water utility revenue.</p>
-          <p style="font-size: 13px; line-height: 1.6;">• Turns electrolyzer water CAPEX into an independent profit center.</p>
-        </div>
-      </div>
-    `
-  },
-  {
-    tag: 'SLIDE 14 • LONG-TERM FLEET DE-RISKING & TCO',
-    title: 'Fleet Standardization, Availability & Lifecycle Protection',
-    subtitle: 'How HYDROSENSE Delivers Compounding Reliability via Unified Priors and ASME Interchangeability',
-    body: `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
-        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--status-notice); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">The Compounding Fleet Prior Library</h4>
-          <p style="font-size: 13px; line-height: 1.6;">Every plant operating our firmware reports anonymized decay trajectories to our central prior library. New installations benefit from thousands of hours of pre-trained priors, accelerating Bayesian convergence from Day 1.</p>
-        </div>
-        <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">ASME &amp; CAD B-Rep Modular Standard</h4>
-          <p style="font-size: 13px; line-height: 1.6;">EPC contractors build directly to our SolidWorks 2025 SP1.2 drawings. The standardized ISMB 300 structural skids and standardized ASME B31.3 piping tie-ins guarantee modular interoperability across multiple plant sites.</p>
-        </div>
-      </div>
-    `
-  },
-  {
-    tag: 'SLIDE 15 • CONCLUSION & TENDER CALL-TO-ACTION',
+    tag: 'SLIDE 15 • READY FOR COMMERCIAL TENDER',
     title: 'Ready for Commercial Deployment',
     subtitle: '5-Day Remote Audits Available for 5 MW to 100 MW Industrial Operators',
     body: `
@@ -303,4 +334,3 @@ window.openDeck = openDeck;
 window.closeDeck = closeDeck;
 window.slideForward = slideForward;
 window.slideBack = slideBack;
-
