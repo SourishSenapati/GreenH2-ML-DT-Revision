@@ -53,3 +53,4 @@ function zoomCurrentCad() {
 
 window.setCadView = setCadView;
 window.zoomCurrentCad = zoomCurrentCad;
+

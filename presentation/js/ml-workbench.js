@@ -9,7 +9,7 @@ const mlCatalog = {
     src: 'assets/Fig1_XGBoost_Feature_Importance.png',
     phase: 'PHASE 1: VIRTUAL SENSING FEATURE ATTRIBUTION',
     title: 'XGBoost Feature Importance Attribution',
-    desc: 'Gradient-boosted decision trees quantify catalyst kinetic degradation. Identifies Tafel slope ($b_{\\mathrm{an}}$: 34.2%), electrochemical active surface area (ECSA: 23.1%), and PTL porosity ($\\varepsilon$: 17.1%) as the top 3 physical drivers, capturing >74.4% of total variance.',
+    desc: 'Gradient-boosted decision trees quantify catalyst kinetic degradation. Identifies Tafel slope (\\(b_{\\mathrm{an}}\\): 34.2%), electrochemical active surface area (ECSA: 23.1%), and PTL porosity (\\(\\varepsilon\\): 17.1%) as the top 3 physical drivers, capturing >74.4% of total variance.',
     math: '$$\\hat{y}_{\\mathrm{decay}} = \\sum_{k=1}^K f_k(\\mathbf{x}_i), \\quad f_k \\in \\mathcal{F}, \\quad R^2 = 0.9630$$',
     badges: '<span class="cred-tag highlight">R² = 0.963</span><span class="cred-tag">NRMSE = 0.046</span><span class="cred-tag">140 Experimental Datasets</span>'
   },
@@ -33,7 +33,7 @@ const mlCatalog = {
     src: 'assets/Fig4_Bayesian_Anomaly_Detection_EPS_Biofilm.png',
     phase: 'PHASE 3: DECOUPLED FAULT DETECTION',
     title: 'Decoupled Bayesian Biofilm Anomaly Detection',
-    desc: 'Decouples voltage residuals $e(t)$ from electrochemical decay. Detects dielectric bacterial biofilm accumulation in &lt;1.4s, triggering immediate SCADA throttling (2.0 &rarr; 1.3 A/cm²) and pure DI water pulse (15 &rarr; 28 L/min), eliminating toxic biocides.',
+    desc: 'Decouples voltage residuals \\(e(t)\\) from electrochemical decay. Detects dielectric bacterial biofilm accumulation in &lt;1.4s, triggering immediate SCADA throttling (2.0 &rarr; 1.3 A/cm²) and pure DI water pulse (15 &rarr; 28 L/min), eliminating toxic biocides.',
     math: '$$P(\\mathcal{F}_{\\mathrm{biofilm}} \\mid e(t)) = \\frac{p(e(t) \\mid \\mathcal{F}_{\\mathrm{biofilm}}) P(\\mathcal{F}_{\\mathrm{biofilm}})}{p(e(t))} > 0.95$$',
     badges: '<span class="cred-tag highlight">F1-Score = 0.990</span><span class="cred-tag">Trip Latency &lt; 1.4s</span><span class="cred-tag">&Delta;V = +58.8 mV Detection</span>'
   },
@@ -80,8 +80,10 @@ function setMlFig(key, el) {
       window.renderMathInElement(card, {
         delimiters: [
           {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false}
-        ]
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false
       });
     }
   }
@@ -95,3 +97,4 @@ function zoomCurrentMl() {
 
 window.setMlFig = setMlFig;
 window.zoomCurrentMl = zoomCurrentMl;
+

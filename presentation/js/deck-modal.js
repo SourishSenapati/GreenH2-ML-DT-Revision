@@ -181,18 +181,18 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 14 • ZERO TO ONE COMPETITIVE MOAT',
-    title: 'Defensibility & Category Dominance',
-    subtitle: 'How HYDROSENSE Compounds Network Effects and Data Moats',
+    tag: 'SLIDE 14 • LONG-TERM FLEET DE-RISKING & TCO',
+    title: 'Fleet Standardization, Availability & Lifecycle Protection',
+    subtitle: 'How HYDROSENSE Delivers Compounding Reliability via Unified Priors and ASME Interchangeability',
     body: `
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
         <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--status-notice); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">The Compounding Bayesian Prior</h4>
-          <p style="font-size: 13px; line-height: 1.6;">Every plant operating our firmware reports anonymized decay trajectories to our cloud prior library. New installations start with thousands of hours of pre-trained priors, making late-entry competitors obsolete.</p>
+          <h4 style="color: var(--status-notice); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">The Compounding Fleet Prior Library</h4>
+          <p style="font-size: 13px; line-height: 1.6;">Every plant operating our firmware reports anonymized decay trajectories to our central prior library. New installations benefit from thousands of hours of pre-trained priors, accelerating Bayesian convergence from Day 1.</p>
         </div>
         <div style="background: var(--bg-wash); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">ASME &amp; CAD B-Rep Lock-In</h4>
-          <p style="font-size: 13px; line-height: 1.6;">EPC contractors build directly to our SolidWorks 2025 SP1.2 drawings. Once the ISMB 300 skids and piping tie-ins are installed, our edge firmware is the native operating system.</p>
+          <h4 style="color: var(--status-pass); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">ASME &amp; CAD B-Rep Modular Standard</h4>
+          <p style="font-size: 13px; line-height: 1.6;">EPC contractors build directly to our SolidWorks 2025 SP1.2 drawings. The standardized ISMB 300 structural skids and standardized ASME B31.3 piping tie-ins guarantee modular interoperability across multiple plant sites.</p>
         </div>
       </div>
     `
@@ -257,8 +257,11 @@ function renderDeckSlide() {
     window.renderMathInElement(box, {
       delimiters: [
         {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false}
-      ]
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false,
+      ignoredClasses: ['btn', 'tier-price-tag', 'slider-num', 'data-val', 'metric-num', 'no-math']
     });
   }
 }
@@ -300,3 +303,4 @@ window.openDeck = openDeck;
 window.closeDeck = closeDeck;
 window.slideForward = slideForward;
 window.slideBack = slideBack;
+

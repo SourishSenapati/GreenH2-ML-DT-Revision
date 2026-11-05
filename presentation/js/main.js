@@ -50,11 +50,16 @@ window.addEventListener('DOMContentLoaded', () => {
     window.renderMathInElement(document.body, {
       delimiters: [
         {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false}
-      ]
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ],
+      throwOnError: false,
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      ignoredClasses: ['btn', 'tier-price-tag', 'slider-num', 'data-val', 'metric-num', 'no-math', 'metric-sub', 'hero-lead']
     });
   }
 });
 
 window.showModal = showModal;
 window.hideModal = hideModal;
+

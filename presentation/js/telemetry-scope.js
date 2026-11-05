@@ -154,3 +154,4 @@ function resetScope() {
 window.initScope = initScope;
 window.triggerBiofilmFault = triggerBiofilmFault;
 window.resetScope = resetScope;
+

@@ -563,3 +563,30 @@ input[type=range] {
   display: flex;
   flex-direction: column;
 }
+
+/* =========================================================================
+   KaTeX Formula & Mathematical Typesetting Rules (Zero Overflow)
+   ========================================================================= */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 0;
+  margin: var(--space-2) 0 !important;
+  max-width: 100%;
+  scrollbar-width: thin;
+}
+.katex {
+  font-size: 1.05em;
+  text-rendering: auto;
+  white-space: normal;
+}
+.math-banner {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  overflow-x: auto;
+}
+
+

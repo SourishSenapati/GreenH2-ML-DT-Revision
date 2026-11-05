@@ -69,3 +69,4 @@ function calculateRoi() {
 }
 
 window.calculateRoi = calculateRoi;
+
