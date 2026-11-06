@@ -206,10 +206,10 @@ function updateSensorHud(cellV, resMv) {
       tagEl.style.color = '#DC2626';
     } else if (stackState.autoMitigated) {
       tagEl.innerText = 'PROACTIVE MITIGATION ENGAGED: PURE DI WATER SURGE (28 L/min)';
-      tagEl.style.color = '#059669';
+      tagEl.style.color = '#0F172A';
     } else {
-      tagEl.innerText = 'NORMAL OPERATING REGIME • BUTLER-VOLMER TRACKING';
-      tagEl.style.color = '#059669';
+      tagEl.innerText = 'NORMAL OPERATING REGIME // BUTLER-VOLMER TRACKING';
+      tagEl.style.color = '#334155';
     }
   }
 }

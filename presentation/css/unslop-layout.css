@@ -9,13 +9,11 @@
   padding: 0 var(--space-6);
 }
 
-/* Drafting Grid Pattern for Technical Visualizers */
+/* Drafting Canvas Frame for Technical Visualizers */
 .drafting-canvas {
-  background-color: var(--bg-wash);
-  background-image: radial-gradient(var(--border-strong) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-color: var(--surface);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 /* Top Command Header */
@@ -39,11 +37,11 @@
   gap: var(--space-3);
 }
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--status-pass);
-  box-shadow: 0 0 0 2px var(--status-pass-border);
+  background: #059669;
+  border: 1px solid #047857;
 }
 .brand-title {
   font-size: 16px;

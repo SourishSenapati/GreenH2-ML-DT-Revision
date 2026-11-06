@@ -190,12 +190,14 @@
         </table>
 
         <!-- The Biofilm Risk Callout Box -->
-        <div style="margin-top: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--status-notice-bg); border: 1px solid var(--status-notice-border); border-radius: var(--radius-md);">
+        <div class="psi-alert-card">
           <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--status-notice)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #0F172A; background: #E2E8F0; padding: 3px 6px; border-radius: 2px; white-space: nowrap;">
+              HAZOP LOPA-04
+            </div>
             <div>
-              <strong style="color: var(--status-notice); font-size: 13.5px;">Unaddressed Plant Reliability Risk: In-Operando Dielectric Biofouling in Ultra-Pure DI Water Loops</strong>
-              <p style="font-size: 12.5px; color: var(--text-body); margin-top: 3px; line-height: 1.5;">
+              <strong style="color: #0F172A; font-size: 13px; display: block; margin-bottom: 4px;">Unaddressed Plant Reliability Risk: In-Operando Dielectric Biofouling in Ultra-Pure DI Water Loops</strong>
+              <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55;">
                 Standard engineering procurement specifications mandate feed water compliance with ASTM D1193 Type 1 (&gt;18.2 M&Omega;&middot;cm), assuming water chemistry is static. In continuous commercial operation, closed DI water loops foster dielectric extracellular polymeric substance (EPS) biofilms within 600&ndash;1,200 operating hours. Conventional SCADA systems cannot differentiate this dielectric resistance spike from electrochemical catalyst degradation, prompting unwarranted MEA condemnations. HYDROSENSE's decoupled Bayesian impedance observer identifies EPS biofilms in &lt;1.4 seconds, commanding an automated pure DI surge that restores cell conductivity without chemical biocides or plant shutdowns.
               </p>
             </div>
@@ -206,7 +208,7 @@
         <div style="margin-top: var(--space-6); padding: var(--space-5); background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--space-3); flex-wrap: wrap; gap: 8px;">
             <div>
-              <span class="tag-badge" style="background: #FEF3C7; color: #D97706; border-color: #FCD34D;">Zero to One Monopoly Doctrine</span>
+              <span class="tag-badge" style="background: #F1F5F9; color: #334155; border-color: #CBD5E1;">Strategic Moat</span>
               <h3 style="font-size: 16.5px; font-weight: 800; color: var(--text-main); margin-top: 4px;">
                 The 3 Core Strategic Pillars: Niche Monopoly, Vertical Integration &amp; Last Mover Dominance
               </h3>
@@ -217,7 +219,7 @@
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: var(--space-4);">
             <!-- Pillar 1 -->
             <div style="background: var(--bg-wash); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-4);">
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #0284C7; text-transform: uppercase; margin-bottom: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 4px;">
                 Pillar 1 &bull; Beachhead Monopoly
               </div>
               <h4 style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
@@ -233,7 +235,7 @@
 
             <!-- Pillar 2 -->
             <div style="background: var(--bg-wash); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-4);">
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #10B981; text-transform: uppercase; margin-bottom: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 4px;">
                 Pillar 2 &bull; Vertical Integration
               </div>
               <h4 style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
@@ -249,7 +251,7 @@
 
             <!-- Pillar 3 -->
             <div style="background: var(--bg-wash); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-4);">
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #D97706; text-transform: uppercase; margin-bottom: 4px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 4px;">
                 Pillar 3 &bull; Last Mover Advantage
               </div>
               <h4 style="font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
@@ -556,7 +558,7 @@
         <!-- Spacious High-Contrast 5-Sector Grid -->
         <div class="sector-spacious-grid">
           <!-- Sector 1 -->
-          <div class="sector-card accent-blue">
+          <div class="sector-card">
             <div>
               <div class="sector-card-top">
                 <span class="sector-code-pill">SEC-01 // REFINERIES</span>
@@ -588,10 +590,10 @@
           </div>
 
           <!-- Sector 2 -->
-          <div class="sector-card accent-green">
+          <div class="sector-card">
             <div>
               <div class="sector-card-top">
-                <span class="sector-code-pill" style="color: #059669;">SEC-02 // CHLOR-ALKALI</span>
+                <span class="sector-code-pill">SEC-02 // CHLOR-ALKALI</span>
                 <span class="sector-duty-pill">Duty: 20 – 40 TPD H₂</span>
               </div>
               <h4 class="sector-title">Chlor-Alkali &amp; Basic Chemicals</h4>
@@ -620,10 +622,10 @@
           </div>
 
           <!-- Sector 3 -->
-          <div class="sector-card accent-amber">
+          <div class="sector-card">
             <div>
               <div class="sector-card-top">
-                <span class="sector-code-pill" style="color: #D97706;">SEC-03 // GREEN STEEL</span>
+                <span class="sector-code-pill">SEC-03 // GREEN STEEL</span>
                 <span class="sector-duty-pill">Duty: 80 – 150 TPD H₂</span>
               </div>
               <h4 class="sector-title">Green Steel &amp; DRI Metallurgy</h4>
@@ -652,7 +654,7 @@
           </div>
 
           <!-- Sector 4 -->
-          <div class="sector-card accent-blue">
+          <div class="sector-card">
             <div>
               <div class="sector-card-top">
                 <span class="sector-code-pill">SEC-04 // FERTILIZERS</span>
@@ -684,10 +686,10 @@
           </div>
 
           <!-- Sector 5 -->
-          <div class="sector-card accent-green">
+          <div class="sector-card">
             <div>
               <div class="sector-card-top">
-                <span class="sector-code-pill" style="color: #059669;">SEC-05 // HEAVY MOBILITY</span>
+                <span class="sector-code-pill">SEC-05 // HEAVY MOBILITY</span>
                 <span class="sector-duty-pill">Duty: 5 – 15 TPD H₂</span>
               </div>
               <h4 class="sector-title">Heavy Mobility &amp; Fueling (HRS)</h4>
@@ -702,7 +704,7 @@
                 </div>
                 <div class="sector-data-item">
                   <span class="sector-data-lbl">Commercial &amp; Carbon Value:</span>
-                  <span class="sector-data-desc">Guarantees ISO 14687 Grade D fuel cell purity (&lt;1 ppm O₂, &lt;1 ppm H₂O, zero lube oil); protects vehicle PEM fuel cell stacks.</span>
+                  <span class="sector-data-desc">Delivers ISO 14687 Grade D fuel cell purity (&lt;1 ppm O₂, &lt;1 ppm H₂O, zero lube oil); protects vehicle PEM fuel cell stacks.</span>
                 </div>
                 <div class="sector-data-item">
                   <span class="sector-data-lbl">LOPA Safety Integrity &amp; Code:</span>
@@ -840,7 +842,7 @@
   <section id="commercial-tiers" class="portal-section">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Zero Cash Burn &bull; High Margin Digital Delivery</span>
+        <span class="eyebrow">Commercial Monetization &bull; Service Delivery Portfolio</span>
         <h2 class="section-h2">ASD-STM100 Commercial Service Delivery Portfolio</h2>
         <p class="section-intro">
           Structured under the Cykopsi Capital-Compounding Charter. Remote digital audits, recurring edge firmware SaaS, and turnkey fabrication licensing targeting EPC contractors and heavy industrial operators.
@@ -861,19 +863,19 @@
 
             <ul class="feature-list">
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Remote SCADA data ingestion (100h)
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Tafel slope &amp; ECSA decay attribution
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 ASME UG-27 shell thickness validation
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Full 25-page deterministic forensic dossier (ASME Sec VIII UG-27, Tafel slope &amp; ECSA decay)
               </li>
             </ul>
@@ -885,8 +887,7 @@
         </div>
 
         <!-- Tier 2 -->
-        <div class="tier-box flagship">
-          <div class="flagship-label">Most Popular</div>
+        <div class="tier-box">
           <div>
             <div class="tier-badge-text">TIER 2 &bull; EDGE FIRMWARE</div>
             <div class="tier-title">AERO-H2 Edge Digital Twin Core</div>
@@ -898,23 +899,23 @@
 
             <ul class="feature-list">
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 In-operando &lt;1.4s biofilm anomaly trip
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Physics-constrained voltage forecasting
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 +39.4% core stack life extension
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Eliminates chemical biocide wash loops
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Modbus TCP / OPC-UA SCADA integration
               </li>
             </ul>
@@ -938,23 +939,23 @@
 
             <ul class="feature-list">
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Full 11-subsystem SolidWorks 2025 assembly
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Progressive stamping die drawings (Ti plate)
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 ASME Section VIII Div 1 &amp; 3 calculation sheets
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 LOPA SIL-2 compliant safety architecture
               </li>
               <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--status-pass)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="color: #64748B; font-family: monospace; font-weight: 700;">&mdash;</span>
                 Dual-revenue AERO-PURE Unit 650 integration
               </li>
             </ul>
@@ -962,12 +963,6 @@
 
           <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openDeck()">
             Acquire Turnkey CAD License
-          </button>
-        </div>
-          </div>
-
-          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="alert('Acquiring CAD License: Engineering packages will be provisioned via secure data room.')">
-            Acquire CAD License
           </button>
         </div>
       </div>
@@ -990,7 +985,7 @@
       <div class="scope-panel">
         <div class="scope-header">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="status-dot"></span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; background: #0F172A; color: #FFFFFF; padding: 2px 6px; border-radius: 2px;">ONLINE // 100 Hz</span>
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--text-main);">
               EDGE-AERO-01 &bull; 10-CELL INDUSTRIAL STACK (250 cm²)
             </span>
@@ -998,11 +993,10 @@
 
           <div style="display: flex; gap: var(--space-2);">
             <button class="btn btn-secondary" onclick="triggerBiofilmFault()">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--status-alert)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Simulate Biofilm Fouling (+58.8 mV)
+              Inject Biofilm Perturbation (+58.8 mV)
             </button>
             <button class="btn btn-primary" onclick="resetScope()">
-              Reset Simulation
+              Reset Telemetry Loop
             </button>
           </div>
         </div>
@@ -1011,7 +1005,7 @@
           <div>
             <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
               <span>OSCILLOSCOPE: VOLTAGE RESIDUAL e(t) &amp; STACK POTENTIAL</span>
-              <span id="scopeStatusTag" style="color: var(--status-pass); font-weight: 700;">NORMAL OPERATING REGIME</span>
+              <span id="scopeStatusTag" style="color: #0F172A; font-weight: 700;">NORMAL OPERATING REGIME</span>
             </div>
             <canvas id="scopeCanvas"></canvas>
           </div>
@@ -1023,24 +1017,24 @@
               </div>
               <div class="data-line">
                 <span style="color: var(--text-muted);">Current Density:</span>
-                <span id="scopeCurrent" class="data-val" style="color: var(--accent);">2.00 A/cm²</span>
+                <span id="scopeCurrent" class="data-val" style="color: #0F172A;">2.00 A/cm²</span>
               </div>
               <div class="data-line">
                 <span style="color: var(--text-muted);">DI Water Flow:</span>
-                <span id="scopeFlow" class="data-val" style="color: var(--accent);">15.0 L/min</span>
+                <span id="scopeFlow" class="data-val" style="color: #0F172A;">15.0 L/min</span>
               </div>
               <div class="data-line">
                 <span style="color: var(--text-muted);">Stack Pressure:</span>
-                <span class="data-val">30.0 bar</span>
+                <span class="data-val" style="color: #0F172A;">30.0 bar</span>
               </div>
               <div class="data-line">
                 <span style="color: var(--text-muted);">Biofilm Posterior:</span>
-                <span id="scopePosterior" class="data-val" style="color: var(--status-pass);">0.021</span>
+                <span id="scopePosterior" class="data-val" style="color: #0F172A;">0.021</span>
               </div>
             </div>
 
-            <div style="padding: 8px 10px; background: var(--status-pass-bg); border: 1px solid var(--status-pass-border); border-radius: var(--radius-sm); font-size: 11.5px; color: var(--status-pass);" id="scopeTripNote">
-              <strong>Autonomous Mitigation Ready:</strong> Proactive DI pulse engages at P(F) &ge; 0.95.
+            <div style="padding: 8px 10px; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 2px; font-size: 11.5px; color: #334155;" id="scopeTripNote">
+              <strong>Mitigation Interlock:</strong> Proactive DI pulse engages at P(F) &ge; 0.95.
             </div>
           </div>
         </div>

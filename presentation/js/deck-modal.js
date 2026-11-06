@@ -45,13 +45,13 @@ const presentationSlides = [
           </ul>
         </div>
         <div style="background: #FFFFFF; padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="color: #0284C7; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Sequential Adjacent Market Expansion</h4>
+          <h4 style="color: #0F172A; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Sequential Adjacent Market Expansion</h4>
           <p style="font-size: 13px; line-height: 1.55; margin-bottom: 8px;">Once cash-flow positive and entrenched with compounding Bayesian fleet priors, the modular architecture scales outward:</p>
           <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
-            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #0284C7; border-radius: 2px;"><strong>Step 1:</strong> Brownfield Chlor-Alkali &amp; Refineries (Immediate cash-flow)</div>
-            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #D97706; border-radius: 2px;"><strong>Step 2:</strong> Green Steel DRI Shaft Furnaces (100% H₂ Direct Reduced Iron)</div>
-            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #059669; border-radius: 2px;"><strong>Step 3:</strong> Heavy Mobility &amp; Fueling (350/700 bar ISO 14687 Grade D)</div>
-            <div style="padding: 6px 10px; background: #F8FAFC; border-left: 3px solid #7C3AED; border-radius: 2px;"><strong>Step 4:</strong> GW-Scale Utility Green Ammonia &amp; Synthetic E-Fuels</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border: 1px solid #CBD5E1; border-left: 3px solid #334155; border-radius: 2px;"><strong>Step 1:</strong> Brownfield Chlor-Alkali &amp; Refineries (Immediate cash-flow)</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border: 1px solid #CBD5E1; border-left: 3px solid #334155; border-radius: 2px;"><strong>Step 2:</strong> Green Steel DRI Shaft Furnaces (100% H₂ Direct Reduced Iron)</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border: 1px solid #CBD5E1; border-left: 3px solid #334155; border-radius: 2px;"><strong>Step 3:</strong> Heavy Mobility &amp; Fueling (350/700 bar ISO 14687 Grade D)</div>
+            <div style="padding: 6px 10px; background: #F8FAFC; border: 1px solid #CBD5E1; border-left: 3px solid #334155; border-radius: 2px;"><strong>Step 4:</strong> GW-Scale Utility Green Ammonia &amp; Synthetic E-Fuels</div>
           </div>
         </div>
       </div>
@@ -63,17 +63,17 @@ const presentationSlides = [
     subtitle: 'Full-Stack Ownership: Kinetic Priors + Edge AI Firmware + SolidWorks DFM + DI Chemistry',
     body: `
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-4);">
-        <div style="background: var(--status-alert-bg); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--status-alert-border);">
-          <h4 style="color: var(--status-alert); margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Conventional Fragmented EPC Architecture (Fails)</h4>
-          <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-main);">
+        <div style="background: #F8FAFC; padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); border-left: 3px solid #475569;">
+          <h4 style="color: #0F172A; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">Conventional Fragmented EPC Architecture (Baseline)</h4>
+          <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-body);">
             • <strong>Disjointed Supply Chain:</strong> Stack OEM blames compressor vendor; compressor vendor blames SCADA contractor.<br>
             • <strong>Layered EPC Markups:</strong> 2.0x to 2.5x markups passed to asset owner with zero performance liability.<br>
             • <strong>Unmonitored Stack Degradation:</strong> Disconnected generic PLCs fail to catch sub-microvolt degradation or biofilm drift.
           </p>
         </div>
-        <div style="background: #F0FDF4; padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid #BBF7D0;">
-          <h4 style="color: #15803D; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">HYDROSENSE Vertically Integrated Architecture</h4>
-          <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-main);">
+        <div style="background: #F8FAFC; padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); border-left: 3px solid #0F172A;">
+          <h4 style="color: #0F172A; margin-bottom: 8px; font-size: 13.5px; font-weight: 700;">HYDROSENSE Vertically Integrated Architecture</h4>
+          <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-body);">
             • <strong>Layer 1 (Physics Core):</strong> Butler-Volmer and ECSA electrochemical state estimators.<br>
             • <strong>Layer 2 (Edge Firmware):</strong> AERO-H2 compiled directly for Siemens S7-1500F / STM32.<br>
             • <strong>Layer 3 (Mechanical Reality):</strong> Turnkey SolidWorks 2025 SP1.2 B-Rep skids &amp; ASME Sec VIII Div 1 &amp; 3 vessels.<br>

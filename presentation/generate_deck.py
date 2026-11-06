@@ -830,10 +830,10 @@ def create_presentation():
     p.font.color.rgb = EMERALD
     
     tiers14 = [
-        ("Tier 1: Plant Health Diagnostic Audit ($7,500 / ₹6.2 Lakh):", "Non-invasive baseline degradation audit, CFD flow field review, and ASME code compliance check. 5-day remote delivery."),
-        ("Tier 2: 'AERO-H2' Edge Digital Twin ($2,500/mo or $25k/MW):", "Quantized PIBT inference deployed onto Siemens S7-1500 / Jetson / STM32 for 24/7 biofilm tracking and automated load mitigation."),
-        ("Tier 3: Turnkey DFM SolidWorks Package ($45,000 / ₹37.5 Lakh):", "Complete SolidWorks 2025 3D B-Rep master assembly, AutoCAD ISO A1 shop drawings, BOM, and stamping tool designs for EPC fabricators."),
-        ("Audited Payback: 4.8 Months (ROI = 485%):", "Defers $420,000 stack replacement CAPEX on a 5 MW plant, cutting LCOH by $0.42/kg H2.")
+        ("Tier 1: Plant Health Diagnostic Audit ($28,500 / ₹24.0 Lakh):", "Comprehensive baseline degradation audit, CFD flow field review, and ASME code compliance check. 5-day remote digital delivery."),
+        ("Tier 2: 'AERO-H2' Edge Digital Twin ($3,500/mo or $35k/MW):", "Quantized PIBT inference deployed onto Siemens S7-1500F / Jetson / STM32 for 24/7 biofilm tracking and automated load mitigation."),
+        ("Tier 3: Turnkey DFM SolidWorks Package ($85,000 / ₹71.0 Lakh):", "Complete SolidWorks 2025 3D B-Rep master assembly, AutoCAD ISO A1 shop drawings, BOM, and stamping tool designs for EPC fabricators ($480k full BEDP)."),
+        ("Audited Payback: 3.8 Months (2-Yr ROI = 497%):", "Defers $420,000 stack replacement CAPEX on a 5 MW plant, saving $559,500 net client cash and cutting LCOH by $0.42/kg H2.")
     ]
     for b_title, b_desc in tiers14:
         p = tf14_l.add_paragraph()

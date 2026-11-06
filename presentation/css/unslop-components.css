@@ -161,11 +161,9 @@
 /* Visualizer Frame (Pure Light Architectural Viewport) */
 .viewport-box {
   position: relative;
-  background: var(--bg-wash);
-  background-image: radial-gradient(var(--border-strong) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background: #F8FAFC;
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   cursor: zoom-in;
   display: flex;
@@ -231,25 +229,39 @@
 }
 .badge-legacy {
   display: inline-block;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  background: var(--status-alert-bg);
-  color: var(--status-alert);
-  border: 1px solid var(--status-alert-border);
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: #F1F5F9;
+  color: #475569;
+  border: 1px solid #CBD5E1;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   font-size: 11px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  letter-spacing: 0.02em;
 }
 .badge-leap {
   display: inline-block;
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  background: var(--status-pass-bg);
-  color: var(--status-pass);
-  border: 1px solid var(--status-pass-border);
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: #0F172A;
+  color: #F8FAFC;
+  border: 1px solid #0F172A;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
   font-size: 11px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  letter-spacing: 0.02em;
+}
+
+/* Industrial HAZOP / Process Safety Information (PSI) Card */
+.psi-alert-card {
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-left: 3px solid #334155;
+  border-radius: 2px;
 }
 
 /* BOM Component Card */
@@ -351,36 +363,21 @@ input[type=range] {
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .tier-box:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-.tier-box.flagship {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm);
-}
-.flagship-label {
-  position: absolute;
-  top: -10px;
-  right: 16px;
-  background: var(--accent);
-  color: #FFFFFF;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  border-color: #64748B;
+  box-shadow: none;
 }
 .tier-badge-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 700;
-  color: var(--accent);
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
   margin-bottom: var(--space-1);
 }
 .tier-title {
@@ -491,9 +488,7 @@ input[type=range] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-wash);
-  background-image: radial-gradient(var(--border-strong) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background: #F8FAFC;
 }
 .modal-view img {
   max-width: 100%;
@@ -647,24 +642,20 @@ input[type=range] {
 
 .cad-std-pill {
   padding: 2px 7px;
-  border-radius: var(--radius-sm);
+  border-radius: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
   font-weight: 600;
-  border: 1px solid transparent;
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #CBD5E1;
 }
-.cad-std-pill.amber {
-  background: #FEF3C7;
-  color: #B45309;
-  border-color: #FCD34D;
-}
-.cad-std-pill.green {
-  background: #DCFCE7;
-  color: #15803D;
-  border-color: #86EFAC;
-}
+.cad-std-pill.amber,
+.cad-std-pill.green,
 .cad-std-pill.blue {
-  background: #E0F2FE;
-  color: #0369A1;
-  border-color: #BAE6FD;
+  background: #F1F5F9;
+  color: #1E293B;
+  border-color: #CBD5E1;
 }
 
 /* Horizontal Subsystem Switcher Ribbon */
@@ -944,24 +935,18 @@ input[type=range] {
 .sector-card {
   background: #FFFFFF;
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: var(--space-5) var(--space-6);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-top: 4px solid var(--accent);
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .sector-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  border-color: var(--border-strong);
+  box-shadow: none;
+  border-color: #64748B;
 }
-.sector-card.accent-blue { border-top-color: #0284C7; }
-.sector-card.accent-green { border-top-color: #059669; }
-.sector-card.accent-amber { border-top-color: #D97706; }
-.sector-card.accent-purple { border-top-color: #7C3AED; }
-.sector-card.accent-rose { border-top-color: #E11D48; }
 
 .sector-card-top {
   display: flex;

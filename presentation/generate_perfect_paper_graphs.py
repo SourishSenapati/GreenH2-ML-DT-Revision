@@ -627,18 +627,13 @@ def generate_fig7():
                                            linewidth=1.0)
         ax3.add_patch(card_rect)
 
-        ribbon_color = '#059669' if i % 2 == 0 else '#0284C7'
-        ribbon = patches.Rectangle((cx + 0.002, card_y + card_h - 0.012), card_w - 0.004, 0.012,
-                                   facecolor=ribbon_color, edgecolor='none')
-        ax3.add_patch(ribbon)
-
         tx = cx + 0.012
         tw = 26
-        cur_y = card_y + card_h - 0.028
+        cur_y = card_y + card_h - 0.024
 
         # 1. Sector Tag
         ax3.text(tx, cur_y, sec['tag'], fontsize=8.0, fontfamily='monospace',
-                 fontweight='bold', color=ribbon_color, va='top')
+                 fontweight='bold', color='#475569', va='top')
         cur_y -= 0.030
 
         # 2. Sector Name (wrapped)
@@ -650,10 +645,10 @@ def generate_fig7():
         # 3. Capacity Badge
         cap_rect = patches.FancyBboxPatch((tx - 0.003, cur_y - 0.030), card_w - 0.018, 0.032,
                                           boxstyle="round,pad=0.003,rounding_size=0.008",
-                                          facecolor='#F8FAFC', edgecolor='#E2E8F0', lw=0.8)
+                                          facecolor='#F8FAFC', edgecolor='#CBD5E1', lw=0.8)
         ax3.add_patch(cap_rect)
         ax3.text(tx + 0.002, cur_y - 0.007, f"Duty: {sec['demand']}", fontsize=7.8, fontfamily='monospace',
-                 color='#D97706', fontweight='bold', va='top')
+                 color='#0F172A', fontweight='bold', va='top')
         cur_y -= 0.048
 
         # Divider line
@@ -681,27 +676,27 @@ def generate_fig7():
 
         # 6. Commercial Impact
         ax3.text(tx, cur_y, "COMMERCIAL VALUE", fontsize=6.8, fontweight='bold',
-                 color='#059669', va='top')
+                 color='#475569', va='top')
         cur_y -= 0.020
         imp_lines = textwrap.wrap(sec['impact'], width=tw)
-        ax3.text(tx, cur_y, "\n".join(imp_lines), fontsize=7.4, color='#047857',
+        ax3.text(tx, cur_y, "\n".join(imp_lines), fontsize=7.4, color='#334155',
                  va='top', linespacing=1.15)
         cur_y -= (len(imp_lines) * 0.023 + 0.018)
 
         # 7. LOPA & SIL-2 Safety Interlock
         ax3.text(tx, cur_y, "LOPA SAFETY INTEGRITY", fontsize=6.8, fontweight='bold',
-                 color='#DC2626', va='top')
+                 color='#475569', va='top')
         cur_y -= 0.020
         lopa_lines = textwrap.wrap(sec['lopa'], width=tw)
-        ax3.text(tx, cur_y, "\n".join(lopa_lines), fontsize=7.2, color='#991B1B',
+        ax3.text(tx, cur_y, "\n".join(lopa_lines), fontsize=7.2, color='#334155',
                  va='top', linespacing=1.15)
         cur_y -= (len(lopa_lines) * 0.023 + 0.018)
 
         # 8. Standard & Piping Class
         ax3.text(tx, cur_y, "CODE & PIPING SPEC", fontsize=6.8, fontweight='bold',
-                 color='#0284C7', va='top')
+                 color='#475569', va='top')
         cur_y -= 0.020
-        ax3.text(tx, cur_y, sec['spec'], fontsize=7.2, color='#0369A1',
+        ax3.text(tx, cur_y, sec['spec'], fontsize=7.2, color='#334155',
                  va='top', fontfamily='monospace')
 
     out_path = os.path.join(assets_dir, "Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png")
@@ -731,17 +726,17 @@ def generate_fig8():
     tiers = [
         ("TIER 1 | PLANT HEALTH AUDIT & CAE SIMULATION",
          "Baseline electrochemical degradation audit, CFD flow field analysis, and ASME Section VIII vessel compliance check via autonomous ADVEKT CAE.",
-         r"Pricing: \$7,500 / INR 6.2 Lakh per audit",
+         r"Pricing: \$28,500 / INR 24.0 Lakh per 5 MW audit",
          "Turnaround: 5 business days remote digital delivery",
          "#0284C7"),
         ("TIER 2 | 'AERO-H2' EDGE DIGITAL TWIN FIRMWARE",
-         "Quantized PIBT neural model deployed onto Siemens S7-1500 PLC / NVIDIA Jetson / STM32 edge unit for 24/7 in-operando biofilm & voltage tracking.",
-         r"Pricing: \$2,500 / month SaaS  or  \$25,000 perpetual license / MW",
-         "ROI: Payback in <4.8 months via avoided stack replacement",
+         "Quantized PIBT neural model deployed onto Siemens S7-1500F PLC / NVIDIA Jetson / STM32 edge unit for 24/7 in-operando biofilm & voltage tracking.",
+         r"Pricing: \$3,500 / month SaaS  or  \$35,000 perpetual license / MW",
+         "ROI: Payback in <3.8 months via avoided stack replacement",
          "#059669"),
         ("TIER 3 | TURNKEY DFM CAD & FABRICATION LICENSE",
          "Complete SolidWorks 2025 SP1.2 3D B-Rep assembly (.SLDASM, .STEP), AutoCAD ISO A1 shop drawings (.DWG, .PDF), ASME UG-27 calculations, welding BOM.",
-         r"Pricing: \$45,000 / INR 37.5 Lakh per plant design license",
+         r"Pricing: \$85,000 / INR 71.0 Lakh per 5 MW design license",
          "Target: EPC Contractors (L&T, Technip, Adani New Industries)",
          "#D97706")
     ]
@@ -754,19 +749,15 @@ def generate_fig8():
                                       facecolor='#F8FAFC', edgecolor='#CBD5E1', linewidth=1.0)
         ax1.add_patch(rect)
 
-        ribbon = patches.Rectangle((0.022, y_top - 0.01), 0.956, 0.01,
-                                   facecolor=col, edgecolor='none')
-        ax1.add_patch(ribbon)
-
         ax1.text(0.05, y_top - 0.028, title, va='top', fontsize=9.8, fontweight='bold', color='#0F172A')
 
         scope_wrapped = "\n".join(textwrap.wrap(scope, width=62))
         ax1.text(0.05, y_top - 0.072, scope_wrapped, va='top', fontsize=8.2, color='#334155', linespacing=1.2)
 
         ax1.text(0.05, y_top - 0.170, price, va='top', fontsize=8.2, fontfamily='monospace',
-                 fontweight='bold', color=col)
+                 fontweight='bold', color='#0F172A')
 
-        ax1.text(0.05, y_top - 0.205, roi, va='top', fontsize=8.0, color='#0F172A')
+        ax1.text(0.05, y_top - 0.205, roi, va='top', fontsize=8.0, color='#334155')
 
     # Right: ROI Payback Curve for 5 MW Industrial Plant
     for spine in ax2.spines.values():
@@ -774,9 +765,9 @@ def generate_fig8():
         spine.set_linewidth(1.0)
 
     months = np.arange(0, 25)
-    baseline_cost = 45.0 * months
-    pibt_cost = 32.5 + 2.5 * months
-    savings = 420.0 * (1 - np.exp(-months / 12.0))
+    baseline_cost = 52.0 * months
+    pibt_cost = 28.5 + 3.5 * months
+    savings = 420.0 * (1 - np.exp(-months / 10.0)) + 21.0 * months
     net_benefit = savings - pibt_cost
 
     ax2.plot(months, baseline_cost, color='#EF4444', linewidth=2.0, linestyle='--',
@@ -787,19 +778,19 @@ def generate_fig8():
              label='Net Client Cumulative Cash Savings')
 
     ax2.axhline(0, color='#94A3B8', linestyle=':', linewidth=1.0)
-    ax2.axvline(4.8, color='#D97706', linestyle=':', linewidth=1.5,
-                label='Breakeven Payback: 4.8 Months')
+    ax2.axvline(3.8, color='#D97706', linestyle=':', linewidth=1.5,
+                label='Breakeven Payback: 3.8 Months')
 
-    ax2.scatter([4.8], [0.0], color='#D97706', s=70, zorder=5, edgecolor='#0F172A', lw=1.2)
-    ax2.annotate('Breakeven: Month 4.8\nTotal 2-Yr Net Benefit: $290,000',
-                 xy=(4.8, 0.0), xytext=(8.0, 80.0),
+    ax2.scatter([3.8], [0.0], color='#D97706', s=70, zorder=5, edgecolor='#0F172A', lw=1.2)
+    ax2.annotate('Breakeven: Month 3.8\nTotal 2-Yr Net Benefit: $559,500',
+                 xy=(3.8, 0.0), xytext=(6.5, 95.0),
                  arrowprops=dict(facecolor='#0284C7', edgecolor='#0284C7', shrink=0.08, width=1.0, headwidth=5),
                  fontsize=8.5, color='#0F172A', fontfamily='monospace',
                  bbox=dict(boxstyle='round,pad=0.4', facecolor='#FFFBEB', edgecolor='#D97706', lw=1.0))
 
     ax2.set_xlabel('Operational Duty (Months)', fontsize=10.5, fontweight='bold', color='#0F172A', labelpad=8)
     ax2.set_ylabel('Cumulative Financial Impact ($1,000 USD)', fontsize=10.5, fontweight='bold', color='#0F172A', labelpad=8)
-    ax2.set_title('Customer ROI Payback Model (5 MW Green Hydrogen Facility)\nNet Positive Payback Reached in Month 4.8 | 2-Year ROI = 485%',
+    ax2.set_title('Customer ROI Payback Model (5 MW Green Hydrogen Facility)\nNet Positive Payback Reached in Month 3.8 | 2-Year ROI = 497%',
                   fontsize=11, fontweight='bold', color='#0F172A', pad=12)
     ax2.tick_params(colors='#334155', labelsize=9.5)
     ax2.grid(True, linestyle='--', alpha=0.4, color='#E2E8F0')
