@@ -85,7 +85,7 @@ Plotted via AutoCAD 2025 Accoreconsole (`DWG To PDF.pc3`, monochrome ctb, vector
 
 | Tag | Equipment Subsystem | Design Capacity & Mechanical Specifications | Design Code / MOC |
 | :--- | :--- | :--- | :--- |
-| **STR-100** | Structural Mezzanine & Pipe Rack | 12.0 &times; 8.0 &times; 5.8 m ISMB 300 steel frame, deck grating, OSHA handrails | IS 800 / AISC 360 |
+| **STR-100** | Structural Mezzanine & Pipe Rack | 12.0 &times; 8.0 &times; 5.8 m ISMB 300 steel frame, deck grating, Statutory handrails | IS 800 / AISC 360 |
 | **EL-200** | Commercial Electrolyzer Bay | 4&times; 50-cell multi-stack array, 5000A solid copper busways | ASME Sec VIII / ASTM B265 Ti Gr 2 |
 | **V-300** | HP Hydrogen Knockout Drum | &Oslash;700 &times; 2650 mm, 30 bar, demister pad, level bridle, PSV | ASME Sec VIII Div 1 (SA-240 316L, 12mm) |
 | **V-400** | Anode O2 Cyclone Degasser | &Oslash;800 &times; 2800 mm cyclone, tangential swirl, 6.2 m vent stack | ASME Sec VIII / API 520 (316L SS) |

@@ -2,7 +2,7 @@
   "metadata": {
     "facility_name": "HYDROSENSE\u2122 100 TPD Turnkey Commercial Green Hydrogen Production Plant",
     "document_ref": "H2-ENG-2026-COMM-001",
-    "generated_at": "2026-11-06T07:07:50.024053+00:00",
+    "generated_at": "2026-11-06T08:10:05.369444+00:00",
     "generator_script": "code/engineering_standards/generate_engineering_manifest.py",
     "standards_compliance": [
       "ASME BPVC Sec VIII Div 1 (UG-27 & UG-32)",
@@ -132,7 +132,7 @@
           "item": "Bipolar Flow-Field Plates",
           "qty": 11,
           "material": "ASTM B265 Grade 2 Titanium",
-          "spec": "Progressive-die formed serpentine flow field + cooling fins"
+          "spec": "Stamped serpentine flow field + cooling fins"
         },
         {
           "item": "Nafion 115 MEA + EPDM Frames",
@@ -188,7 +188,7 @@
       "tag": "STR-100",
       "name": "Unit 100: Structural Mezzanine & Pipe Rack Skid",
       "category": "Structural Heavy Civil & Skids",
-      "standard": "IS 800:2007 / ASTM A36 / OSHA 1910.23",
+      "standard": "The Factories Act, 1948 (Sec 32/33) & IS 800:2007",
       "bounding_box": {
         "min": [
           -5.2,
@@ -266,14 +266,14 @@
           "spec": "9.4m x 2.0m x 4mm anti-slip checkered plate"
         },
         {
-          "item": "OSHA Handrails & Toeboard",
+          "item": "Statutory Handrails & Toeboard (The Factories Act, 1948 Sec 32)",
           "qty": 1,
           "material": "Carbon Steel Yellow Enamel",
           "spec": "32mm OD tubular rails (top 1.05m, mid 0.55m, 100mm toeboard)"
         }
       ],
       "governing_calculations": {
-        "code_clause": "IS 800:2007 Cl. 5.6.1 & OSHA 1910.23",
+        "code_clause": "IS 800:2007 Cl. 5.6.1 & The Factories Act, 1948 (Sec 32)",
         "formula": "delta_max = (5 * w * L^4) / (384 * E * I) <= L / 350",
         "computed_value": "11.8 mm deflection (Code limit: 22.8 mm, Factor of Safety: 1.93)",
         "script_source": "code/engineering_standards/run_full_engineering_audit.py:L48"

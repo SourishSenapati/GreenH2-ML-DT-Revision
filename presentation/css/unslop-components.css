@@ -1033,3 +1033,157 @@ input[type=range] {
 
 
 
+
+/* =========================================================================
+   Scope Interactive Controls & Physics Decomposition Panel
+   ========================================================================= */
+.scope-controls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  background: var(--bg-wash);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+@media (max-width: 900px) {
+  .scope-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 500px) {
+  .scope-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.scope-slider-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.scope-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.scope-slider-label {
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.scope-slider-val {
+  color: #0F172A;
+  font-weight: 800;
+  background: #FFFFFF;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #CBD5E1;
+}
+
+.scope-slider-item input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 3px;
+  background: #E2E8F0;
+}
+
+.scope-math-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: var(--space-3);
+}
+@media (max-width: 900px) {
+  .scope-math-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scope-math-cell {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 4px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+}
+.scope-math-sym {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.scope-math-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0F172A;
+  margin-top: 2px;
+}
+
+/* Bayesian Posterior Progress Bar */
+.posterior-container {
+  background: #E2E8F0;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 6px 0;
+  border: 1px solid #CBD5E1;
+}
+.posterior-bar {
+  height: 100%;
+  width: 2.1%;
+  background: #059669;
+  transition: width 0.15s ease, background-color 0.15s ease;
+}
+
+/* Commercial SOW & SLA Contract Modal */
+#commercialModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  z-index: 2100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+#commercialModal.active {
+  display: flex;
+}
+.commercial-modal-card {
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.commercial-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-5);
+  background: var(--bg-wash);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.commercial-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-6);
+}

@@ -100,8 +100,8 @@ const plantCatalog = {
     name: 'Unit 100: Structural Mezzanine & Pipe Rack Skid',
     tag: 'STR-100',
     category: 'Structural Heavy Civil & Skids',
-    standard: 'IS 800:2007 / ASTM A36 / OSHA 1910.23',
-    spec: 'ISMB 300 Columns (12.0m L x 8.0m W x 5.8m H), Galvanized Checkered Deck, OSHA Safety Yellow Handrails, 4-Bolt Baseplates with M24 Anchor J-Bolts, Heavy Overhead Pipe Rack Stanchions.',
+    standard: 'The Factories Act, 1948 (Sec 32/33) & IS 800:2007',
+    spec: 'ISMB 300 Columns (12.0m L x 8.0m W x 5.8m H), Galvanized Checkered Deck, Statutory Safety Yellow Handrails (The Factories Act, 1948 Sec 32), 4-Bolt Baseplates with M24 Anchor J-Bolts, Heavy Overhead Pipe Rack Stanchions.',
     dimensions: '12.0m L × 8.0m W × 5.8m H (Tare: 14.8 Tonnes)',
     duty: 'Structural foundation supporting 4x high-pressure electrolyzer stacks (30 bar) and overhead interconnecting process fluid headers.',
     opParams: {
@@ -361,7 +361,7 @@ const matLib = {
     roughness: 0.28,
     metalness: 0.85
   }),
-  oshaYellow: new THREE.MeshStandardMaterial({
+  safetyYellow: new THREE.MeshStandardMaterial({
     color: 0xF59E0B,
     roughness: 0.35,
     metalness: 0.15
@@ -685,23 +685,23 @@ function buildAllSubsystems() {
 
   // Kick-plate (toeboard 100mm)
   [-3.0, 3.0].forEach(cz => {
-    const kick = makeMesh(new THREE.BoxGeometry(9.4, 0.10, 0.02), matLib.oshaYellow);
+    const kick = makeMesh(new THREE.BoxGeometry(9.4, 0.10, 0.02), matLib.safetyYellow);
     kick.position.set(0, 4.43, cz);
     strGrp.add(kick);
 
-    // OSHA Safety Yellow Handrails
-    const topRail = makeMesh(new THREE.CylinderGeometry(0.022, 0.022, 9.4, 12), matLib.oshaYellow);
+    // Statutory Safety Yellow Handrails (The Factories Act, 1948 Sec 32)
+    const topRail = makeMesh(new THREE.CylinderGeometry(0.022, 0.022, 9.4, 12), matLib.safetyYellow);
     topRail.rotation.z = Math.PI / 2;
     topRail.position.set(0, 5.40, cz);
     strGrp.add(topRail);
 
-    const midRail = makeMesh(new THREE.CylinderGeometry(0.018, 0.018, 9.4, 12), matLib.oshaYellow);
+    const midRail = makeMesh(new THREE.CylinderGeometry(0.018, 0.018, 9.4, 12), matLib.safetyYellow);
     midRail.rotation.z = Math.PI / 2;
     midRail.position.set(0, 4.88, cz);
     strGrp.add(midRail);
 
     colXs.forEach(px => {
-      const post = makeMesh(new THREE.CylinderGeometry(0.024, 0.024, 1.05, 12), matLib.oshaYellow);
+      const post = makeMesh(new THREE.CylinderGeometry(0.024, 0.024, 1.05, 12), matLib.safetyYellow);
       post.position.set(px, 4.88, cz);
       strGrp.add(post);
     });
@@ -1375,7 +1375,7 @@ const MAT_SPEC_LABELS = {
   'STRUCTURAL_SLATE_IS800': 'IS 800:2007 / ASTM A36 Heavy Structural Steel Section (ISMB 300)',
   'STRUCTURAL_BLUE_EPOXY': 'IS 2062 Structural Steel + Marine Epoxy Coating (RAL 5015)',
   'DECK_GALVANIZED': 'Hot-Dip Galvanized Checkered Anti-Slip Walkway Grating (85 µm Zn)',
-  'SAFETY_YELLOW_OSHA': 'OSHA 1910.23 Safety Yellow Powder-Coated Tubular Guardrail',
+  'SAFETY_YELLOW_OSHA': 'The Factories Act, 1948 (Sec 32) & IS 800:2007 Safety Yellow Guardrail',
   'SAFETY_RED_VALVE': 'ASME Section VIII Angle PSV / Class 2500 High-Pressure Enamel Red',
   'MOTOR_IEC_BLUE': 'IEC 60034 Ex d IIC T4 Cast-Iron Finned Drive Motor Housing',
   'COPPER_BUSBAR': 'C11000 Electrolytic Tough Pitch (ETP) 5,000A Solid Copper Busbar',

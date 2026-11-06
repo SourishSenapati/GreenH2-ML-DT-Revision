@@ -118,7 +118,7 @@ def build_unit_100_structural():
     deck.apply_translation([0, 4.36, 0])
     meshes.append(deck)
 
-    # OSHA Handrails (1.1m H)
+    # Statutory Handrails (1.1m H)
     hr_top1 = box(extents=[10.4, 0.04, 0.04])
     hr_top1.apply_translation([0, 5.46, -3.2])
     hr_top2 = box(extents=[10.4, 0.04, 0.04])

@@ -280,7 +280,7 @@ def build_stk010_10cell_pem_stack(sw):
 def build_str100_structural_mezzanine(sw):
     """
     Unit 100: Structural Steel Mezzanine Platform (+4.200m TOC), Overhead Pipe Rack (+5.800m),
-    Access Staircase, OSHA 3-Tier Handrails, and 5-Ton Maintenance Monorail Hoist Gantry (+6.450m).
+    Access Staircase, Statutory 3-Tier Handrails, and 5-Ton Maintenance Monorail Hoist Gantry (+6.450m).
     """
     ctx = SWModelContext(sw, "STR-100")
 
@@ -334,19 +334,19 @@ def build_str100_structural_mezzanine(sw):
     ctx.box(-5.20, 4.180, 1.05, 5.20, 4.205, 3.20, "DECK_GALVANIZED", "Mezzanine_Deck_South")
     ctx.box(-5.20, 4.180, -1.05, 5.20, 4.205, 1.05, "DECK_GALVANIZED", "Mezzanine_Deck_Center_Bay")
 
-    # 4. OSHA 1910.29 3-Tier Safety Yellow Handrails & Kickplates around Mezzanine Perimeter
+    # 4. The Factories Act, 1948 (Sec 32) 3-Tier Safety Yellow Handrails & Kickplates around Mezzanine Perimeter
     for cz in (-3.20, 3.20):
-        ctx.cyl_x(5.300, cz, 0.022, -5.20, 5.20, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_Top")
-        ctx.cyl_x(4.750, cz, 0.018, -5.20, 5.20, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_Mid")
-        ctx.box(-5.20, 4.205, cz - 0.008, 5.20, 4.355, cz + 0.008, "SAFETY_YELLOW_OSHA", "OSHA_Toeboard_Kickplate")
+        ctx.cyl_x(5.300, cz, 0.022, -5.20, 5.20, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_Top")
+        ctx.cyl_x(4.750, cz, 0.018, -5.20, 5.20, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_Mid")
+        ctx.box(-5.20, 4.205, cz - 0.008, 5.20, 4.355, cz + 0.008, "SAFETY_YELLOW_Statutory", "Statutory_Toeboard_Kickplate")
         for px in [-5.20, -3.40, -1.80, 0.00, 1.80, 3.40, 5.20]:
-            ctx.cyl_y(px, cz, 0.022, 4.205, 5.320, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_Post")
+            ctx.cyl_y(px, cz, 0.022, 4.205, 5.320, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_Post")
 
     # East & West Side Handrails (leaving stair opening on West Z = +1.20..+2.80)
-    ctx.cyl_z(5.20, 5.300, 0.022, -3.20, 3.20, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_East_Top")
-    ctx.cyl_z(5.20, 4.750, 0.018, -3.20, 3.20, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_East_Mid")
-    ctx.cyl_z(-5.20, 5.300, 0.022, -3.20, 1.20, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_West_Top")
-    ctx.cyl_z(-5.20, 4.750, 0.018, -3.20, 1.20, "SAFETY_YELLOW_OSHA", "OSHA_Handrail_West_Mid")
+    ctx.cyl_z(5.20, 5.300, 0.022, -3.20, 3.20, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_East_Top")
+    ctx.cyl_z(5.20, 4.750, 0.018, -3.20, 3.20, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_East_Mid")
+    ctx.cyl_z(-5.20, 5.300, 0.022, -3.20, 1.20, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_West_Top")
+    ctx.cyl_z(-5.20, 4.750, 0.018, -3.20, 1.20, "SAFETY_YELLOW_Statutory", "Statutory_Handrail_West_Mid")
 
     # 5. Inclined Industrial Access Staircase on West Side (X = -5.95..-5.20, Z = -2.20..+1.80, Y = 0.00..4.20)
     for sx in (-5.92, -5.24):
@@ -363,7 +363,7 @@ def build_str100_structural_mezzanine(sw):
             (1.68, 5.20),
             (1.68, 5.15),
         ]
-        ctx.prism_x(rail_zy, sx - 0.018, sx + 0.018, "SAFETY_YELLOW_OSHA", "Stair_Safety_Handrail")
+        ctx.prism_x(rail_zy, sx - 0.018, sx + 0.018, "SAFETY_YELLOW_Statutory", "Stair_Safety_Handrail")
 
     for step_i in range(14):
         frac = (step_i + 0.5) / 14.0
@@ -380,11 +380,11 @@ def build_str100_structural_mezzanine(sw):
                     mat="STRUCTURAL_SLATE_IS800", subtag="Gantry_Crossbeam")
 
     ctx.ibeam_x(6.530, 0.000, -4.20, 4.20, depth=0.220, width=0.120,
-                mat="SAFETY_YELLOW_OSHA", subtag="Monorail_5Ton_Hoist_Beam")
+                mat="SAFETY_YELLOW_Statutory", subtag="Monorail_5Ton_Hoist_Beam")
     # Electric Chain Hoist Trolley & Hook Block at X = 0.00
     ctx.box(-0.22, 6.120, -0.16, 0.22, 6.320, 0.16, "MOTOR_IEC_BLUE", "Electric_5Ton_Chain_Hoist")
     ctx.cyl_y(0.00, 0.00, 0.018, 5.820, 6.120, "FLANGE_FORGED_SS", "Hoist_Load_Chain")
-    ctx.box(-0.07, 5.720, -0.05, 0.07, 5.820, 0.05, "SAFETY_YELLOW_OSHA", "Hoist_Hook_Block")
+    ctx.box(-0.07, 5.720, -0.05, 0.07, 5.820, 0.05, "SAFETY_YELLOW_Statutory", "Hoist_Hook_Block")
 
     return ctx
 
@@ -645,7 +645,7 @@ def build_dr500_deoxo_tsa_dryers(sw):
     ctx.box(0.700, 3.550, dz - 0.11, 1.750, 3.720, dz + 0.11, "FLANGE_FORGED_SS", "TSA_Upper_4Way_Valve_Manifold")
     ctx.box(0.700, 0.280, dz - 0.11, 1.750, 0.440, dz + 0.11, "FLANGE_FORGED_SS", "TSA_Lower_4Way_Valve_Manifold")
     for ax in (0.850, 1.225, 1.600):
-        ctx.cyl_y(ax, dz, 0.095, 3.720, 3.940, "SAFETY_YELLOW_OSHA", "Pneumatic_Switchover_Actuator")
+        ctx.cyl_y(ax, dz, 0.095, 3.720, 3.940, "SAFETY_YELLOW_Statutory", "Pneumatic_Switchover_Actuator")
         ctx.box(ax - 0.045, 3.740, dz - 0.16, ax + 0.045, 3.860, dz - 0.10,
                 "SIEMENS_PETROL_TEAL", "Siemens_SIPART_PS2_Positioner")
 
@@ -759,10 +759,10 @@ def build_cmp700_diaphragm_compressor(sw):
         # Interstage finned-tube gas cooler coil above each diaphragm head
         ctx.cyl_x(1.080, hz, 0.065, -4.45, -3.55, "SS316L_POLISHED", f"{st_name}_Intercooler_Shell")
 
-    # 4. 65 kW Explosion-Proof ATEX Zone 1 Finned IEC VFD Drive Motor + OSHA Yellow Belt Guard
+    # 4. 65 kW Explosion-Proof ATEX Zone 1 Finned IEC VFD Drive Motor + Statutory Yellow Belt Guard
     ctx.iec_motor_x(cy=0.580, cz=cz, x_start=-3.25, x_dir=1, r_body=0.230, length=0.620,
                     mat="MOTOR_IEC_BLUE", subtag="CMP700_65kW_ATEX_Drive_Motor")
-    ctx.box(-3.38, 0.220, 1.78, -3.24, 0.920, 2.62, "SAFETY_YELLOW_OSHA", "CMP700_Flywheel_Coupling_Guard")
+    ctx.box(-3.38, 0.220, 1.78, -3.24, 0.920, 2.62, "SAFETY_YELLOW_Statutory", "CMP700_Flywheel_Coupling_Guard")
 
     # 5. Suction Pulsation Dampener Bottle at (-4.350, Z = +1.450, Y = 0.180..1.350) -> Mates with LINE-03!
     ctx.cyl_y(-4.350, 1.450, 0.125, 0.180, 1.220, "SS316L_POLISHED", "Suction_Pulsation_Dampener_30Bar")
@@ -941,14 +941,14 @@ def build_plc1000_siemens_scada(sw):
         ctx.box(4.30, 1.330, za - 0.006, 4.44, 1.345, zb + 0.006, "LED_GREEN", "WinCC_SIL2_Healthy_Bar")
 
         # Emergency Stop Mushroom Button HS-1001 + Reset Pushbuttons (Y = 1.120)
-        ctx.cyl_z(4.22, 1.120, 0.038, za - 0.010, zb + 0.010, "SAFETY_YELLOW_OSHA", "EStop_Safety_Collar")
+        ctx.cyl_z(4.22, 1.120, 0.038, za - 0.010, zb + 0.010, "SAFETY_YELLOW_Statutory", "EStop_Safety_Collar")
         ctx.cyl_z(4.22, 1.120, 0.025, za - 0.025, zb + 0.025, "SAFETY_RED_VALVE", "HS1001_SIL2_Emergency_Stop")
         ctx.cyl_z(4.38, 1.120, 0.018, za - 0.012, zb + 0.012, "LED_GREEN", "Auto_Mitigation_Active_PB")
         ctx.cyl_z(4.50, 1.120, 0.018, za - 0.012, zb + 0.012, "LED_BLUE", "PIBT_Inference_Reset_Key")
 
         # Right Bay: AERO-H2 Quantized PIBT Edge Coprocessor & SENTRON Power Analyzer (X = 4.68..5.08)
         ctx.box(4.68, 1.420, za, 5.08, 1.860, zb, "HMI_SCREEN_DARK", "AERO_H2_PIBT_Edge_Inference_Bay")
-        ctx.box(4.72, 1.150, za, 4.92, 1.320, zb, "SAFETY_YELLOW_OSHA", "Main_Isolator_Escutcheon")
+        ctx.box(4.72, 1.150, za, 4.92, 1.320, zb, "SAFETY_YELLOW_Statutory", "Main_Isolator_Escutcheon")
         ctx.box(4.79, 1.180, za - 0.015, 4.85, 1.290, zb + 0.015, "SAFETY_RED_VALVE", "Main_415V_Rotary_Disconnect")
 
     # 3. Roof-Mounted Rittal TopTherm Cooling Unit & 4-Tier LED Andon Status Tower (Y = 2.120..2.660)
@@ -1056,7 +1056,7 @@ def build_pip1100_interconnecting_piping(sw):
     ctx.industrial_valve_x(0.520, 0.950, 2.850, r_pipe=0.032, mat_body="FLANGE_FORGED_SS",
                            mat_wheel="SAFETY_RED_VALVE", subtag="XV_801_BatteryLimit_ESD_Valve")
     # Figure-8 Safety Yellow Spectacle Blind & Bolted Blind Cap at (+0.520, 0.950, +3.250)
-    ctx.box(0.420, 0.900, 3.245, 0.620, 1.160, 3.265, "SAFETY_YELLOW_OSHA", "BL_H2_EXP_01_Spectacle_Blind")
+    ctx.box(0.420, 0.900, 3.245, 0.620, 1.160, 3.265, "SAFETY_YELLOW_Statutory", "BL_H2_EXP_01_Spectacle_Blind")
     ctx.cyl_z(0.520, 0.950, 0.082, 3.265, 3.295, "FLANGE_FORGED_SS", "BL_H2_EXP_01_Class2500_Blind_Cap")
 
     # --------------------------------------------------------------------------
@@ -1130,7 +1130,7 @@ def build_pip1100_interconnecting_piping(sw):
         ],
         r_pipe=0.026, mat_pipe="PIPING_N2_AMBER", subtag="LINE09_Nitrogen_Purge_Header", end_flanges=True
     )
-    ctx.box(-5.025, 4.780, -2.260, -5.005, 4.980, -2.140, "SAFETY_YELLOW_OSHA", "BL_N2_SUP_01_Spectacle_Blind")
+    ctx.box(-5.025, 4.780, -2.260, -5.005, 4.980, -2.140, "SAFETY_YELLOW_Statutory", "BL_N2_SUP_01_Spectacle_Blind")
     ctx.cyl_x(4.850, -2.200, 0.062, -5.045, -5.025, "FLANGE_FORGED_SS", "BL_N2_SUP_01_Blind_Flange_Cap")
 
     # --------------------------------------------------------------------------

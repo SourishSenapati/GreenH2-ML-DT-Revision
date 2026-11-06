@@ -857,8 +857,8 @@
           <div>
             <div class="tier-badge-text">TIER 1 &bull; FORENSIC AUDIT</div>
             <div class="tier-title">Plant Health Audit &amp; CAE Simulation</div>
-            <div class="tier-price-tag">$28,500</div>
-            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: var(--space-3);">INR 24.0 Lakh per 5 MW Block &bull; 5-Day Turnaround</div>
+            <div class="tier-price-tag">$7,500</div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: var(--space-3);">INR 6.2 Lakh per 5 MW Block &bull; 5-Day Turnaround</div>
             <div class="tier-scope">
               Comprehensive computational electrochemical degradation audit, CFD flow field review, and ASME Section VIII vessel compliance check executed autonomously via ADVEKT CAE.
             </div>
@@ -883,8 +883,8 @@
             </ul>
           </div>
 
-          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openDeck()">
-            Review Forensic Audit Spec
+          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openCommercialModal('audit')">
+            Review Forensic Audit SOW
           </button>
         </div>
 
@@ -893,8 +893,8 @@
           <div>
             <div class="tier-badge-text">TIER 2 &bull; EDGE FIRMWARE</div>
             <div class="tier-title">AERO-H2 Edge Digital Twin Core</div>
-            <div class="tier-price-tag">$3,500 <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">/ month</span></div>
-            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: var(--space-3);">Or $35,000 / MW perpetual edge license</div>
+            <div class="tier-price-tag">$2,500 <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">/ month</span></div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: var(--space-3);">Or $25,000 / MW perpetual edge license</div>
             <div class="tier-scope">
               Quantized PIBT neural model deployed onto Siemens S7-1500F PLC, NVIDIA Jetson, or STM32 edge unit for 24/7 in-operando biofilm &amp; degradation tracking.
             </div>
@@ -923,7 +923,7 @@
             </ul>
           </div>
 
-          <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="openDeck()">
+          <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="openCommercialModal('firmware')">
             Deploy Edge Firmware SLA
           </button>
         </div>
@@ -933,8 +933,8 @@
           <div>
             <div class="tier-badge-text">TIER 3 &bull; EPC FABRICATION</div>
             <div class="tier-title">Turnkey DFM CAD &amp; Manufacturing License</div>
-            <div class="tier-price-tag">$85,000</div>
-            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: var(--space-3);">INR 71.0 Lakh per 5 MW Skid &bull; Optional $480,000 Full 100 TPD BEDP</div>
+            <div class="tier-price-tag">$45,000</div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: var(--space-3);">INR 37.5 Lakh per 5 MW Skid &bull; Optional $280,000 Full 100 TPD BEDP</div>
             <div class="tier-scope">
               Complete SolidWorks 2025 SP1.2 3D B-Rep assembly (.SLDASM, .STEP), AutoCAD ISO A1 shop drawings (.DWG, .PDF), ASME calculations, and welding BOM.
             </div>
@@ -963,7 +963,7 @@
             </ul>
           </div>
 
-          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openDeck()">
+          <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openCommercialModal('license')">
             Acquire Turnkey CAD License
           </button>
         </div>
@@ -989,7 +989,7 @@
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; background: #0F172A; color: #FFFFFF; padding: 2px 6px; border-radius: 2px;">ONLINE // 100 Hz</span>
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--text-main);">
-              EDGE-AERO-01 &bull; 10-CELL INDUSTRIAL STACK (250 cm²)
+              EDGE-AERO-01 &bull; 10-CELL INDUSTRIAL STACK (250 cm² ACTIVE AREA)
             </span>
           </div>
 
@@ -997,52 +997,130 @@
             <button class="btn btn-secondary" onclick="triggerBiofilmFault()">
               Inject Biofilm Perturbation (+58.8 mV)
             </button>
-            <button class="btn btn-primary" onclick="resetScope()">
-              Reset Telemetry Loop
+            <button class="btn btn-primary" onclick="resetScopeSimulation()">
+              Reset Simulation
             </button>
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-5);">
-          <div>
-            <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
-              <span>OSCILLOSCOPE: VOLTAGE RESIDUAL e(t) &amp; STACK POTENTIAL</span>
-              <span id="scopeStatusTag" style="color: #0F172A; font-weight: 700;">NORMAL OPERATING REGIME</span>
+        <!-- Interactive Operating Parameter Sliders -->
+        <div class="scope-controls">
+          <div class="scope-slider-item">
+            <div class="scope-slider-header">
+              <span class="scope-slider-label">Current Density (J)</span>
+              <span class="scope-slider-val" id="sliderValCurrent">2.00 A/cm²</span>
             </div>
-            <canvas id="scopeCanvas"></canvas>
+            <input type="range" id="sliderCurrent" min="0.50" max="2.50" step="0.05" value="2.00" oninput="updateStackParam('current', this.value)">
           </div>
 
+          <div class="scope-slider-item">
+            <div class="scope-slider-header">
+              <span class="scope-slider-label">Stack Temp (T)</span>
+              <span class="scope-slider-val" id="sliderValTemp">80.0 °C</span>
+            </div>
+            <input type="range" id="sliderTemp" min="50.0" max="85.0" step="1.0" value="80.0" oninput="updateStackParam('temp', this.value)">
+          </div>
+
+          <div class="scope-slider-item">
+            <div class="scope-slider-header">
+              <span class="scope-slider-label">Cathode Pressure (P)</span>
+              <span class="scope-slider-val" id="sliderValPress">30.0 bar</span>
+            </div>
+            <input type="range" id="sliderPress" min="1.0" max="35.0" step="0.5" value="30.0" oninput="updateStackParam('press', this.value)">
+          </div>
+
+          <div class="scope-slider-item">
+            <div class="scope-slider-header">
+              <span class="scope-slider-label">DI Water Feed Flow</span>
+              <span class="scope-slider-val" id="sliderValFlow">15.0 L/min</span>
+            </div>
+            <input type="range" id="sliderFlow" min="5.0" max="25.0" step="0.5" value="15.0" oninput="updateStackParam('flow', this.value)">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1.1fr; gap: var(--space-4);">
+          <!-- Oscilloscope Viewport -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
+              <div style="display: flex; gap: 12px;">
+                <span style="color: #0284C7; font-weight: 700;">&bull; Ch A: Cell Potential V_cell(t) [V]</span>
+                <span style="color: #D97706; font-weight: 700;">&bull; Ch B: Residual e(t) [mV]</span>
+              </div>
+              <span id="scopeStatusTag" style="color: #0F172A; font-weight: 700;">NORMAL OPERATING REGIME // BUTLER-VOLMER TRACKING</span>
+            </div>
+            <canvas id="scopeCanvas" style="width: 100%; height: 240px; display: block; border: 1px solid #CBD5E1; border-radius: 4px; background: #FFFFFF;"></canvas>
+          </div>
+
+          <!-- Mathematical Physics & Telemetry HUD -->
           <div style="background: var(--bg-wash); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-4); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: var(--space-2);">
-                IN-OPERANDO SENSORS
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+                  Electrochemical Term Decomposition
+                </span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #0284C7; font-weight: 700;">IN-OPERANDO 100Hz</span>
               </div>
-              <div class="data-line">
-                <span style="color: var(--text-muted);">Current Density:</span>
-                <span id="scopeCurrent" class="data-val" style="color: #0F172A;">2.00 A/cm²</span>
+
+              <!-- Mathematical Breakdown Grid -->
+              <div class="scope-math-grid" style="margin-top: 0; margin-bottom: 8px;">
+                <div class="scope-math-cell">
+                  <span class="scope-math-sym">E_rev (Nernst)</span>
+                  <span class="scope-math-val" id="calcErev">1.218 V</span>
+                </div>
+                <div class="scope-math-cell">
+                  <span class="scope-math-sym">&eta;_act (B-V)</span>
+                  <span class="scope-math-val" id="calcEtaAct">0.384 V</span>
+                </div>
+                <div class="scope-math-cell">
+                  <span class="scope-math-sym">&eta;_ohm (PTL/Mem)</span>
+                  <span class="scope-math-val" id="calcEtaOhm">0.150 V</span>
+                </div>
+                <div class="scope-math-cell">
+                  <span class="scope-math-sym">&eta;_conc (Mass)</span>
+                  <span class="scope-math-val" id="calcEtaConc">0.068 V</span>
+                </div>
+                <div class="scope-math-cell">
+                  <span class="scope-math-sym">&Delta;&eta;_biofilm</span>
+                  <span class="scope-math-val" id="calcEtaBio" style="color: var(--text-main);">0.0 mV</span>
+                </div>
+                <div class="scope-math-cell" style="background: #EFF6FF; border-color: #BFDBFE;">
+                  <span class="scope-math-sym" style="color: #0284C7;">V_cell (Meas)</span>
+                  <span class="scope-math-val" id="calcVcell" style="color: #0284C7;">1.820 V</span>
+                </div>
               </div>
-              <div class="data-line">
-                <span style="color: var(--text-muted);">DI Water Flow:</span>
-                <span id="scopeFlow" class="data-val" style="color: #0F172A;">15.0 L/min</span>
+
+              <!-- Stack Totals -->
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+                <div style="background: #FFFFFF; padding: 4px 6px; border: 1px solid #E2E8F0; border-radius: 3px;">
+                  <span style="color: #64748B;">V_stack:</span> <strong id="calcVstack" style="color: #0F172A;">18.20 V</strong>
+                </div>
+                <div style="background: #FFFFFF; padding: 4px 6px; border: 1px solid #E2E8F0; border-radius: 3px;">
+                  <span style="color: #64748B;">P_stack:</span> <strong id="calcPstack" style="color: #0F172A;">9.10 kW</strong>
+                </div>
+                <div style="background: #FFFFFF; padding: 4px 6px; border: 1px solid #E2E8F0; border-radius: 3px;">
+                  <span style="color: #64748B;">H2 Flow:</span> <strong id="calcH2Rate" style="color: #059669;">2.088 Nm³/h</strong>
+                </div>
               </div>
-              <div class="data-line">
-                <span style="color: var(--text-muted);">Stack Pressure:</span>
-                <span class="data-val" style="color: #0F172A;">30.0 bar</span>
-              </div>
-              <div class="data-line">
-                <span style="color: var(--text-muted);">Biofilm Posterior:</span>
-                <span id="scopePosterior" class="data-val" style="color: #0F172A;">0.021</span>
+
+              <!-- Bayesian Anomaly Gauge -->
+              <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 4px; padding: 8px 10px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+                  <span style="color: #64748B;">Bayesian Posterior P(Biofilm):</span>
+                  <strong id="scopePosteriorVal" style="color: #059669;">0.021 (2.1%)</strong>
+                </div>
+                <div class="posterior-container">
+                  <div class="posterior-bar" id="scopePosteriorBar"></div>
+                </div>
               </div>
             </div>
 
             <div style="padding: 8px 10px; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 2px; font-size: 11.5px; color: #334155;" id="scopeTripNote">
-              <strong>Mitigation Interlock:</strong> Proactive DI pulse engages at P(F) &ge; 0.95.
+              <strong>Mitigation Interlock:</strong> Automated DI pulse trigger at P(Biofilm) &ge; 0.950. Latency benchmark: &lt;1.40s.
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </div></section>
 
   <!-- =========================================================================
        10. ENTERPRISE ENGINEERING FOOTER
@@ -1174,7 +1252,26 @@
     </div>
   </div>
 
-  <!-- =========================================================================
+    <!-- =========================================================================
+       11C. COMMERCIAL STATEMENT OF WORK (SOW) & SLA CONTRACT MODAL
+       ========================================================================= -->
+  <div id="commercialModal" class="modal-backdrop" onclick="closeCommercialModal(event)">
+    <div class="commercial-modal-card" onclick="event.stopPropagation()">
+      <div class="commercial-modal-head">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="status-dot"></span>
+          <span style="font-weight: 700; font-size: 14px; color: var(--text-main);">Commercial SOW, SLA Terms &amp; Indian Statutory Governance</span>
+          <span class="tag-badge">ASD-STM100 SPEC</span>
+        </div>
+        <button class="close-btn" onclick="closeCommercialModal()">&times;</button>
+      </div>
+      <div class="commercial-modal-body" id="commercialModalBody">
+        <!-- Injected via commercial-modal.js based on active tier tab -->
+      </div>
+    </div>
+  </div>
+
+<!-- =========================================================================
        12. 15-SLIDE PRESENTATION DECK MODAL (ARCHITECTURAL LIGHT MODE)
        ========================================================================= -->
   <div id="deckOverlay">
@@ -1183,7 +1280,7 @@
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="status-dot"></span>
           <span style="font-weight: 700; font-size: 13.5px; color: var(--text-main);">HYDROSENSE&trade; RESEARCH &amp; COMMERCIAL DEFENSE DECK</span>
-          <span class="tag-badge" id="slideBadge">Slide 1 / 15</span>
+          <span class="tag-badge" id="deckSlideCount">Slide 1 / 15</span>
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -1193,7 +1290,7 @@
         </div>
       </div>
 
-      <div class="deck-content-box" id="deckSlideBox">
+      <div class="deck-content-box" id="deckSlideContent">
         <!-- Injected via deck-modal.js based on active slide -->
       </div>
     </div>
@@ -1211,6 +1308,7 @@
   <script src="js/ml-workbench.js"></script>
   <script src="js/roi-calculator.js"></script>
   <script src="js/telemetry-scope.js"></script>
+  <script src="js/commercial-modal.js"></script>
   <script src="js/deck-modal.js"></script>
   <script src="js/main.js"></script>
 </body>

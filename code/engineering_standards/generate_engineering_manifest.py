@@ -187,7 +187,7 @@ def generate_manifest():
                 "tag": "STR-100",
                 "name": "Unit 100: Structural Mezzanine & Pipe Rack Skid",
                 "category": "Structural Heavy Civil & Skids",
-                "standard": "IS 800:2007 / ASTM A36 / OSHA 1910.23",
+                "standard": "The Factories Act, 1948 (Sec 32/33) & IS 800:2007",
                 "bounding_box": {
                     "min": [-5.2, 0.0, -3.2],
                     "max": [5.2, 5.8, 3.2],
@@ -207,10 +207,10 @@ def generate_manifest():
                     {"item": "Longitudinal Girders", "qty": 2, "material": "ASTM A36 Structural", "spec": "9.6m continuous length ISMB 300"},
                     {"item": "Transverse Girders", "qty": 4, "material": "ASTM A36 Structural", "spec": "6.0m cross span ISMB 300"},
                     {"item": "Checkered Walkway Deck", "qty": 2, "material": "Galvanized Steel", "spec": "9.4m x 2.0m x 4mm anti-slip checkered plate"},
-                    {"item": "OSHA Handrails & Toeboard", "qty": 1, "material": "Carbon Steel Yellow Enamel", "spec": "32mm OD tubular rails (top 1.05m, mid 0.55m, 100mm toeboard)"}
+                    {"item": "Statutory Handrails & Toeboard (The Factories Act, 1948 Sec 32)", "qty": 1, "material": "Carbon Steel Yellow Enamel", "spec": "32mm OD tubular rails (top 1.05m, mid 0.55m, 100mm toeboard)"}
                 ],
                 "governing_calculations": {
-                    "code_clause": "IS 800:2007 Cl. 5.6.1 & OSHA 1910.23",
+                    "code_clause": "IS 800:2007 Cl. 5.6.1 & The Factories Act, 1948 (Sec 32)",
                     "formula": "delta_max = (5 * w * L^4) / (384 * E * I) <= L / 350",
                     "computed_value": "11.8 mm deflection (Code limit: 22.8 mm, Factor of Safety: 1.93)",
                     "script_source": "code/engineering_standards/run_full_engineering_audit.py:L48"
