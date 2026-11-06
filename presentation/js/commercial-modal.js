@@ -11,11 +11,16 @@ const commercialTiersData = {
   audit: {
     tag: 'TIER 1 / FORENSIC AUDIT & CAE SIMULATION',
     title: '5-Day Plant Health Audit & Multi-Physics Diagnostic Dossier',
-    priceINR: '₹6,50,000 INR',
-    priceUSD: '$7,800 USD',
+    priceINR: '₹6,20,000 INR per 5 MW Block',
+    priceUSD: '$7,500 USD',
     term: 'Fixed-Price Milestone Delivery / 5 Business Days Turnaround',
     target: 'Brownfield PEM & Chlor-Alkali Facilities (IOCL, BPCL, HMEL, Grasim, DCM Shriram, Tata Steel)',
-    summary: 'Comprehensive forensic analysis of unmitigated cell voltage climb, parasitic OER/HER degradation, and CFD multi-phase flow distribution executed autonomously via the ADVEKT CAE engine.',
+    summary: 'Deterministic computational audit of unmitigated cell voltage climb, parasitic degradation, and two-phase flow distribution executed autonomously via the ADVEKT CAE engine.',
+    usp: 'Non-Destructive In-Operando Diagnostic: Isolates catalyst kinetic degradation from biological membrane fouling without pulling the stack offline or purchasing $80,000 lab EIS hardware.',
+    scopeBoundary: {
+      weDeliver: '25-page PE-ready forensic engineering dossier, Tafel slope & ECSA loss attribution curves, ASME Sec VIII UG-27 shell thickness validation, and 1-hour engineering debrief.',
+      clientProvides: '100 hours of continuous SCADA operational logs (CSV/OPC-UA), stack technical datasheet, P&ID, and plant operational history. No on-site teardown required.'
+    },
     milestones: [
       {
         day: 'Day 1',
@@ -50,7 +55,7 @@ const commercialTiersData = {
     ],
     deliverables: [
       'Full 25-Page Deterministic Forensic Engineering Dossier (PDF).',
-      'ASME Section VIII Div 1 UG-27 vessel thickness & MAWP certification calculation sheets.',
+      'ASME Section VIII Div 1 UG-27 vessel thickness & MAWP verification calculation sheets.',
       'Tafel slope & electrochemical active surface area (ECSA) degradation attribution curve.',
       '1-Hour video debrief with Lead Chemical & Systems Engineers.'
     ]
@@ -61,9 +66,14 @@ const commercialTiersData = {
     title: 'AERO-H2 Real-Time Edge Digital Twin Core Software License',
     priceINR: '₹2,10,000 INR / month',
     priceUSD: '$2,500 USD / month',
-    term: 'Annual SaaS Subscription or ₹25,00,000 INR ($30,000 USD) Perpetual License per 5 MW Skid',
+    term: 'Annual SaaS Subscription or ₹21,00,000 INR ($25,000 USD) Perpetual License per MW',
     target: 'Industrial Green Hydrogen Skid OEMs & Heavy Chemical Plant Operators',
     summary: 'Quantized Physics-Informed Butler-Volmer Transformer (PIBT) neural inference engine running locally on Siemens S7-1500F PLC, NVIDIA Jetson, or STM32 MCU for 24/7 in-operando health tracking.',
+    usp: 'Sub-1.4s Biofilm vs Kinetic Decoupling: Real-time detection of biological EPS biofilm resistance triggering automated DI water pulses, extending stack life by +39.4% and saving $420,000 per overhaul.',
+    scopeBoundary: {
+      weDeliver: 'Containerized C++/ONNX inference runtime binaries, sub-1.4s biofilm anomaly trip interlock, Modbus TCP/OPC-UA drivers, 99.9% uptime software SLA, and quarterly model updates.',
+      clientProvides: 'Target edge host hardware (Siemens S7-1500F, IPC, or Jetson), SCADA register mapping access, and physical DI flush solenoid valve hookup.'
+    },
     milestones: [
       {
         day: 'Milestone 1',
@@ -102,11 +112,16 @@ const commercialTiersData = {
   license: {
     tag: 'TIER 3 / TURNKEY DFM CAD & BEDP LICENSE',
     title: 'Turnkey DFM CAD, Engineering Calculations & Manufacturing Package',
-    priceINR: '₹42,00,000 INR per 5 MW Skid',
-    priceUSD: '$50,000 USD per 5 MW Skid',
+    priceINR: '₹37,50,000 INR per 5 MW Skid',
+    priceUSD: '$45,000 USD per 5 MW Skid',
     term: 'One-Time Non-Exclusive EPC Fabrication License (Optional ₹2.35 Cr / $280,000 Full 100 TPD BEDP)',
     target: 'EPC Contractors & Heavy Fabricators (Larsen & Toubro, Technip Energies, ThyssenKrupp, BHEL, Adani)',
     summary: 'Complete engineering manufacturing package including native SolidWorks 2025 SP1.2 3D assemblies, AutoCAD 2025 ISO A1 production shop drawings, ASME vessel design calculations, and complete welding BOM.',
+    usp: 'Turnkey DFM Reality: 100% SolidWorks B-Rep assembly with verified ASTM B265 titanium plate progressive stamping tooling (<18% thinning) and ASME/IS 800 structural compliance.',
+    scopeBoundary: {
+      weDeliver: 'Full native SolidWorks 2025 assembly (.SLDASM, .STEP, .GLB), AutoCAD ISO A1 shop DWGs, ASME Sec VIII calculation sheets, and complete procurement BOM.',
+      clientProvides: 'Physical raw material procurement (Ti plates, stainless steel, Nafion rolls), workshop stamping/machining, structural steel erection, and hydrostatic pressure testing.'
+    },
     milestones: [
       {
         day: 'Phase 1',

@@ -720,23 +720,23 @@ def generate_fig8():
 
     ax1.text(0.5, 0.98, "ASD-STM100 COMMERCIAL SERVICE DELIVERY PORTFOLIO",
              ha='center', va='top', fontsize=12, fontweight='bold', color='#0F172A')
-    ax1.text(0.5, 0.925, "Governed by Capital-Compounding & Zero-Loss Charter (Zero Cash Burn, High-Margin Digital Delivery)",
+    ax1.text(0.5, 0.925, "Deterministic Engineering Delivery: Verified ML Diagnostics, Edge Firmware & SolidWorks DFM Packages",
              ha='center', va='top', fontsize=8.5, color='#64748B')
 
     tiers = [
         ("TIER 1 | PLANT HEALTH AUDIT & CAE SIMULATION",
          "Baseline electrochemical degradation audit, CFD flow field analysis, and ASME Section VIII vessel compliance check via autonomous ADVEKT CAE.",
-         r"Pricing: \$28,500 / INR 24.0 Lakh per 5 MW audit",
+         r"Pricing: \$7,500 / INR 6.2 Lakh per 5 MW audit",
          "Turnaround: 5 business days remote digital delivery",
          "#0284C7"),
         ("TIER 2 | 'AERO-H2' EDGE DIGITAL TWIN FIRMWARE",
          "Quantized PIBT neural model deployed onto Siemens S7-1500F PLC / NVIDIA Jetson / STM32 edge unit for 24/7 in-operando biofilm & voltage tracking.",
-         r"Pricing: \$3,500 / month SaaS  or  \$35,000 perpetual license / MW",
+         r"Pricing: \$2,500 / month SaaS  or  \$25,000 perpetual license / MW",
          "ROI: Payback in <3.8 months via avoided stack replacement",
          "#059669"),
         ("TIER 3 | TURNKEY DFM CAD & FABRICATION LICENSE",
          "Complete SolidWorks 2025 SP1.2 3D B-Rep assembly (.SLDASM, .STEP), AutoCAD ISO A1 shop drawings (.DWG, .PDF), ASME UG-27 calculations, welding BOM.",
-         r"Pricing: \$85,000 / INR 71.0 Lakh per 5 MW design license",
+         r"Pricing: \$45,000 / INR 37.5 Lakh per 5 MW design license",
          "Target: EPC Contractors (L&T, Technip, Adani New Industries)",
          "#D97706")
     ]

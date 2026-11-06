@@ -37,7 +37,7 @@ Under the ASD-STM100 Zero-Employee & High-Margin Digital Delivery architecture, 
 |  - Scope: Non-invasive diagnostic assessment of existing electrolyzer stacks (5 MW standard block).   |
 |  - Deliverables: Comprehensive baseline decay report, CFD flow field uniformity audit, ASME Sec VIII  |
 |    vessel thickness calculation via ADVEKT, and recommended load-throttling setpoints.               |
-|  - Pricing: $28,500 USD / ₹24,00,000 INR per 5 MW multi-stack audit.                                 |
+|  - Pricing: $7,500 USD / ₹6,20,000 INR per 5 MW multi-stack audit.                                 |
 |  - Delivery Time: 5 business days remote digital delivery.                                            |
 +-------------------------------------------------------------------------------------------------------+
 |  TIER 2: "AERO-H2" EDGE DIGITAL TWIN PROGNOSTIC FIRMWARE                                             |
@@ -46,7 +46,7 @@ Under the ASD-STM100 Zero-Employee & High-Margin Digital Delivery architecture, 
 |  - Features: 24/7 in-operando voltage forecasting, Butler-Volmer constraint tracking, real-time      |
 |    biofilm detection (<1.4s latency), automated SCADA throttling triggers, and cloud telemetry dashboard.|
 |  - Pricing Model:                                                                                     |
-|    * SaaS Subscription: $3,500 USD / month ($42,000/yr) per 5 MW facility.                           |
+|    * SaaS Subscription: $2,500 USD / month (₹2,10,000 INR/mo) or $25,000 USD / MW perpetual per 5 MW facility.                           |
 |    * Perpetual Enterprise License: $35,000 USD / MW with optional annual maintenance.                |
 +-------------------------------------------------------------------------------------------------------+
 |  TIER 3: TURNKEY DFM SOLIDWORKS CAD & FABRICATION PACKAGE                                             |
@@ -56,7 +56,7 @@ Under the ASD-STM100 Zero-Employee & High-Margin Digital Delivery architecture, 
 |    * AutoCAD 2025 ISO A1 Engineering Drawings (.DWG, vector .PDF) with complete BOM schedules.       |
 |    * ADVEKT ASME Section VIII UG-27 vessel thickness & hydraulics pump sizing calculation sheets.     |
 |    * Progressive stamping tool designs for titanium bipolar plates and gasket sealing geometry.       |
-|  - Pricing: $85,000 USD / ₹71,00,000 INR per 5 MW modular skid design license.                        |
+|  - Pricing: $45,000 USD / ₹37,50,000 INR per 5 MW modular skid design license.                        |
 |    * Optional Commercial Complex License: $480,000 USD / ₹4.0 Crore INR for full 100 TPD turnkey BEDP.|
 |  - Target Buyers: EPC Contractors (L&T, Technip, Toyo, Adani), Fabricators, and Heavy Operators.     |
 +-------------------------------------------------------------------------------------------------------+

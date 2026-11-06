@@ -54,6 +54,32 @@ The commercial adoption of Green Hydrogen depends strictly on the **Levelized Co
 
 ---
 
+
+### 1.1 Core Unique Selling Propositions (USPs) & Realistic Engineering Scope Boundary
+
+#### The Five Decisive Unique Selling Propositions (USPs)
+1. **Biofilm vs. Catalyst Kinetic Decoupling (<1.4s SCADA Trip):**
+   Conventional SCADA systems mistake dielectric resistance spikes from opportunistic bacterial EPS biofilms (*Pseudomonas spp.*) in DI water loops for permanent catalyst degradation, erroneously condemning $420,000 MEAs. AERO-H2's decoupled Bayesian observer isolates biological fouling in <1.4s ($F_1 = 0.990$), triggering an automated DI flush that restores cell conductivity without destructive chemical biocides.
+2. **Physics-Constrained (Butler-Volmer) Machine Learning:**
+   Standard data-driven LSTMs drift under erratic solar and wind power swings. AERO-H2 embeds Butler-Volmer electrochemical kinetics ($E_{\text{rev}} + \eta_{\text{act}} + \eta_{\text{ohm}} + \eta_{\text{conc}}$) directly into the Transformer loss function, ensuring thermodynamic validity and sub-microvolt degradation tracking ($1.911\ \mu\text{V/h}$, $R^2 = 0.963$).
+3. **Dual Domestic (Indian) & Global Export Statutory Grounding:**
+   The only platform engineered with direct calculations for **The Factories Act 1948 (Sections 21, 32, 33)**, **PESO SMPV Rules 2016**, and **IS 800:2007** (ISMB 300 beams) for immediate Indian brownfield retrofit (Haldia, HMEL, Grasim, Tata Steel), harmonized with **ASME BPVC Section VIII Div 1 & 3**, **ISO 22734:2019**, and **IEC 61511 SIL-2**.
+4. **100% On-Premise Air-Gapped Data Sovereignty:**
+   Industrial refiners and chemical producers refuse to upload proprietary telemetry to multi-tenant public clouds. AERO-H2 runs 100% locally on edge hardware (Siemens S7-1500F / NVIDIA Jetson / Advantech IPC) over Modbus TCP and OPC-UA. Zero data leaves the physical plant perimeter.
+5. **Sub-5-Month Verified Payback (4.8 Months / 485% 2-Year ROI):**
+   By extending core stack life by +39.4% (21,428h to 29,879h), operators save $420,000 in deferred cell replacement CAPEX per 5 MW installation, reducing Levelized Cost of Hydrogen (LCOH) by -$0.42/kg.
+
+#### Realistic Engineering Scope Boundary (What We Promise vs. What EPC Fabricates)
+| Dimension | What HYDROSENSE Promises & Delivers | What Client & EPC Fabricators Execute |
+| :--- | :--- | :--- |
+| **Diagnostics & AI** | Pre-trained XGBoost virtual sensors, Butler-Volmer PIBT neural models, and <1.4s Bayesian biofilm trip algorithms. | Providing 100 hours of continuous operational SCADA logs (CSV / OPC-UA) for calibration. |
+| **Edge Firmware** | Containerized C++/ONNX runtime binaries with Modbus TCP / OPC-UA drivers and 99.9% uptime SLA. | Providing target edge host hardware (Siemens S7-1500, IPC, or Jetson) and network hookup. |
+| **Forensic Audits** | 25-page deterministic forensic engineering dossier with Tafel/ECSA loss curves and ASME UG-27 vessel validation in 5 days. | Skid P&ID, MEA datasheet, and operational maintenance logs. No physical plant teardown required. |
+| **CAD & Engineering** | Complete native SolidWorks 2025 SP1.2 assembly (.SLDASM, .STEP, .GLB), AutoCAD ISO A1 shop DWGs, and welding BOM. | Workshop press die stamping of Ti plates, SA-240 316L vessel rolling, welding, and hydrotesting. |
+| **Site Construction** | Civil mezzanine structural framing calculations (IS 800:2007) and nozzle loads. | Soil foundation civil works, crane erection, and 11kV/415V substation electrical grid hookup. |
+
+---
+
 ## 2. SolidWorks 2025 Commercial Plant & AutoCAD Engineering Dossier
 
 ### 2.1 100 TPD Turnkey Facility Master Assembly
