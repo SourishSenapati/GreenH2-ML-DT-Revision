@@ -108,6 +108,29 @@ Plotted via AutoCAD 2025 Accoreconsole (`DWG To PDF.pc3`, monochrome ctb, vector
 
 ---
 
+
+### 2.6 Interactive 3D WebGL B-Rep Model Suite (13 glTF/GLB Production Assets)
+
+Every mechanical and balance-of-plant subsystem modeled in SolidWorks 2025 SP1.2 has been exported into deterministic, high-polygon WebGL 3D B-Rep assets (`models/*.glb`) and integrated into the live interactive Three.js viewport (`js/plant-3d-scene.js`). Selecting any asset in the digital twin view isolates the component, pans the orbit camera, dims surrounding geometry, and populates the live telemetry drawer with real-time computed stress, governing equations, and BOM data.
+
+| Subsystem Tag | 3D Production Model Asset | Geometry Size | Mechanical Specifications & B-Rep Topology | Governing Standard / MOC |
+| :--- | :--- | :---: | :--- | :--- |
+| **MASTER-PLANT** | [`plant_100tpd_master_assembly.glb`](presentation/models/plant_100tpd_master_assembly.glb) | **42.1 MB** | Complete 11-subsystem 100 TPD turnkey plant skid layout (12.0m &times; 8.0m &times; 5.8m span) | IS 800:2007 / ASME Sec VIII |
+| **STK-010** | [`STK-010_10Cell_PEM_Stack.glb`](presentation/models/STK-010_10Cell_PEM_Stack.glb) | **1.8 MB** | 10-Cell B-Rep stack (320 &times; 160 &times; 136 mm) with titanium flow plates, Nafion HP MEAs, solid copper busbars | ISO 22734 / ASTM B265 Ti Gr 2 |
+| **STR-100** | [`STR-100_Structural_Mezzanine.glb`](presentation/models/STR-100_Structural_Mezzanine.glb) | **965 KB** | ISMB 300 structural columns, heavy grating, safety stairwell, 1050mm handrails with 100mm toeboard | The Factories Act 1948 / IS 800 |
+| **EL-200** | [`EL-200_Electrolyzer_Bay.glb`](presentation/models/EL-200_Electrolyzer_Bay.glb) | **2.6 MB** | 4&times; 50-cell commercial electrolyzer bay with 5000A DC copper busbar routing and fluid manifolds | ISO 22734 / ASTM B265 |
+| **V-300** | [`V-300_HP_Knockout_Drum.glb`](presentation/models/V-300_HP_Knockout_Drum.glb) | **4.4 MB** | 30-bar separator (&Oslash;700 &times; 2650 mm), 14mm SA-240 316L shell, 12mm 2:1 heads, demister pad, dual PSVs | ASME BPVC Sec VIII Div 1 UG-27 / PESO SMPV |
+| **V-400** | [`V-400_Anode_O2_Degasser.glb`](presentation/models/V-400_Anode_O2_Degasser.glb) | **4.9 MB** | Tangential swirl cyclone degasser (&Oslash;800 &times; 2800 mm) with 6.2m elevated vent stack &amp; level bridle | API 520 / 521 / SA-240 316L |
+| **DR-500** | [`DR-500_Catalytic_DeOxo_TSA.glb`](presentation/models/DR-500_Catalytic_DeOxo_TSA.glb) | **6.9 MB** | Dual-bed catalytic deoxygenator (0.5% Pd/Al2O3) + twin 13X TSA towers (&le;0.5 ppm O2, &le;-70&deg;C dewpoint) | ISO 14687:2019 Grade D |
+| **WTR-600** | [`WTR-600_Pure_Water_Treatment.glb`](presentation/models/WTR-600_Pure_Water_Treatment.glb) | **4.9 MB** | AERO-PURE Unit 650 water polishing skid (3000L tank, duplex pumps, brazed PHE chiller) | ASTM D1193 Type 1 (&gt;18.2 M&Omega;&middot;cm) |
+| **CMP-700** | [`CMP-700_Diaphragm_Compressor.glb`](presentation/models/CMP-700_Diaphragm_Compressor.glb) | **2.6 MB** | 3-stage metal diaphragm compressor (30 to 350 bar) with 65 kW explosion-proof VFD motor | API 618 5th Ed / ISO 13631 |
+| **ST-800** | [`ST-800_HP_Buffer_Storage.glb`](presentation/models/ST-800_HP_Buffer_Storage.glb) | **8.0 MB** | 4&times; 350-bar buffer accumulators on heavy structural cradle saddle racks | ASME Sec VIII Div 3 KD-250 / IS 7285 |
+| **ELE-900** | [`ELE-900_Substation_Rectifier.glb`](presentation/models/ELE-900_Substation_Rectifier.glb) | **484 KB** | 11 kV to 400 V step-down oil transformer + 5000A DC thyristor rectifier power cabinet | IEEE 519 / IEC 60146 |
+| **PLC-1000** | [`PLC-1000_Safety_PLC_Console.glb`](presentation/models/PLC-1000_Safety_PLC_Console.glb) | **284 KB** | Siemens S7-1500F fail-safe safety PLC console with 21.5" touch HMI (SIL-2 safety architecture) | IEC 61508 / IEC 61511 SIL-2 |
+| **PIP-1100** | [`PIP-1100_Process_Piping_Header.glb`](presentation/models/PIP-1100_Process_Piping_Header.glb) | **6.0 MB** | ASME B31.3 Schedule 80S interconnecting process piping manifolds, check valves, and fast ESD valves | ASME B31.3 / ASME B31.12 |
+
+---
+
 ## 3. Complete 8-Figure Scientific & Commercial Suite
 
 Every figure in this repository is 100% graph-accurate, plotted at 300 DPI publication standards, and backed by empirical datasets and rigorous electrochemical physics.
@@ -173,23 +196,48 @@ Run the master test suite:
 ```bash
 py code/engineering_standards/run_full_engineering_audit.py
 ```
-Output: Certified machine-readable dossier in [`code/engineering_standards/engineering_audit_certificate.json`](code/engineering_standards/engineering_audit_certificate.json).
+Output: Verified machine-readable dossier in [`code/engineering_standards/engineering_audit_certificate.json`](code/engineering_standards/engineering_audit_certificate.json).
 
 ---
 
-## 7. Interactive Web Defense Deck & PowerPoint Presentation
+## 7. Interactive Web Defense Deck & PowerPoint Presentation (20-Slide Master Suite)
 
-The complete 15-slide master defense suite is included directly within this repository:
+The complete 20-slide master defense suite is included directly within this repository:
 
 - **Interactive Browser Presentation:** [`presentation/index.html`](presentation/index.html)
-  - Designed under the `heydamir/unslop` doctrine: 4px grid rhythm, graphite/ink neutral ramp, quiet chrome, one technical accent, zero emojis, KaTeX mathematical equations, image zoom lightbox, and speaker notes drawer (<kbd>S</kbd>).
+  - Designed under the `heydamir/unslop` doctrine: 4px grid rhythm, graphite/ink neutral ramp, quiet chrome, one technical accent, zero emojis, KaTeX mathematical equations, image zoom lightbox, and full viewport utilization.
+  - Interactive 20-slide modal (`js/deck-modal.js`) matching the downloadable master deck 1:1.
 - **Microsoft PowerPoint Presentation:** [`presentation/Green_Hydrogen_ML_Presentation.pptx`](presentation/Green_Hydrogen_ML_Presentation.pptx)
-  - 15-slide widescreen 16:9 presentation deck with embedded speaker talking scripts, callout cards, and high-resolution figures.
+  - 20-slide widescreen 16:9 presentation deck following the website's clean, high-contrast, architectural light-theme palette with embedded speaker scripts, callout cards, empirical figures, and master CAD assemblies.
 - **Python Deck Automation:** [`presentation/generate_deck.py`](presentation/generate_deck.py)
 
 ---
 
-## 7. Engineering & Safety Documentation Index
+## 8. Dual Indian & Global Statutory Regulatory Harmonization Matrix
+
+| Sector / Domain | Indian Domestic Statutory Code | Global Cross-Border Export Equivalent | Verification Metric & Scope |
+| :--- | :--- | :--- | :--- |
+| **Structural Steel & Mezzanine** | The Factories Act, 1948 (Sec 21/32/33) &bull; IS 800:2007 | ISO 14122-1..4 &bull; EN 1090-2 (EXC2) | Handrail h=1050mm, midrail h=550mm, toeboard=100mm; max deflection 18.42mm (<L/350) |
+| **Pressure Vessels & Separators** | PESO SMPV (Unfired) Rules, 2016 (Rules 18, 19, 21) | ASME BPVC Section VIII Div 1 &bull; EU PED 2014/68/EU Mod H | Knockout Drum V-300: 14mm SA-240 316L plate, MAWP=35.28 bar, hydrotest=45.86 bar (1.3x) |
+| **350-Bar Buffer Accumulators** | PESO Gas Cylinders Rules, 2016 &bull; IS 7285 | ASME BPVC Section VIII Div 3 KD-250 &bull; ISO 11119-2 | Lame thick cylinder hoop stress &sigma;=176.2 MPa (4.88x safety margin on 860 MPa yield) |
+| **Electrolyzer Core Safety** | National Green Hydrogen Mission Draft Code | ISO 22734:2019 &bull; NFPA 2 Hydrogen Code | Differential &Delta;P=30 bar (530x pore-bridging safety margin); H2 crossover 0.262 vol% (<LEL) |
+| **Hydrogen Fuel Purity** | IS 16087:2014 Automotive Grade Purity | ISO 14687:2019 Grade D &bull; SAE J2719 | DR-500 catalytic DeOxo (O2 &le; 0.5 ppm) + twin 13X TSA molecular sieve (dewpoint &le; -70.0&deg;C) |
+| **Electrical in Hazardous Area** | IS/IEC 60079-0 / 60079-10-1 (Zone 1/2) | ATEX Directive 2014/34/EU (Ex d / Ex i) | Flameproof motor enclosures, positive pressure purging, intrinsically safe galvanic barriers |
+| **Functional Safety & Interlocks** | IS/IEC 61511 (Functional Safety SIS) | IEC 61508 / IEC 61511 SIL-2 | SIF-01 Anode crossover (PFD=0.00515, RRF=194.3); SIF-02 Stack Delta-P (PFD=0.00836) |
+| **Process Piping & Headers** | PNGRB T4S Regulations | ASME B31.3 Cat M &bull; ASME B31.12 Hydrogen Piping | Schedule 80S 316L orb-welded headers; 5000A DC copper busway routing per IEEE 519 |
+
+
+The complete 20-slide master defense suite is included directly within this repository:
+
+- **Interactive Browser Presentation:** [`presentation/index.html`](presentation/index.html)
+  - Designed under the `heydamir/unslop` doctrine: 4px grid rhythm, graphite/ink neutral ramp, quiet chrome, one technical accent, zero emojis, KaTeX mathematical equations, image zoom lightbox, and speaker notes drawer (<kbd>S</kbd>).
+- **Microsoft PowerPoint Presentation:** [`presentation/Green_Hydrogen_ML_Presentation.pptx`](presentation/Green_Hydrogen_ML_Presentation.pptx)
+  - 20-slide widescreen 16:9 presentation deck with embedded speaker talking scripts, callout cards, and high-resolution figures.
+- **Python Deck Automation:** [`presentation/generate_deck.py`](presentation/generate_deck.py)
+
+---
+
+## 9. Engineering & Safety Documentation Index
 
 - [`ADVEKT_ENGINEERING_CALCULATIONS_REPORT.md`](ADVEKT_ENGINEERING_CALCULATIONS_REPORT.md): ASME Section VIII Div 1 UG-27 shell and UG-32 2:1 head calculations, UG-99 hydrotest (39.0 bar), and process piping hydraulics (TDH = 330.6 m, NPSHa = 10.09 m).
 - [`DFM_MANUFACTURING_SPECIFICATION_MANUAL.md`](DFM_MANUFACTURING_SPECIFICATION_MANUAL.md): Complete Design for Manufacturing manual with progressive die stamping parameters ($\theta = 7.0^\circ$), CNC toolpaths, and ASME Section IX welding specs.
@@ -200,7 +248,7 @@ The complete 15-slide master defense suite is included directly within this repo
 
 ---
 
-## 8. Contact & Commercial Inquiries
+## 10. Contact & Commercial Inquiries
 
 For commercial licensing, plant diagnostic audits, or EPC fabrication agreements:
 - **Lead Chemical Engineer & Founder:** Sourish Senapati
