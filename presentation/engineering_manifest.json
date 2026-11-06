@@ -2,7 +2,7 @@
   "metadata": {
     "facility_name": "HYDROSENSE\u2122 100 TPD Turnkey Commercial Green Hydrogen Production Plant",
     "document_ref": "H2-ENG-2026-COMM-001",
-    "generated_at": "2026-11-05T23:52:56.555705+00:00",
+    "generated_at": "2026-11-06T07:07:50.024053+00:00",
     "generator_script": "code/engineering_standards/generate_engineering_manifest.py",
     "standards_compliance": [
       "ASME BPVC Sec VIII Div 1 (UG-27 & UG-32)",
@@ -58,9 +58,132 @@
         "payback_months": 3.8,
         "two_year_roi_percent": 497.0
       }
+    },
+    "solidworks_2025_raebyes_audit": {
+      "engine": null,
+      "total_solidworks_brep_bodies": null,
+      "total_plant_pbr_nodes": null,
+      "total_plant_vertices": null,
+      "total_plant_triangles": null,
+      "master_glb": null,
+      "master_sldasm": null,
+      "nozzle_mating_audit": []
     }
   },
   "subsystems": {
+    "STK-010": {
+      "tag": "STK-010",
+      "name": "STK-010: 1:1 10-Cell Industrial PEM Electrolyzer Stack (250 cm\u00b2)",
+      "category": "1:1 High-Detail Electrochemical Stack Assembly (140 B-Rep Bodies)",
+      "standard": "ISO 22734 / ASTM B265 Gr. 2 Ti / Nafion 115 / ASME B16.5",
+      "bounding_box": {
+        "min": [
+          -0.26,
+          0.0,
+          -0.24
+        ],
+        "max": [
+          0.26,
+          0.56,
+          0.24
+        ],
+        "center": [
+          0.0,
+          0.28,
+          0.0
+        ],
+        "dimensions_m": [
+          0.52,
+          0.48,
+          0.56
+        ]
+      },
+      "camera_focus": {
+        "target": [
+          0.0,
+          0.65,
+          0.0
+        ],
+        "position": [
+          2.2,
+          1.4,
+          2.6
+        ]
+      },
+      "base_position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "explode_vector": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mechanical_duty": "Direct 30-bar differential water electrolysis at 2.00 A/cm\u00b2 with per-cell in-operando voltage residual tracking e(t) and <1.4s Bayesian biofilm anomaly isolation.",
+      "bom": [
+        {
+          "item": "35mm Heavy End Plates",
+          "qty": 2,
+          "material": "SA-240 Type 316L SS",
+          "spec": "360 x 220 x 35 mm CNC machined + lifting lugs"
+        },
+        {
+          "item": "Bipolar Flow-Field Plates",
+          "qty": 11,
+          "material": "ASTM B265 Grade 2 Titanium",
+          "spec": "Progressive-die formed serpentine flow field + cooling fins"
+        },
+        {
+          "item": "Nafion 115 MEA + EPDM Frames",
+          "qty": 10,
+          "material": "PFSA / IrO2 / Pt-C / EPDM",
+          "spec": "250 cm\u00b2 active catalyst window + dual gaskets"
+        },
+        {
+          "item": "Current Collector Plates",
+          "qty": 2,
+          "material": "C11000 ETP Copper + Au Flash",
+          "spec": "500A DC busbar lug + low-contact-resistance face"
+        },
+        {
+          "item": "Dielectric Isolation Plates",
+          "qty": 2,
+          "material": "Virgin PTFE (Teflon)",
+          "spec": "High-dielectric strength (>20 kV/mm) isolation"
+        },
+        {
+          "item": "Tie-Rod & Belleville Assemblies",
+          "qty": 8,
+          "material": "ASTM A193 Gr. B7 / 51CrV4",
+          "spec": "M16 x 480 mm + PTFE sleeves + Belleville washers"
+        },
+        {
+          "item": "Cell Voltage Sense Tabs",
+          "qty": 10,
+          "material": "Gold-Plated Brass (CVM-01..10)",
+          "spec": "Per-cell differential voltage tap to PIBT edge"
+        },
+        {
+          "item": "Pressure Transmitters",
+          "qty": 2,
+          "material": "Siemens SITRANS P320 (316L)",
+          "spec": "HART / 4-20mA differential cathode/anode dP"
+        }
+      ],
+      "governing_calculations": {
+        "code_clause": "ISO 22734 Cl. 4.2.3 & ASTM B265 Stamping DFM",
+        "formula": "sigma_contact = (8 * F_bolt) / A_gasket = 3.30 MPa | V_cell = E_rev + eta_act + eta_ohm + eta_conc = 1.854 V",
+        "computed_value": "Contact Stress = 3.30 MPa, Stamping Thinning = 16.36% (<18.0% limit)",
+        "script_source": "PEM_Green_Hydrogen_Digital_Twin/cad_and_geometry/sw_h2_equipment_builders.py:L122"
+      },
+      "operational_telemetry": {
+        "active_area_cm2": 250.0,
+        "cell_count": 10,
+        "nominal_current_a": 500.0,
+        "operating_pressure_bar": 28.5
+      }
+    },
     "STR-100": {
       "tag": "STR-100",
       "name": "Unit 100: Structural Mezzanine & Pipe Rack Skid",

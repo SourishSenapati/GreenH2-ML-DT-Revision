@@ -843,6 +843,9 @@ input[type=range] {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .cad-hud-header {
@@ -910,6 +913,9 @@ input[type=range] {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
   color: var(--text-main);
+  text-align: right;
+  max-width: 62%;
+  word-break: break-word;
 }
 
 .cad-hud-footer {

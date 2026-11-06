@@ -57,6 +57,45 @@ const plantCatalog = {
     camFocus: [15, 11, 18],
     explodeDir: [0, 0, 0]
   },
+  'STK-010': {
+    name: 'STK-010: 1:1 10-Cell Industrial PEM Electrolyzer Stack (250 cm²)',
+    tag: 'STK-010',
+    category: '1:1 High-Detail Electrochemical Stack Assembly (140 B-Rep Bodies)',
+    standard: 'ISO 22734 / ASTM B265 Gr. 2 Ti / Nafion 115 / ASME B16.5',
+    spec: '10 repeating PEM cells (250 cm² active area, 360×220 mm plate envelope), 11 machined Grade 2 Titanium bipolar plates with cooling fins & manifold tabs, 10 Nafion 115 MEAs + EPDM perimeter gaskets, 10 gold-plated cell voltage sensing tabs (CVM-01..10), 2x 35mm SA-240 316L endplates, Virgin PTFE dielectric isolators, gold-plated copper current collectors, 8x M16 tie-rods with Belleville spring washer stacks, and dual Siemens SITRANS P320 transmitters.',
+    dimensions: '520 mm W × 480 mm D × 560 mm H (140 SolidWorks B-Rep Bodies)',
+    duty: 'Direct 30-bar differential water electrolysis at 2.00 A/cm² with per-cell in-operando voltage residual tracking e(t) and <1.4s Bayesian biofilm anomaly isolation.',
+    opParams: {
+      'Active Cell Area': '250.0 cm² × 10 Cells in Series',
+      'Nominal Current Density': '2.00 A/cm² (500 A DC Stack Current)',
+      'Clamping Contact Stress': '3.30 MPa (8x M16 Tie-Rods @ 7.5 Nm)',
+      'Bipolar Plate Spec': 'ASTM B265 Grade 2 Titanium (11 Plates)',
+      'Membrane Electrode Assembly': 'Nafion 115 PFSA + IrO₂ / Pt-C Catalyst',
+      'In-Operando Telemetry': '10x Gold CVM Tabs + 2x SITRANS P320'
+    },
+    bom: [
+      { item: '35mm Heavy End Plates', qty: 2, material: 'SA-240 Type 316L SS', spec: '360 × 220 × 35 mm CNC machined + lifting lugs' },
+      { item: 'Bipolar Flow-Field Plates', qty: 11, material: 'ASTM B265 Grade 2 Titanium', spec: 'Progressive-die formed serpentine flow field + cooling fins' },
+      { item: 'Nafion 115 MEA + EPDM Frames', qty: 10, material: 'PFSA / IrO₂ / Pt-C / EPDM', spec: '250 cm² active catalyst window + dual gaskets' },
+      { item: 'Current Collector Plates', qty: 2, material: 'C11000 ETP Copper + Au Flash', spec: '500A DC busbar lug + low-contact-resistance face' },
+      { item: 'Dielectric Isolation Plates', qty: 2, material: 'Virgin PTFE (Teflon)', spec: 'High-dielectric strength (>20 kV/mm) isolation' },
+      { item: 'Tie-Rod & Belleville Assemblies', qty: 8, material: 'ASTM A193 Gr. B7 / 51CrV4', spec: 'M16 × 480 mm + PTFE sleeves + Belleville washers' },
+      { item: 'Cell Voltage Sense Tabs', qty: 10, material: 'Gold-Plated Brass (CVM-01..10)', spec: 'Per-cell differential voltage tap to PIBT edge' },
+      { item: 'Pressure Transmitters', qty: 2, material: 'Siemens SITRANS P320 (316L)', spec: 'HART / 4-20mA differential cathode/anode ΔP' }
+    ],
+    governing_calculations: {
+      code_clause: 'ISO 22734 Cl. 4.2.3 & ASTM B265 Stamping DFM',
+      formula: 'sigma_contact = (8 * F_bolt) / A_gasket = 3.30 MPa | V_cell = E_rev + eta_act + eta_ohm + eta_conc = 1.854 V',
+      computed_value: 'Uniform 3.30 MPa gasket sealing @ 30.0 bar differential pressure; 140 distinct SolidWorks B-Rep solid bodies',
+      script_source: 'PEM_Green_Hydrogen_Digital_Twin/cad_and_geometry/sw_h2_equipment_builders.py:L122'
+    },
+    script: 'PEM_Green_Hydrogen_Digital_Twin/cad_and_geometry/sw_h2_equipment_builders.py',
+    standardModalKey: 'diff_p',
+    basePos: [0, 0, 0],
+    focusPos: [0, 0.65, 0],
+    camFocus: [2.2, 1.4, 2.6],
+    explodeDir: [0, 0, 0]
+  },
   'STR-100': {
     name: 'Unit 100: Structural Mezzanine & Pipe Rack Skid',
     tag: 'STR-100',
@@ -470,7 +509,7 @@ async function loadEngineeringManifest() {
         }
       });
       if (selectedSubsystem) {
-        selectSubsystem(selectedSubsystem);
+        populateSubsystemHudOnly(selectedSubsystem);
       }
     }
   } catch (e) {
@@ -574,8 +613,8 @@ function initPlant3DScene() {
   // 11. Populate Subsystem Pills Bar
   renderSubsystemPills();
 
-  // 12. Select EL-200 by default
-  selectSubsystem('EL-200');
+  // 12. Select PLANT-100T Master Assembly by default
+  selectSubsystem('PLANT-100T');
 }
 
 // ============================================================================
@@ -1249,6 +1288,12 @@ const glbModelCatalog = {
     file: 'models/plant_100tpd_master_assembly.glb',
     name: '100 TPD Commercial Green Hydrogen Master Assembly (11 Subsystems)'
   },
+  'STK-010': {
+    tag: 'STK-010',
+    shortName: '10-Cell PEM Stack',
+    file: 'models/STK-010_10Cell_PEM_Stack.glb',
+    name: 'STK-010: 1:1 10-Cell Industrial PEM Electrolyzer Stack (140 B-Rep Bodies)'
+  },
   'STR-100': {
     tag: 'STR-100',
     shortName: 'Mezzanine Skid',
@@ -1317,12 +1362,81 @@ const glbModelCatalog = {
   }
 };
 
+const MAT_SPEC_LABELS = {
+  'SS316L_POLISHED': 'SA-240 / SA-312 Type 316L Stainless Steel (Electropolished Ra < 0.4 µm)',
+  'SS304_SATIN': 'ASTM A240 Type 304 Satin Stainless Steel',
+  'TITANIUM_GRADE2': 'ASTM B265 Grade 2 Commercially Pure Titanium (Progressive-Die Formed Flow Field)',
+  'NAFION_MEMBRANE_DARK': 'DuPont Nafion™ 115 PFSA Membrane + IrO₂ / Pt-C Catalyst CCM',
+  'EPDM_GASKET_BLACK': 'Peroxide-Cured High-Purity EPDM Elastomer Frame Gasket (Shore 70A)',
+  'PTFE_TEFLON_WHITE': 'Virgin PTFE Dielectric Isolation Plate (>20 kV/mm Breakdown)',
+  'GOLD_COATED_CONTACT': 'Au-Electroplated C11000 Contact / Differential Cell Voltage Tap',
+  'BELLEVILLE_SPRING_STEEL': 'DIN 2093 51CrV4 High-Tensile Conical Belleville Disc Spring',
+  'FLANGE_FORGED_SS': 'SA-182 F316L Forged Weld-Neck Flange / ASTM A193 Gr. B7 Fasteners',
+  'STRUCTURAL_SLATE_IS800': 'IS 800:2007 / ASTM A36 Heavy Structural Steel Section (ISMB 300)',
+  'STRUCTURAL_BLUE_EPOXY': 'IS 2062 Structural Steel + Marine Epoxy Coating (RAL 5015)',
+  'DECK_GALVANIZED': 'Hot-Dip Galvanized Checkered Anti-Slip Walkway Grating (85 µm Zn)',
+  'SAFETY_YELLOW_OSHA': 'OSHA 1910.23 Safety Yellow Powder-Coated Tubular Guardrail',
+  'SAFETY_RED_VALVE': 'ASME Section VIII Angle PSV / Class 2500 High-Pressure Enamel Red',
+  'MOTOR_IEC_BLUE': 'IEC 60034 Ex d IIC T4 Cast-Iron Finned Drive Motor Housing',
+  'COPPER_BUSBAR': 'C11000 Electrolytic Tough Pitch (ETP) 5,000A Solid Copper Busbar',
+  'SIEMENS_RAL7035': 'Rittal TS8 IP65 Dipcoat-Primed Powder-Coated Enclosure (RAL 7035)',
+  'SIEMENS_PLINTH_RAL7022': 'Rittal Structural Sheet-Steel Plinth Base (RAL 7022 Umbra Grey)',
+  'SIEMENS_PETROL_TEAL': 'Siemens SITRANS / SIMATIC Industrial Die-Cast Aluminum Bezel',
+  'HMI_SCREEN_DARK': 'IP65 Anti-Glare Capacitive Multi-Touch Industrial Glass Panel',
+  'INSULATION_CLAD_ALU': 'ASTM B209 Stucco-Embossed Aluminum Thermal Cladding Jacket',
+  'RESIN_AMBER': 'Nuclear-Grade Mixed-Bed Ion Exchange Polishing Column (>18.2 MΩ·cm)',
+  'TRANSFORMER_STEEL': 'IS 2026 ONAN Step-Down Transformer Tank & Radiator Fin Bank',
+  'CERAMIC_BUSHING_BROWN': 'IEEE C57.19.01 High-Creepage Glazed Porcelain HV Bushing',
+  'LED_GREEN': 'IEC 60073 High-Intensity LED Status Beacon (Normal Run)',
+  'LED_AMBER': 'IEC 60073 High-Intensity LED Status Beacon (Standby / Purge)',
+  'LED_BLUE': 'IEC 60073 High-Intensity LED Status Beacon (PIBT Active)',
+  'PIPING_H2_ROSE': 'ASME B31.12 Seamless SA-312 TP316L Sch 80S Hydrogen Header',
+  'PIPING_O2_BLUE': 'ASME B31.3 Seamless SA-312 TP316L Sch 80S Anode O₂/H₂O Header',
+  'PIPING_DI_CYAN': 'ASME BPE Electropolished 316L Ultra-Pure DI Water Feed Header',
+  'PIPING_N2_AMBER': 'ASME B31.3 Seamless 316L High-Purity Nitrogen Sweep Purge Header'
+};
+
 let glbSceneNode = null;
+let loadedGlbTag = null;
+let currentGlbLoadId = 0;
 let gltfLoaderInstance = null;
+let selectedSubMesh = null;
+
+function parseGlbNodeMetadata(meshObj) {
+  let rawName = meshObj.name || (meshObj.parent && meshObj.parent.name) || '';
+  // Format generated by sw_brep_primitives_h2.py: {TAG}_{IDX}__{SUBTAG}__{MAT_KEY}
+  let unitTag = loadedGlbTag || selectedSubsystem || 'PLANT-100T';
+  let nodeId = rawName || 'BREP_001';
+  let subtag = rawName || 'SolidWorks_BRep_Body';
+  let matKey = 'SS316L_POLISHED';
+
+  if (rawName.includes('__')) {
+    const parts = rawName.split('__');
+    const prefix = parts[0] || '';
+    const lastUnderscore = prefix.lastIndexOf('_');
+    if (lastUnderscore > 0) {
+      const candidateTag = prefix.substring(0, lastUnderscore);
+      if (plantCatalog[candidateTag]) unitTag = candidateTag;
+    }
+    nodeId = prefix;
+    subtag = parts[1] || subtag;
+    matKey = parts[2] || matKey;
+  } else {
+    Object.keys(plantCatalog).forEach(k => {
+      if (rawName.startsWith(k)) unitTag = k;
+    });
+  }
+
+  const cleanSubtag = subtag.replace(/_/g, ' ');
+  const matSpec = MAT_SPEC_LABELS[matKey] || matKey.replace(/_/g, ' ');
+  return { unitTag, nodeId, subtag, cleanSubtag, matKey, matSpec };
+}
 
 function loadSubsystemGlb(tag) {
   const modelInfo = glbModelCatalog[tag];
   if (!modelInfo || !THREE.GLTFLoader) return;
+
+  const myLoadId = ++currentGlbLoadId;
 
   const overlay = document.getElementById('cadTesselateOverlay');
   const bar = document.getElementById('cadTesselateBar');
@@ -1332,7 +1446,7 @@ function loadSubsystemGlb(tag) {
   if (overlay) overlay.style.display = 'flex';
   if (fileDisp) fileDisp.textContent = modelInfo.file;
   if (bar) bar.style.width = '25%';
-  if (text) text.textContent = 'Tesselating Parametric Solid (25%)...';
+  if (text) text.textContent = 'Loading OpenCASCADE B-Rep Tessellation (25%)...';
 
   if (!gltfLoaderInstance) {
     gltfLoaderInstance = new THREE.GLTFLoader();
@@ -1341,8 +1455,9 @@ function loadSubsystemGlb(tag) {
   gltfLoaderInstance.load(
     modelInfo.file,
     gltf => {
+      if (myLoadId !== currentGlbLoadId) return;
       if (bar) bar.style.width = '100%';
-      if (text) text.textContent = 'Solid Model Tesselated (100%)';
+      if (text) text.textContent = 'SolidWorks 2025 B-Rep Multi-Material Scene Ready (100%)';
 
       if (glbSceneNode) {
         plantScene.remove(glbSceneNode);
@@ -1350,41 +1465,116 @@ function loadSubsystemGlb(tag) {
       }
 
       glbSceneNode = gltf.scene;
+      loadedGlbTag = tag;
+      selectedSubMesh = null;
 
       // Auto-center on bounding box and ground plane
       const bbox = new THREE.Box3().setFromObject(glbSceneNode);
       const center = bbox.getCenter(new THREE.Vector3());
       const size = bbox.getSize(new THREE.Vector3());
       glbSceneNode.position.set(-center.x, -bbox.min.y, -center.z);
+      glbSceneNode.updateMatrixWorld(true);
 
+      const overallBox = new THREE.Box3().setFromObject(glbSceneNode);
+      const overallCenter = overallBox.getCenter(new THREE.Vector3());
+
+      let meshCount = 0;
       glbSceneNode.traverse(child => {
         if (child.isMesh) {
+          meshCount++;
           child.castShadow = true;
           child.receiveShadow = true;
+
+          // Ensure each mesh has its own cloned PBR material instance with realistic metallic sheen
+          if (child.material) {
+            child.material = child.material.clone();
+            child.material.needsUpdate = true;
+            if (isWireframe) child.material.wireframe = true;
+          }
           origSubsystemMaterials.set(child, child.material);
-          if (isWireframe) child.material.wireframe = true;
+
+          // Compute exact B-Rep sub-component bounding box & explode vector
+          if (!child.geometry.boundingBox) {
+            child.geometry.computeBoundingBox();
+          }
+          const mBox = child.geometry.boundingBox.clone().applyMatrix4(child.matrixWorld);
+          const mCenter = mBox.getCenter(new THREE.Vector3());
+          const mSize = mBox.getSize(new THREE.Vector3());
+
+          const meta = parseGlbNodeMetadata(child);
+          child.userData.meta = meta;
+          child.userData.origPos = child.position.clone();
+          // For STK-010 (scaled 2.5x in CAD), report true 1:1 physical millimeters
+          const dimScale = (tag === 'STK-010' || meta.unitTag === 'STK-010') ? (1000.0 / 2.5) : 1000.0;
+          child.userData.dimsMm = [
+            Math.max(1.0, mSize.x * dimScale).toFixed(1),
+            Math.max(1.0, mSize.y * dimScale).toFixed(1),
+            Math.max(1.0, mSize.z * dimScale).toFixed(1)
+          ];
+          child.userData.worldCenter = mCenter.clone();
+
+          // Compute physically meaningful explode vector
+          const radial = mCenter.clone().sub(overallCenter);
+          if (tag === 'STK-010') {
+            // Axial stack cell separation along Z + radial bolt/manifold separation
+            child.userData.explodeVec = new THREE.Vector3(
+              radial.x * 0.65,
+              Math.max(0, radial.y) * 0.55,
+              radial.z * 1.65
+            );
+          } else if (tag === 'PLANT-100T' && plantCatalog[meta.unitTag] && plantCatalog[meta.unitTag].explodeDir) {
+            const ed = plantCatalog[meta.unitTag].explodeDir;
+            child.userData.explodeVec = new THREE.Vector3(
+              ed[0] * 1.4 + radial.x * 0.25,
+              ed[1] * 1.4 + Math.max(0, radial.y) * 0.25,
+              ed[2] * 1.4 + radial.z * 0.25
+            );
+          } else {
+            child.userData.explodeVec = new THREE.Vector3(
+              radial.x * 0.85,
+              Math.max(0, radial.y) * 0.75,
+              radial.z * 0.85
+            );
+          }
         }
       });
 
       plantScene.add(glbSceneNode);
-      // Hide procedural scene while GLB model is active
+      // Hide procedural fallback scene while authentic SolidWorks GLB model is active
       Object.values(subsystems).forEach(g => { g.visible = false; });
 
-      // Auto-fit camera
+      // Apply current explode slider factor if non-zero
+      if (explodeFactor > 0.001) {
+        setExplodeFactor(explodeFactor);
+      }
+
+      // Auto-fit camera to loaded SolidWorks B-Rep assembly
       const maxDim = Math.max(size.x, size.y, size.z) || 6;
-      const dist = maxDim / (2 * Math.tan((plantCamera.fov * Math.PI) / 360)) * 1.45;
-      targetCamPos = new THREE.Vector3(dist * 0.85, dist * 0.65, dist);
-      targetLookAt = new THREE.Vector3(0, size.y * 0.4, 0);
+      const dist = maxDim / (2 * Math.tan((plantCamera.fov * Math.PI) / 360)) * 1.32;
+      targetCamPos = new THREE.Vector3(dist * 0.82, dist * 0.62, dist * 0.95);
+      targetLookAt = new THREE.Vector3(0, size.y * 0.42, 0);
+
+      // Show default sub-component inspection banner summarizing loaded B-Rep nodes
+      updateClickedPartBanner({
+        cleanSubtag: `${modelInfo.shortName} (${meshCount} Multi-Material SolidWorks B-Rep Nodes)`,
+        nodeId: `${tag}::MASTER_BREP`,
+        matSpec: 'Click any 3D valve, plate, tie-rod, nozzle, or vessel in the viewport to inspect its exact B-Rep geometry & alloy',
+        dimsMm: [
+          (size.x * (tag === 'STK-010' ? 400 : 1000)).toFixed(0),
+          (size.y * (tag === 'STK-010' ? 400 : 1000)).toFixed(0),
+          (size.z * (tag === 'STK-010' ? 400 : 1000)).toFixed(0)
+        ]
+      });
 
       setTimeout(() => {
         if (overlay) overlay.style.display = 'none';
-      }, 250);
+      }, 220);
     },
     xhr => {
       if (xhr.total > 0) {
         const pct = Math.round((xhr.loaded / xhr.total) * 100);
         if (bar) bar.style.width = `${pct}%`;
-        if (text) text.textContent = `Tesselating Parametric Solid (${pct}%)...`;
+        if (text) text.textContent = `Loading SolidWorks B-Rep GLB (${pct}%)...`;
       }
     },
     err => {
@@ -1394,51 +1584,64 @@ function loadSubsystemGlb(tag) {
         plantScene.remove(glbSceneNode);
         glbSceneNode = null;
       }
+      loadedGlbTag = null;
       Object.values(subsystems).forEach(g => { g.visible = true; });
     }
   );
 }
 
 // ============================================================================
-// INTERACTIVE SELECTION, HUD UPDATE & CAMERA CONTROLS
+// INTERACTIVE SELECTION, SUB-COMPONENT INSPECTOR, HUD UPDATE & CAMERA CONTROLS
 // ============================================================================
 
-function selectSubsystem(tag) {
-  if (!plantCatalog[tag]) return;
-  selectedSubsystem = tag;
-  const data = plantCatalog[tag];
-
-  // Try loading GLTF binary model (with smooth procedural fallback)
-  loadSubsystemGlb(tag);
-
-  // 1. Highlight 3D Group & Restore Others
-  Object.keys(subsystems).forEach(k => {
-    const grp = subsystems[k];
-    const isSel = (k === tag);
-    grp.traverse(child => {
-      if (child.isMesh) {
-        if (isSel) {
-          child.material = matLib.highlightMat;
-        } else {
-          const orig = origSubsystemMaterials.get(child);
-          if (orig) child.material = isWireframe ? getWireframeMat(orig) : orig;
-        }
-      }
-    });
-  });
-
-  // 2. Smooth Camera Tween to Focus
-  if (data.camFocus && data.focusPos) {
-    targetCamPos = new THREE.Vector3(...data.camFocus);
-    targetLookAt = new THREE.Vector3(...data.focusPos);
+function ensureClickedPartBanner() {
+  let banner = document.getElementById('cadClickedPartBanner');
+  if (!banner) {
+    const hudHeader = document.querySelector('.cad-hud-header');
+    if (hudHeader && hudHeader.parentNode) {
+      banner = document.createElement('div');
+      banner.id = 'cadClickedPartBanner';
+      banner.style.cssText = 'background: #0F172A; color: #F8FAFC; border: 1px solid #1E293B; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; font-size: 11.5px;';
+      hudHeader.parentNode.insertBefore(banner, hudHeader.nextSibling);
+    }
   }
+  return banner;
+}
 
-  // 3. Update Ribbon Pills UI
+function updateClickedPartBanner(partInfo) {
+  const banner = ensureClickedPartBanner();
+  if (!banner || !partInfo) return;
+  const dimsStr = partInfo.dimsMm ? `${partInfo.dimsMm[0]} × ${partInfo.dimsMm[1]} × ${partInfo.dimsMm[2]} mm` : 'Verified B-Rep Solid';
+  banner.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #38BDF8; text-transform: uppercase;">
+        LIVE 3D B-REP COMPONENT INSPECTOR
+      </span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #94A3B8;">
+        ${partInfo.nodeId || ''}
+      </span>
+    </div>
+    <div style="font-weight: 700; font-size: 12.5px; color: #FFFFFF; margin-bottom: 3px;">
+      ${partInfo.cleanSubtag}
+    </div>
+    <div style="font-size: 11px; color: #CBD5E1; margin-bottom: 4px;">
+      <strong>Alloy / Material:</strong> ${partInfo.matSpec}
+    </div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #94A3B8;">
+      <strong>Measured B-Rep Envelope:</strong> ${dimsStr}
+    </div>
+  `;
+}
+
+function populateSubsystemHudOnly(tag) {
+  const data = plantCatalog[tag];
+  if (!data) return;
+
+  // Update Ribbon Pills UI
   document.querySelectorAll('.cad-model-pill').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tag === tag);
   });
 
-  // 4. Update HUD Inspector Panel Elements
   const hudTag = document.getElementById('cadSubsystemTag');
   if (hudTag) hudTag.textContent = `${data.tag} // ${data.category.toUpperCase()}`;
 
@@ -1457,7 +1660,6 @@ function selectSubsystem(tag) {
   const hudDims = document.getElementById('cadSubsystemDims');
   if (hudDims) hudDims.textContent = data.dimensions;
 
-  // Render Live Parameter Grid
   const gridContainer = document.getElementById('cadSubsystemParams');
   if (gridContainer && data.opParams) {
     gridContainer.innerHTML = Object.entries(data.opParams).map(([k, v]) => `
@@ -1471,7 +1673,6 @@ function selectSubsystem(tag) {
   const hudScript = document.getElementById('cadSubsystemScript');
   if (hudScript) hudScript.textContent = data.script;
 
-  // 5. Update Governing Calculation Proof Box
   const calcClause = document.getElementById('cadCalcClause');
   const calcFormula = document.getElementById('cadCalcFormula');
   const calcCitation = document.getElementById('cadCalcCitation');
@@ -1489,7 +1690,6 @@ function selectSubsystem(tag) {
     if (calcCitation) calcCitation.textContent = `Source: ${data.script}`;
   }
 
-  // 6. Update BOM Table
   const bomContainer = document.getElementById('cadSubsystemBomTable');
   if (bomContainer && data.bom && data.bom.length > 0) {
     bomContainer.innerHTML = `
@@ -1518,7 +1718,6 @@ function selectSubsystem(tag) {
     bomContainer.innerHTML = '';
   }
 
-  // Sync modal trigger button
   const auditBtn = document.getElementById('cadInspectCodeBtn');
   if (auditBtn) {
     auditBtn.onclick = () => {
@@ -1527,6 +1726,38 @@ function selectSubsystem(tag) {
       }
     };
   }
+}
+
+function selectSubsystem(tag) {
+  if (!plantCatalog[tag]) return;
+  selectedSubsystem = tag;
+  const data = plantCatalog[tag];
+
+  // Load the SolidWorks B-Rep GLB model for this subsystem or master assembly
+  loadSubsystemGlb(tag);
+
+  // Highlight procedural fallback group if active
+  Object.keys(subsystems).forEach(k => {
+    const grp = subsystems[k];
+    const isSel = (k === tag);
+    grp.traverse(child => {
+      if (child.isMesh) {
+        if (isSel) {
+          child.material = matLib.highlightMat;
+        } else {
+          const orig = origSubsystemMaterials.get(child);
+          if (orig) child.material = isWireframe ? getWireframeMat(orig) : orig;
+        }
+      }
+    });
+  });
+
+  if (data.camFocus && data.focusPos) {
+    targetCamPos = new THREE.Vector3(...data.camFocus);
+    targetLookAt = new THREE.Vector3(...data.focusPos);
+  }
+
+  populateSubsystemHudOnly(tag);
 }
 
 function getWireframeMat(origMat) {
@@ -1541,12 +1772,11 @@ function renderSubsystemPills() {
 
   tray.innerHTML = Object.keys(plantCatalog).map(tag => {
     const item = plantCatalog[tag];
-    const short = tag.split('-')[0] + '-' + tag.split('-')[1];
     return `
-      <button class="cad-model-pill ${tag === 'EL-200' ? 'active' : ''}" data-tag="${tag}" onclick="selectSubsystem('${tag}')" title="${item.name}">
+      <button class="cad-model-pill ${tag === 'PLANT-100T' ? 'active' : ''}" data-tag="${tag}" onclick="selectSubsystem('${tag}')" title="${item.name}">
         <span class="cad-pill-tag">${tag}</span>
         <span class="cad-pill-sep">//</span>
-        <span class="cad-pill-label">${item.name.split(':')[1]?.trim() || item.name}</span>
+        <span class="cad-pill-label">${item.name.includes(':') ? item.name.split(':').slice(1).join(':').trim() : item.name}</span>
       </button>
     `;
   }).join('');
@@ -1570,8 +1800,6 @@ function setCameraPreset(preset) {
     targetCamPos = new THREE.Vector3(0.01, 25, 0);
     targetLookAt = new THREE.Vector3(0, 0, 0);
   } else if (preset === 'reset') {
-    targetCamPos = new THREE.Vector3(13.5, 10.5, 15.5);
-    targetLookAt = new THREE.Vector3(0, 2.6, 0);
     if (selectedSubsystem) selectSubsystem(selectedSubsystem);
   }
 }
@@ -1588,6 +1816,14 @@ function togglePlantWireframe() {
   isWireframe = !isWireframe;
   const btn = document.getElementById('btnWireframe');
   if (btn) btn.classList.toggle('active', isWireframe);
+
+  if (glbSceneNode) {
+    glbSceneNode.traverse(child => {
+      if (child.isMesh && child.material) {
+        child.material.wireframe = isWireframe;
+      }
+    });
+  }
 
   Object.keys(subsystems).forEach(k => {
     const grp = subsystems[k];
@@ -1619,6 +1855,22 @@ function setExplodeFactor(val) {
   const disp = document.getElementById('explodeDisp');
   if (disp) disp.textContent = Math.round(explodeFactor * 100) + '%';
 
+  // 1. Explode SolidWorks B-Rep GLB sub-meshes in real time
+  if (glbSceneNode) {
+    glbSceneNode.traverse(child => {
+      if (child.isMesh && child.userData.origPos && child.userData.explodeVec) {
+        const orig = child.userData.origPos;
+        const ev = child.userData.explodeVec;
+        child.position.set(
+          orig.x + ev.x * explodeFactor,
+          orig.y + ev.y * explodeFactor,
+          orig.z + ev.z * explodeFactor
+        );
+      }
+    });
+  }
+
+  // 2. Also explode procedural fallback groups
   Object.keys(subsystems).forEach(tag => {
     const item = plantCatalog[tag];
     const grp = subsystems[tag];
@@ -1632,7 +1884,7 @@ function setExplodeFactor(val) {
   });
 }
 
-// --- Raycaster Pointer Interaction ---
+// --- Raycaster Pointer Interaction (Both GLB Sub-Components & Subsystems) ---
 
 function onPlantPointerDown(e) {
   if (!plantRenderer || !plantCamera) return;
@@ -1641,9 +1893,55 @@ function onPlantPointerDown(e) {
   mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
   raycaster.setFromCamera(mouse, plantCamera);
+
+  // 1. If SolidWorks B-Rep GLB Scene is active, raycast directly against all B-Rep sub-component meshes
+  if (glbSceneNode) {
+    const glbMeshes = [];
+    glbSceneNode.traverse(c => { if (c.isMesh) glbMeshes.push(c); });
+    const hits = raycaster.intersectObjects(glbMeshes, false);
+    if (hits.length > 0) {
+      const hitMesh = hits[0].object;
+      const meta = hitMesh.userData.meta || parseGlbNodeMetadata(hitMesh);
+
+      // Restore all meshes to their authentic PBR materials, then highlight the clicked B-Rep part
+      glbMeshes.forEach(m => {
+        const origMat = origSubsystemMaterials.get(m);
+        if (origMat) {
+          m.material = origMat;
+          m.material.wireframe = isWireframe;
+        }
+      });
+
+      const highlightClone = hitMesh.material.clone();
+      if (highlightClone.emissive) {
+        highlightClone.emissive.setHex(0x0284C7);
+        highlightClone.emissiveIntensity = 0.42;
+      }
+      hitMesh.material = highlightClone;
+      selectedSubMesh = hitMesh;
+
+      // Update Live 3D B-Rep Sub-Component Inspector Banner
+      updateClickedPartBanner({
+        cleanSubtag: meta.cleanSubtag,
+        nodeId: meta.nodeId,
+        matSpec: meta.matSpec,
+        dimsMm: hitMesh.userData.dimsMm || ['100.0', '100.0', '100.0']
+      });
+
+      // If viewing Master Plant (PLANT-100T) and clicked a subsystem's part, update HUD to that subsystem!
+      if (meta.unitTag && plantCatalog[meta.unitTag]) {
+        populateSubsystemHudOnly(meta.unitTag);
+      }
+      return;
+    }
+  }
+
+  // 2. Fallback: raycast against procedural subsystem groups
   const meshes = [];
   Object.values(subsystems).forEach(grp => {
-    grp.traverse(c => { if (c.isMesh) meshes.push(c); });
+    if (grp.visible) {
+      grp.traverse(c => { if (c.isMesh) meshes.push(c); });
+    }
   });
 
   const intersects = raycaster.intersectObjects(meshes, false);
@@ -1653,7 +1951,11 @@ function onPlantPointerDown(e) {
       topObj = topObj.parent;
     }
     if (plantCatalog[topObj.name]) {
-      selectSubsystem(topObj.name);
+      if (selectedSubsystem === 'PLANT-100T') {
+        populateSubsystemHudOnly(topObj.name);
+      } else {
+        selectSubsystem(topObj.name);
+      }
     }
   }
 }

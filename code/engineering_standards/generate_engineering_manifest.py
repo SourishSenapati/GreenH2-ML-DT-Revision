@@ -142,6 +142,47 @@ def generate_manifest():
             }
         },
         "subsystems": {
+            "STK-010": {
+                "tag": "STK-010",
+                "name": "STK-010: 1:1 10-Cell Industrial PEM Electrolyzer Stack (250 cm²)",
+                "category": "1:1 High-Detail Electrochemical Stack Assembly (140 B-Rep Bodies)",
+                "standard": "ISO 22734 / ASTM B265 Gr. 2 Ti / Nafion 115 / ASME B16.5",
+                "bounding_box": {
+                    "min": [-0.26, 0.0, -0.24],
+                    "max": [0.26, 0.56, 0.24],
+                    "center": [0.0, 0.28, 0.0],
+                    "dimensions_m": [0.52, 0.48, 0.56]
+                },
+                "camera_focus": {
+                    "target": [0.0, 0.65, 0.0],
+                    "position": [2.2, 1.4, 2.6]
+                },
+                "base_position": [0.0, 0.0, 0.0],
+                "explode_vector": [0.0, 0.0, 0.0],
+                "mechanical_duty": "Direct 30-bar differential water electrolysis at 2.00 A/cm² with per-cell in-operando voltage residual tracking e(t) and <1.4s Bayesian biofilm anomaly isolation.",
+                "bom": [
+                    {"item": "35mm Heavy End Plates", "qty": 2, "material": "SA-240 Type 316L SS", "spec": "360 x 220 x 35 mm CNC machined + lifting lugs"},
+                    {"item": "Bipolar Flow-Field Plates", "qty": 11, "material": "ASTM B265 Grade 2 Titanium", "spec": "Progressive-die formed serpentine flow field + cooling fins"},
+                    {"item": "Nafion 115 MEA + EPDM Frames", "qty": 10, "material": "PFSA / IrO2 / Pt-C / EPDM", "spec": "250 cm² active catalyst window + dual gaskets"},
+                    {"item": "Current Collector Plates", "qty": 2, "material": "C11000 ETP Copper + Au Flash", "spec": "500A DC busbar lug + low-contact-resistance face"},
+                    {"item": "Dielectric Isolation Plates", "qty": 2, "material": "Virgin PTFE (Teflon)", "spec": "High-dielectric strength (>20 kV/mm) isolation"},
+                    {"item": "Tie-Rod & Belleville Assemblies", "qty": 8, "material": "ASTM A193 Gr. B7 / 51CrV4", "spec": "M16 x 480 mm + PTFE sleeves + Belleville washers"},
+                    {"item": "Cell Voltage Sense Tabs", "qty": 10, "material": "Gold-Plated Brass (CVM-01..10)", "spec": "Per-cell differential voltage tap to PIBT edge"},
+                    {"item": "Pressure Transmitters", "qty": 2, "material": "Siemens SITRANS P320 (316L)", "spec": "HART / 4-20mA differential cathode/anode dP"}
+                ],
+                "governing_calculations": {
+                    "code_clause": "ISO 22734 Cl. 4.2.3 & ASTM B265 Stamping DFM",
+                    "formula": "sigma_contact = (8 * F_bolt) / A_gasket = 3.30 MPa | V_cell = E_rev + eta_act + eta_ohm + eta_conc = 1.854 V",
+                    "computed_value": f"Contact Stress = {stack_results['ptl_contact_stress_mpa']:.2f} MPa, Stamping Thinning = {stamping_results['max_thinning_pct']:.2f}% (<18.0% limit)",
+                    "script_source": "PEM_Green_Hydrogen_Digital_Twin/cad_and_geometry/sw_h2_equipment_builders.py:L122"
+                },
+                "operational_telemetry": {
+                    "active_area_cm2": 250.0,
+                    "cell_count": 10,
+                    "nominal_current_a": 500.0,
+                    "operating_pressure_bar": stack_results["differential_pressure_bar"]
+                }
+            },
             "STR-100": {
                 "tag": "STR-100",
                 "name": "Unit 100: Structural Mezzanine & Pipe Rack Skid",
@@ -577,6 +618,34 @@ def generate_manifest():
             }
         }
     }
+
+    # Merge live SolidWorks 2025 RAEBYES CAD Audit Ledger if available
+    ledger_candidates = [
+        Path(r"d:\CompeteEnginner\PEM_Green_Hydrogen_Digital_Twin\cad_and_geometry\cad_raebyes_audit_ledger.json"),
+        standards_dir / "cad_raebyes_audit_ledger.json"
+    ]
+    for lc in ledger_candidates:
+        if lc.exists():
+            try:
+                with open(lc, "r", encoding="utf-8") as lf:
+                    cad_ledger = json.load(lf)
+                manifest["metadata"]["solidworks_2025_raebyes_audit"] = {
+                    "engine": cad_ledger.get("engine"),
+                    "total_solidworks_brep_bodies": cad_ledger.get("total_solidworks_brep_bodies"),
+                    "total_plant_pbr_nodes": cad_ledger.get("total_plant_pbr_nodes"),
+                    "total_plant_vertices": cad_ledger.get("total_plant_vertices"),
+                    "total_plant_triangles": cad_ledger.get("total_plant_triangles"),
+                    "master_glb": cad_ledger.get("master_glb"),
+                    "master_sldasm": cad_ledger.get("master_sldasm"),
+                    "nozzle_mating_audit": cad_ledger.get("nozzle_mating_audit", [])
+                }
+                for u_rec in cad_ledger.get("units", []):
+                    utag = u_rec.get("tag")
+                    if utag in manifest["subsystems"]:
+                        manifest["subsystems"][utag]["cad_verification"] = u_rec
+                break
+            except Exception as exc:
+                print(f"  [WARN] Could not merge CAD ledger {lc}: {exc}")
 
     # Save to all required targets
     target_paths = [

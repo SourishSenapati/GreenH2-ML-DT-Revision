@@ -299,10 +299,10 @@
         </div>
 
         <!-- Horizontal Subsystem Switcher Ribbon -->
-        <div class="cad-ribbon-bar">
+        <div class="cad-ribbon-bar" style="flex-wrap: wrap; overflow: hidden; max-width: 100%;">
           <span class="cad-ribbon-label">CAD model:</span>
-          <div id="cadModelPillTray" style="display: flex; gap: 6px; align-items: center; overflow-x: auto;">
-            <!-- 11 Subsystem Pills injected via plant-3d-scene.js -->
+          <div id="cadModelPillTray" style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1; min-width: 0;">
+            <!-- 13 SolidWorks B-Rep Model Pills injected via plant-3d-scene.js -->
           </div>
         </div>
 
@@ -400,7 +400,9 @@
                   Direct 3D Subsystem Focus:
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('EL-200')">Unit 200 (Stack)</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('PLANT-100T')">100 TPD Master Plant</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('STK-010')">10-Cell PEM Stack (1:1)</button>
+                  <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('EL-200')">Unit 200 (4x Stacks)</button>
                   <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('V-300')">Unit 300 (Knockout Drum)</button>
                   <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('DR-500')">Unit 500 (DeOxo/TSA)</button>
                   <button class="btn btn-secondary" style="padding: 3px 8px; font-size: 10.5px;" onclick="selectSubsystem('ST-800')">Unit 800 (Buffer Storage)</button>
