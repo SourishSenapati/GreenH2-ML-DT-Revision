@@ -40,14 +40,14 @@ document.addEventListener('keydown', (e) => {
 
 function openStandardFromCurrentSubsystem() {
   const mapping = {
-    'STR-100': 'asme',
+    'STR-100': 'factories_act',
     'EL-200': 'diff_p',
-    'V-300': 'asme',
+    'V-300': 'peso_smpv',
     'V-400': 'iec',
     'DR-500': 'iso_purity',
-    'WTR-600': 'iec',
+    'WTR-600': 'factories_act',
     'CMP-700': 'asme',
-    'ST-800': 'asme',
+    'ST-800': 'peso_smpv',
     'ELE-900': 'iec',
     'PLC-1000': 'iec',
     'PIP-1100': 'asme'

@@ -22,7 +22,7 @@ const dwgSheets = {
     img: 'assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png',
     pdf: 'assets/DWG-PEM-H2-COMMERCIAL-PLANT-002.pdf',
     dxf: 'assets/DWG-PEM-H2-COMMERCIAL-PLANT-002.dxf',
-    standards: 'IS 800:2007 • The Factories Act 1948 (Sec 32/33) • ASME BPVC Sec VIII Div 1 & 3 • PESO SMPV 2016 • ASME B31.3 / B31.12',
+    standards: 'Domestic: The Factories Act, 1948 (Sec 32/33) • PESO SMPV Rules 2016 • IS 800:2007 | Global Export: ASME BPVC Sec VIII Div 1 & 3 • ASME B31.12 • API 618 • ISO 22734',
     scale: '1:50 / 1:25 @ ISO A1 (841 × 594 mm)'
   },
   stack: {
@@ -32,7 +32,7 @@ const dwgSheets = {
     img: 'assets/DWG-PEM-H2-2026-001_Preview.png',
     pdf: 'assets/DWG-PEM-H2-2026-001.pdf',
     dxf: 'assets/DWG-PEM-H2-2026-001.dxf',
-    standards: 'ISO 22734 • ASTM B265 Grade 2 Titanium • ASME B16.5 • ASME Section IX GTAW • ISO 128 / ASME Y14.5M',
+    standards: 'Domestic: National Green H2 Mission BIS Draft • IS 16087 | Global Export: ISO 22734 • ASTM B265 Gr. 2 Ti • ASME B16.5 • ASME Sec. IX',
     scale: '1:1 / 15:1 @ ISO A1 (841 × 594 mm)'
   }
 };

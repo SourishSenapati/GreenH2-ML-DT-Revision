@@ -213,6 +213,11 @@ const commercialTiersData = {
         day: 'Statute 4',
         title: 'Confidentiality & Section 72A Information Technology Act, 2000',
         desc: 'Client SCADA operational data and plant telemetry are strictly safeguarded under bilateral Non-Disclosure Agreements (NDA) and Indian IT Act data protection regulations.'
+      },
+      {
+        day: 'Statute 5',
+        title: 'Global Export Harmonization & Cross-Border Equivalence',
+        desc: 'All engineering packages are dual-coded to satisfy Indian statutory mandates (The Factories Act, PESO, IS 800) and international benchmark codes (ASME Sec VIII, ISO 22734, IEC 61511, PED 2014/68/EU Module H) for frictionless cross-border deployment.'
       }
     ],
     inputs: [
@@ -223,7 +228,7 @@ const commercialTiersData = {
     deliverables: [
       'Fully executed Master Services Agreement (MSA) and Statement of Work (SOW).',
       'Mutual Non-Disclosure Agreement (M-NDA) with strict trade secret indemnification.',
-      'Statutory compliance certificate for submission to Factory Inspectors and PESO authorities.'
+      'Statutory compliance dossier for Indian Factory Inspectors & PESO authorities, with cross-border ASME/ISO/IEC equivalence verification.'
     ]
   }
 };
