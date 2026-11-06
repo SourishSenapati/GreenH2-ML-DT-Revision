@@ -1,5 +1,5 @@
 """
-HYDROSENSE™ 100 TPD Turnkey Commercial Green Hydrogen Plant
+HYDROSENSE 100 TPD Turnkey Commercial Green Hydrogen Plant
 3D Parametric CAD B-Rep / Mesh Generator
 Outputs production-grade binary GLB models for all 11 industrial subsystems
 compliant with ASME BPVC Sec. VIII Div 1 & 3, API 618, and IS 800 standards.

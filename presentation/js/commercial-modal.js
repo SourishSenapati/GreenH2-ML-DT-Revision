@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ Commercial Scope of Work (SOW), SLA & Licensing Modal
+ * HYDROSENSE Commercial Scope of Work (SOW), SLA & Licensing Modal
  * Authoritative, institutional contract specification providing deterministic engineering deliverables.
  * Structured under Indian Industrial Statutory Frameworks (The Factories Act 1948,
  * Arbitration and Conciliation Act 1996, PESO SMPV Rules 2016).
@@ -9,11 +9,11 @@ let activeCommercialTab = 'audit';
 
 const commercialTiersData = {
   audit: {
-    tag: 'TIER 1 • FORENSIC AUDIT & CAE SIMULATION',
+    tag: 'TIER 1 / FORENSIC AUDIT & CAE SIMULATION',
     title: '5-Day Plant Health Audit & Multi-Physics Diagnostic Dossier',
     priceINR: '₹6,50,000 INR',
     priceUSD: '$7,800 USD',
-    term: 'Fixed-Price Milestone Delivery • 5 Business Days Turnaround',
+    term: 'Fixed-Price Milestone Delivery / 5 Business Days Turnaround',
     target: 'Brownfield PEM & Chlor-Alkali Facilities (IOCL, BPCL, HMEL, Grasim, DCM Shriram, Tata Steel)',
     summary: 'Comprehensive forensic analysis of unmitigated cell voltage climb, parasitic OER/HER degradation, and CFD multi-phase flow distribution executed autonomously via the ADVEKT CAE engine.',
     milestones: [
@@ -57,7 +57,7 @@ const commercialTiersData = {
   },
 
   firmware: {
-    tag: 'TIER 2 • EDGE DIGITAL TWIN FIRMWARE',
+    tag: 'TIER 2 / EDGE DIGITAL TWIN FIRMWARE',
     title: 'AERO-H2 Real-Time Edge Digital Twin Core Software License',
     priceINR: '₹2,10,000 INR / month',
     priceUSD: '$2,500 USD / month',
@@ -100,7 +100,7 @@ const commercialTiersData = {
   },
 
   license: {
-    tag: 'TIER 3 • TURNKEY DFM CAD & BEDP LICENSE',
+    tag: 'TIER 3 / TURNKEY DFM CAD & BEDP LICENSE',
     title: 'Turnkey DFM CAD, Engineering Calculations & Manufacturing Package',
     priceINR: '₹42,00,000 INR per 5 MW Skid',
     priceUSD: '$50,000 USD per 5 MW Skid',
@@ -190,7 +190,7 @@ const commercialTiersData = {
     title: 'Statutory Compliance, Indian Arbitration & Master Service Agreement',
     priceINR: 'Governed by Indian Law',
     priceUSD: 'Statutory Safeguards',
-    term: 'The Arbitration and Conciliation Act, 1996 • Jurisdiction: New Delhi, India',
+    term: 'The Arbitration and Conciliation Act, 1996 | Jurisdiction: New Delhi, India',
     target: 'Corporate Legal Counsel, Procurement Directors & Statutory Safety Inspectors',
     summary: 'Commercial engagements are executed under standardized institutional engineering contracts adhering strictly to Indian industrial legislation and international safety directives.',
     milestones: [
@@ -294,7 +294,7 @@ function renderCommercialModalContent() {
   // Client Inputs list
   const inputsHtml = cur.inputs.map(i => `
     <li style="font-size: 12px; color: #334155; margin-bottom: 6px; line-height: 1.4;">
-      <span style="color: #64748B; font-weight: 700; margin-right: 6px;">&bull;</span>${i}
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" style="margin-right: 6px;"><polyline points="20 6 9 17 4 12"/></svg>${i}
     </li>
   `).join('');
 
@@ -364,7 +364,7 @@ function renderCommercialModalContent() {
 
         <div style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 4px; padding: 12px 14px; text-align: center;">
           <div style="font-size: 11.5px; color: #64748B; margin-bottom: 10px;">
-            Governed by The Indian Arbitration & Conciliation Act 1996 • New Delhi Jurisdiction
+            Governed by The Indian Arbitration & Conciliation Act 1996 | New Delhi Jurisdiction
           </div>
           <div style="display: flex; gap: 8px; justify-content: center;">
             <a href="mailto:sourishs.chem.ug@jadavpuruniversity.in?subject=Formal%20Commercial%20Inquiry%20-%20${encodeURIComponent(cur.title)}" class="btn btn-primary" style="padding: 6px 14px; font-size: 12px;">

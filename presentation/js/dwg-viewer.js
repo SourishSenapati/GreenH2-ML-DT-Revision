@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ AutoCAD 2025 ISO A1 Engineering Drawing Viewer
+ * HYDROSENSE AutoCAD 2025 ISO A1 Engineering Drawing Viewer
  * Renders authentic monochrome CAD plots plotted directly via AutoCAD 2025 accoreconsole:
  * - Sheet 1: DWG-PEM-H2-COMMERCIAL-PLANT-002 Rev 5 (General Arrangement, Elevation & Plot Plan)
  * - Sheet 2: DWG-PEM-H2-2026-001 Rev 1 (10-Cell Industrial Stack & Flow Field DFM)
@@ -22,7 +22,7 @@ const dwgSheets = {
     img: 'assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png',
     pdf: 'assets/DWG-PEM-H2-COMMERCIAL-PLANT-002.pdf',
     dxf: 'assets/DWG-PEM-H2-COMMERCIAL-PLANT-002.dxf',
-    standards: 'Domestic: The Factories Act, 1948 (Sec 32/33) • PESO SMPV Rules 2016 • IS 800:2007 | Global Export: ASME BPVC Sec VIII Div 1 & 3 • ASME B31.12 • API 618 • ISO 22734',
+    standards: 'Domestic: The Factories Act, 1948 (Sec 32/33) | PESO SMPV Rules 2016 | IS 800:2007 | Global Export: ASME BPVC Sec VIII Div 1 & 3 | ASME B31.12 | API 618 | ISO 22734',
     scale: '1:50 / 1:25 @ ISO A1 (841 × 594 mm)'
   },
   stack: {
@@ -32,7 +32,7 @@ const dwgSheets = {
     img: 'assets/DWG-PEM-H2-2026-001_Preview.png',
     pdf: 'assets/DWG-PEM-H2-2026-001.pdf',
     dxf: 'assets/DWG-PEM-H2-2026-001.dxf',
-    standards: 'Domestic: National Green H2 Mission BIS Draft • IS 16087 | Global Export: ISO 22734 • ASTM B265 Gr. 2 Ti • ASME B16.5 • ASME Sec. IX',
+    standards: 'Domestic: National Green H2 Mission BIS Draft | IS 16087 | Global Export: ISO 22734 | ASTM B265 Gr. 2 Ti | ASME B16.5 | ASME Sec. IX',
     scale: '1:1 / 15:1 @ ISO A1 (841 × 594 mm)'
   }
 };
@@ -95,14 +95,14 @@ function renderDwgViewer() {
 
         <!-- Floating Drawing Standards Pill -->
         <div style="position: absolute; top: 12px; left: 12px; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(4px); border: 1px solid #CBD5E1; border-radius: 4px; padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #475569; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">
-          <strong>${cur.id} ${cur.rev}</strong> &bull; ${cur.scale}
+          <strong>${cur.id} ${cur.rev}</strong> | ${cur.scale}
         </div>
       </div>
 
       <!-- Statutory Notes & Schedule Strip -->
       <div style="background: #F8FAFC; border-top: 1px solid #E2E8F0; padding: 6px 14px; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #64748B; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
         <span><strong>Statutory Standards:</strong> ${cur.standards}</span>
-        <span>Jadavpur University &bull; Chemical Engineering</span>
+        <span>Jadavpur University | Chemical Engineering</span>
       </div>
     </div>
   `;

@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ Parametric 3D CAD Workstation & Master Plant Assembly Engine
+ * HYDROSENSE Parametric 3D CAD Workstation & Master Plant Assembly Engine
  * Modeled directly to SolidWorks 2025 SP1.2 B-Rep specifications,
  * ASME BPVC Section VIII Div 1 & 3, API 618, and IEC 61511 SIL-2 standards.
  *
@@ -35,7 +35,7 @@ let targetLookAt = null;
 // --- Subsystem Engineering Catalog & Specifications ---
 const plantCatalog = {
   'PLANT-100T': {
-    name: 'HYDROSENSE™ 100 TPD Turnkey Commercial Plant Master Skid',
+    name: 'HYDROSENSE 100 TPD Turnkey Commercial Plant Master Skid',
     tag: 'PLANT-100T',
     category: 'Commercial Turnkey Complex (11 Subsystems)',
     standard: 'ASME Sec VIII Div 1 & 3 / API 618 / IS 800 / IEC 61511',
@@ -1366,7 +1366,7 @@ const MAT_SPEC_LABELS = {
   'SS316L_POLISHED': 'SA-240 / SA-312 Type 316L Stainless Steel (Electropolished Ra < 0.4 µm)',
   'SS304_SATIN': 'ASTM A240 Type 304 Satin Stainless Steel',
   'TITANIUM_GRADE2': 'ASTM B265 Grade 2 Commercially Pure Titanium (Progressive-Die Formed Flow Field)',
-  'NAFION_MEMBRANE_DARK': 'DuPont Nafion™ 115 PFSA Membrane + IrO₂ / Pt-C Catalyst CCM',
+  'NAFION_MEMBRANE_DARK': 'DuPont Nafion 115 PFSA Membrane + IrO₂ / Pt-C Catalyst CCM',
   'EPDM_GASKET_BLACK': 'Peroxide-Cured High-Purity EPDM Elastomer Frame Gasket (Shore 70A)',
   'PTFE_TEFLON_WHITE': 'Virgin PTFE Dielectric Isolation Plate (>20 kV/mm Breakdown)',
   'GOLD_COATED_CONTACT': 'Au-Electroplated C11000 Contact / Differential Cell Voltage Tap',

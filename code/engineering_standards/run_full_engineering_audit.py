@@ -29,7 +29,7 @@ from astm_b265_titanium_dfm import run_astm_titanium_dfm_audit
 def execute_master_compliance_suite():
     start_time = time.time()
     print("\n" + "#" * 84)
-    print("  HYDROSENSE™ COMMERCIAL PLANT ENGINEERING STANDARDS AUDIT SUITE (v3.0)")
+    print("  HYDROSENSE COMMERCIAL PLANT ENGINEERING STANDARDS AUDIT SUITE (v3.0)")
     print("  Governed by ASME, IEC, ISO, ASTM, and DIN Deterministic Calculations")
     print("#" * 84 + "\n")
 

@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ 20-Slide Master Presentation Deck Modal
+ * HYDROSENSE 20-Slide Master Presentation Deck Modal
  * Pure Architectural Light Mode, WCAG AAA High Contrast, Full-Viewport Utilization.
  * Every slide features high-density data, mathematical formulations, and 300 DPI figures.
  * Zero empty voids. Fully integrates Peter Thiel's Zero to One Strategic Framework.
@@ -9,7 +9,7 @@ let deckIdx = 0;
 
 const presentationSlides = [
   {
-    tag: 'SLIDE 1 • DEFENSE COVER & EXECUTIVE MANDATE',
+    tag: 'SLIDE 1 / DEFENSE COVER & EXECUTIVE MANDATE',
     title: 'Machine Learning for Predicting Catalyst Efficiency in Green Hydrogen Production',
     subtitle: 'Predictive Maintenance, Fault Detection, and Closed-Loop Degradation Mitigation',
     body: `
@@ -44,14 +44,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; cursor: pointer;" onclick="showModal('assets/PEM_Commercial_Plant_Master_Render.png', '100 TPD Turnkey Commercial Plant Master Assembly (300 DPI)')">
           <img src="assets/PEM_Commercial_Plant_Master_Render.png" alt="100 TPD Master Assembly" style="width: 100%; height: auto; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 8px;">
-            Fig: 100 TPD Turnkey Plant CAD Master Model (SolidWorks 2025 SP1.2) • Click to Zoom
+            Fig: 100 TPD Turnkey Plant CAD Master Model (SolidWorks 2025 SP1.2) | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 2 • THIEL PILLAR 1: NICHE MONOPOLY',
+    tag: 'SLIDE 2 / THIEL PILLAR 1: NICHE MONOPOLY',
     title: 'Conquer a Small Market, Then Expand to Adjacent Sectors',
     subtitle: 'Zero Greenfield Competition: Capturing the 250 MW Brownfield Industrial Beachhead',
     body: `
@@ -89,14 +89,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png', 'Fig 7: Universal Multi-Plant Deployment Matrix across 5 Sectors (300 DPI)')">
           <img src="assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png" alt="Multi-Plant Matrix" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 7: Standardized Skid Deployment across 5 Key Sectors • Click to Zoom
+            Fig 7: Standardized Skid Deployment across 5 Key Sectors | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 3 • THIEL PILLAR 2: VERTICAL INTEGRATION',
+    tag: 'SLIDE 3 / THIEL PILLAR 2: VERTICAL INTEGRATION',
     title: 'Vertical Integration Eliminates Intermediate Margin Stacking',
     subtitle: 'From Native SolidWorks CAD to On-Premise C++ Edge Inference and Verified EPC Design Calculations',
     body: `
@@ -123,14 +123,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/PEM_Cell_Exploded_Architecture_Diagram.png', 'PEM Cell Exploded Architecture & Subsystem Integration (300 DPI)')">
           <img src="assets/PEM_Cell_Exploded_Architecture_Diagram.png" alt="Exploded Cell Architecture" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig: Exploded B-Rep Stack Component Architecture • Click to Zoom
+            Fig: Exploded B-Rep Stack Component Architecture | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 4 • THIEL PILLAR 3: LAST MOVER ADVANTAGE',
+    tag: 'SLIDE 4 / THIEL PILLAR 3: LAST MOVER ADVANTAGE',
     title: 'Fast Follower Technology Arbitrage: Learning From Pioneer Failures',
     subtitle: 'Fixing the Fatal Flaws of First-Generation Alkaline & Early PEM Commercial Stacks',
     body: `
@@ -163,14 +163,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig6_Cross_Sectoral_Validation.png', 'Fig 6: Cross-Sectoral Validation Across Scales (300 DPI)')">
           <img src="assets/Fig6_Cross_Sectoral_Validation.png" alt="Cross Sectoral Validation" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 6: Validation Across Benchtop &amp; Industrial Cells • Click to Zoom
+            Fig 6: Validation Across Benchtop &amp; Industrial Cells | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 5 • THE $420,000 DEGRADATION PROBLEM',
+    tag: 'SLIDE 5 / THE $420,000 DEGRADATION PROBLEM',
     title: 'The Commercial Barrier: Levelized Cost of Hydrogen (LCOH)',
     subtitle: 'Accelerated Catalyst Ripening & Unscheduled Plant Outages',
     body: `
@@ -216,7 +216,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 6 • DUAL DEGRADATION PHYSICS',
+    tag: 'SLIDE 6 / DUAL DEGRADATION PHYSICS',
     title: 'Dual Degradation Physics: Nanoscale Ripening vs. Dielectric Biofilm',
     subtitle: 'Deconvoluting Irreversible Electrochemical Losses from Reversible Biological Obstructions',
     body: `
@@ -254,7 +254,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 7 • PHASE 1 VIRTUAL SENSING XGBOOST',
+    tag: 'SLIDE 7 / PHASE 1 VIRTUAL SENSING XGBOOST',
     title: 'Phase 1 Feature Gain: Reverse-Engineering Nanoscale Morphology',
     subtitle: 'Non-Invasive Virtual Sensing Without Destructive Cell Probes',
     body: `
@@ -288,14 +288,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig1_XGBoost_Feature_Importance.png', 'Fig 1: XGBoost Feature Importance & Gain Hierarchy (300 DPI)')">
           <img src="assets/Fig1_XGBoost_Feature_Importance.png" alt="Feature Importance" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 1: Relative Feature Importance via Tree SHAP • Click to Zoom
+            Fig 1: Relative Feature Importance via Tree SHAP | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 8 • PHASE 1 PARITY VALIDATION',
+    tag: 'SLIDE 8 / PHASE 1 PARITY VALIDATION',
     title: 'Sub-Microvolt Parity Plot: Predicted vs Empirical Degradation',
     subtitle: 'Strict 1:1 Unity Alignment with Zero Systematic Bias (R² = 0.963, 1.911 µV/h)',
     body: `
@@ -323,14 +323,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig2_Parity_Plot_Predicted_vs_Empirical.png', 'Fig 2: Parity Plot Predicted vs Empirical Catalyst Decay (300 DPI)')">
           <img src="assets/Fig2_Parity_Plot_Predicted_vs_Empirical.png" alt="Parity Plot" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 2: 1:1 Parity Alignment Across 1,200 Operating Points • Click to Zoom
+            Fig 2: 1:1 Parity Alignment Across 1,200 Operating Points | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 9 • PHASE 2 PIBT TRANSFORMER',
+    tag: 'SLIDE 9 / PHASE 2 PIBT TRANSFORMER',
     title: 'Long-Horizon Prognostics: Physics-Informed Transformer (PIBT)',
     subtitle: 'Thermodynamic Bounding via Butler-Volmer Attention Mechanism (NRMSE = 0.054)',
     body: `
@@ -361,14 +361,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig3_PIBT_Time_Series_Degradation_Forecast.png', 'Fig 3: PIBT Long-Horizon Time Series Forecast (300 DPI)')">
           <img src="assets/Fig3_PIBT_Time_Series_Degradation_Forecast.png" alt="PIBT Time Series" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 3: 100h Degradation Forecast with 95% Confidence Band • Click to Zoom
+            Fig 3: 100h Degradation Forecast with 95% Confidence Band | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 10 • PHASE 3 FAULT MITIGATION',
+    tag: 'SLIDE 10 / PHASE 3 FAULT MITIGATION',
     title: 'Real-Time Biofilm Isolation: Decoupled Bayesian Classifier',
     subtitle: 'Sub-1.40s Anomaly Trip Latency & Elimination of Chemical Biocides (F1 = 0.990)',
     body: `
@@ -400,14 +400,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig4_Bayesian_Anomaly_Detection_EPS_Biofilm.png', 'Fig 4: Bayesian Anomaly Detection of EPS Biofilm (300 DPI)')">
           <img src="assets/Fig4_Bayesian_Anomaly_Detection_EPS_Biofilm.png" alt="Bayesian Biofilm Isolation" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 4: Dual-Panel Anomaly Detection &amp; SCADA Trip Trigger • Click to Zoom
+            Fig 4: Dual-Panel Anomaly Detection &amp; SCADA Trip Trigger | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 11 • CLOSED-LOOP MITIGATION TIMELINE',
+    tag: 'SLIDE 11 / CLOSED-LOOP MITIGATION TIMELINE',
     title: 'Closed-Loop Remediation & +39.4% Lifespan Extension',
     subtitle: 'Automated High-Shear DI Surge Restoring Normal Cell Potential (+8,451 Hours)',
     body: `
@@ -434,14 +434,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig5_Lifespan_Extension_Techno_Economic.png', 'Fig 5: Techno-Economic Lifespan Extension Comparison (300 DPI)')">
           <img src="assets/Fig5_Lifespan_Extension_Techno_Economic.png" alt="Lifespan Extension" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 5: Unmitigated Run-to-Failure vs. Closed-Loop Mitigation • Click to Zoom
+            Fig 5: Unmitigated Run-to-Failure vs. Closed-Loop Mitigation | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 12 • TECHNO-ECONOMIC PAYBACK & CUSTOMER ROI',
+    tag: 'SLIDE 12 / TECHNO-ECONOMIC PAYBACK & CUSTOMER ROI',
     title: 'Customer ROI Payback Model: Month 4.8 Breakeven',
     subtitle: '485% 2-Year ROI on 5 MW Commercial Skid ($560,000 Net Benefit)',
     body: `
@@ -470,14 +470,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig8_Commercial_Monetization_Service_Matrix_ASD_STM100.png', 'Fig 8: Commercial Payback Curve & Service Matrix (300 DPI)')">
           <img src="assets/Fig8_Commercial_Monetization_Service_Matrix_ASD_STM100.png" alt="ROI Payback Curve" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 8: Audited Customer ROI Payback Curve • Click to Zoom
+            Fig 8: Audited Customer ROI Payback Curve | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 13 • MULTI-PLANT DFM MATRIX',
+    tag: 'SLIDE 13 / MULTI-PLANT DFM MATRIX',
     title: 'Universal Multi-Plant Deployment Matrix Across 5 Sectors',
     subtitle: 'Standardized ISMB 300 Mezzanine Skid Footprint for Plug-and-Play Industrial Retrofit',
     body: `
@@ -503,14 +503,14 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png', 'Fig 7: DFM Progressive Stamping & Multi-Plant Matrix (300 DPI)')">
           <img src="assets/Fig7_Design_For_Manufacturing_DFM_Multi_Plant.png" alt="DFM Multi-Plant Matrix" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig 7: DFM Stamping Tooling &amp; Multi-Plant Matrix • Click to Zoom
+            Fig 7: DFM Stamping Tooling &amp; Multi-Plant Matrix | Click to Zoom
           </div>
         </div>
       </div>
     `
   },
   {
-    tag: 'SLIDE 14 • SOLIDWORKS 2025 MASTER ASSEMBLY',
+    tag: 'SLIDE 14 / SOLIDWORKS 2025 MASTER ASSEMBLY',
     title: '100 TPD Commercial Plant Mechanical & Process Architecture',
     subtitle: 'Native SolidWorks 2025 SP1.2 B-Rep Assembly & STEP AP214 Models',
     body: `
@@ -518,7 +518,7 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/PEM_Commercial_Plant_Isometric_HD.png', 'SolidWorks 2025 100 TPD Commercial Plant Isometric View (300 DPI)')">
           <img src="assets/PEM_Commercial_Plant_Isometric_HD.png" alt="Isometric Master Assembly" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig: SolidWorks 2025 Master Plant Assembly (Isometric) • Click to Zoom
+            Fig: SolidWorks 2025 Master Plant Assembly (Isometric) | Click to Zoom
           </div>
         </div>
 
@@ -549,7 +549,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 15 • AUTOCAD 2025 PRODUCTION DRAWINGS',
+    tag: 'SLIDE 15 / AUTOCAD 2025 PRODUCTION DRAWINGS',
     title: 'AutoCAD 2025 ISO A1 Master Shop Drawings & Schedules',
     subtitle: 'Multi-Angle Orthographic Elevations, Equipment Schedules, and Piping Elevations',
     body: `
@@ -557,7 +557,7 @@ const presentationSlides = [
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px; cursor: pointer;" onclick="showModal('assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png', 'AutoCAD 2025 ISO A1 Master Engineering Drawing (300 DPI)')">
           <img src="assets/DWG-PEM-H2-COMMERCIAL-PLANT-002_Preview.png" alt="AutoCAD Master Drawing" style="width: 100%; max-height: 380px; object-fit: contain; border-radius: 4px; border: 1px solid #CBD5E1;">
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-            Fig: AutoCAD 2025 ISO A1 Sheet (DWG-PEM-H2-COMM-002) • Click to Zoom
+            Fig: AutoCAD 2025 ISO A1 Sheet (DWG-PEM-H2-COMM-002) | Click to Zoom
           </div>
         </div>
 
@@ -583,7 +583,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 16 • QUANTITATIVE ENGINEERING CALCULATIONS',
+    tag: 'SLIDE 16 / QUANTITATIVE ENGINEERING CALCULATIONS',
     title: 'Deterministic Mechanical & Safety Sizing Formulations',
     subtitle: 'Executable Code Verification Across ASME, ISO, and ASTM Governing Standards',
     body: `
@@ -619,7 +619,7 @@ const presentationSlides = [
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #DC2626; margin-bottom: 4px;">ISO 14687 GRADE D PURITY (DR-500)</div>
           <p style="font-size: 11.5px; line-height: 1.5; margin: 0 0 4px;">Catalytic DeOxo &amp; Dual 13X TSA Dryers:</p>
           <div style="background: #FFFFFF; padding: 8px; border-radius: 4px; border: 1px solid var(--border-subtle); font-family: monospace; font-size: 10.5px; color: #DC2626; margin-bottom: 6px;">
-            Residual O2 &le; 0.5 ppm (&Delta;T = 14.7°C) &bull; Dew Point &le; -70.0°C (&le; 1 ppm H2O)
+            Residual O2 &le; 0.5 ppm (&Delta;T = 14.7°C) / Dew Point &le; -70.0°C (&le; 1 ppm H2O)
           </div>
           <p style="font-size: 11px; color: var(--text-muted); margin: 0;">Exceeds SAE J2719 and ISO 14687 fuel-cell vehicle requirements.</p>
         </div>
@@ -627,7 +627,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 17 • DUAL INDIAN & GLOBAL REGULATORY COMPLIANCE',
+    tag: 'SLIDE 17 / DUAL INDIAN & GLOBAL REGULATORY COMPLIANCE',
     title: 'Dual Compliance: The Factories Act, 1948 & PESO SMPV 2016 Harmonized Globally',
     subtitle: 'Seamless Domestic Execution Across India Harmonized 1:1 with Global Export Standards',
     body: `
@@ -651,13 +651,13 @@ const presentationSlides = [
               </tr>
             </thead>
             <tbody>
-              <tr><td style="padding: 4px 3px; font-weight: 600;">The Factories Act Sec 32 / IS 800</td><td>ISO 14122-1..4 &bull; EN 1090-2 (EXC2)</td></tr>
-              <tr><td style="padding: 4px 3px; font-weight: 600;">PESO SMPV Rules 2016</td><td>ASME BPVC Sec VIII &bull; EU PED Mod H</td></tr>
-              <tr><td style="padding: 4px 3px; font-weight: 600;">NGHM BIS Draft Safety Code</td><td>ISO 22734:2019 &bull; NFPA 2</td></tr>
-              <tr><td style="padding: 4px 3px; font-weight: 600;">IS 16087 Automotive H2 Purity</td><td>ISO 14687:2019 Grade D &bull; SAE J2719</td></tr>
+              <tr><td style="padding: 4px 3px; font-weight: 600;">The Factories Act Sec 32 / IS 800</td><td>ISO 14122-1..4 / EN 1090-2 (EXC2)</td></tr>
+              <tr><td style="padding: 4px 3px; font-weight: 600;">PESO SMPV Rules 2016</td><td>ASME BPVC Sec VIII / EU PED Mod H</td></tr>
+              <tr><td style="padding: 4px 3px; font-weight: 600;">NGHM BIS Draft Safety Code</td><td>ISO 22734:2019 / NFPA 2</td></tr>
+              <tr><td style="padding: 4px 3px; font-weight: 600;">IS 16087 Automotive H2 Purity</td><td>ISO 14687:2019 Grade D / SAE J2719</td></tr>
               <tr><td style="padding: 4px 3px; font-weight: 600;">IS/IEC 60079 Zone 1/2 Electrical</td><td>ATEX 2014/34/EU (Ex d / Ex i)</td></tr>
               <tr><td style="padding: 4px 3px; font-weight: 600;">IS/IEC 61511 (SIL-2 Safety)</td><td>IEC 61508 / 61511 SIL-2 (PFD 0.0051)</td></tr>
-              <tr><td style="padding: 4px 3px; font-weight: 600;">PNGRB T4S Regulations</td><td>ASME B31.3 Cat M &bull; ASME B31.12</td></tr>
+              <tr><td style="padding: 4px 3px; font-weight: 600;">PNGRB T4S Regulations</td><td>ASME B31.3 Cat M / ASME B31.12</td></tr>
             </tbody>
           </table>
         </div>
@@ -665,13 +665,13 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 18 • COMMERCIAL MONETIZATION PORTFOLIO',
+    tag: 'SLIDE 18 / COMMERCIAL MONETIZATION PORTFOLIO',
     title: 'Transparent Commercial Service Delivery Tiers',
     subtitle: 'ASD-STM100 High-Margin Digital Delivery & Turnkey Fabrication Licensing',
     body: `
       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-4); height: 100%;">
         <div style="background: var(--bg-wash); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">TIER 1 • FORENSIC AUDIT</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">TIER 1 / FORENSIC AUDIT</div>
           <h4 style="font-size: 14px; font-weight: 800; color: var(--text-main); margin: 0 0 4px;">Plant Health Audit &amp; CAE</h4>
           <div style="font-size: 16px; font-weight: 800; color: #059669; margin-bottom: 2px;">$7,500 <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);">/ ₹6.2 Lakh</span></div>
           <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">5 Business Days Remote Turnaround</div>
@@ -685,7 +685,7 @@ const presentationSlides = [
         </div>
 
         <div style="background: #F0FDF4; padding: 14px; border-radius: var(--radius-md); border: 1px solid #BBF7D0; display: flex; flex-direction: column;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #166534; margin-bottom: 4px;">TIER 2 • EDGE FIRMWARE</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #166534; margin-bottom: 4px;">TIER 2 / EDGE FIRMWARE</div>
           <h4 style="font-size: 14px; font-weight: 800; color: #14532D; margin: 0 0 4px;">AERO-H2 Edge Digital Twin</h4>
           <div style="font-size: 16px; font-weight: 800; color: #166534; margin-bottom: 2px;">$2,500/mo <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);">or $25k Perpetual</span></div>
           <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Annual SaaS or One-Time OEM License</div>
@@ -700,7 +700,7 @@ const presentationSlides = [
         </div>
 
         <div style="background: #FFFBEB; padding: 14px; border-radius: var(--radius-md); border: 1px solid #FDE68A; display: flex; flex-direction: column;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #B45309; margin-bottom: 4px;">TIER 3 • EPC FABRICATION</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #B45309; margin-bottom: 4px;">TIER 3 / EPC FABRICATION</div>
           <h4 style="font-size: 14px; font-weight: 800; color: #78350F; margin: 0 0 4px;">Turnkey DFM CAD License</h4>
           <div style="font-size: 16px; font-weight: 800; color: #B45309; margin-bottom: 2px;">$45,000 <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);">/ ₹37.5 Lakh</span></div>
           <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Optional $280k Full 100 TPD BEDP</div>
@@ -717,7 +717,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 19 • MASTER PROCUREMENT BOM',
+    tag: 'SLIDE 19 / MASTER PROCUREMENT BOM',
     title: 'Tier-1 Industrial Vendor Bill of Materials (BOM)',
     subtitle: 'Reconciled Component Specifications from Verified Tier-1 Industrial Manufacturers',
     body: `
@@ -751,7 +751,7 @@ const presentationSlides = [
     `
   },
   {
-    tag: 'SLIDE 20 • CONCLUSIONS & ROADMAP',
+    tag: 'SLIDE 20 / CONCLUSIONS & ROADMAP',
     title: 'Conclusions & Immediate Commercial Implementation Roadmap',
     subtitle: 'Validated Engineering Deliverables Ready for Commercial Tender & Site Deployment',
     body: `
@@ -777,7 +777,7 @@ const presentationSlides = [
           <div style="background: #FFFFFF; padding: 10px; border-radius: 4px; border: 1px solid #BBF7D0; margin-top: auto;">
             <div style="font-size: 11px; font-weight: 700; color: #166534;">CONTACT CORRESPONDING AUTHOR:</div>
             <div style="font-size: 12px; font-weight: 700; color: #0F172A; margin-top: 2px;">Sourish Senapati</div>
-            <div style="font-size: 11px; color: var(--text-muted);">Dept. of Chemical Engineering, Jadavpur University &bull; sourishs.chem.ug@jadavpuruniversity.in</div>
+            <div style="font-size: 11px; color: var(--text-muted);">Dept. of Chemical Engineering, Jadavpur University / sourishs.chem.ug@jadavpuruniversity.in</div>
           </div>
         </div>
       </div>

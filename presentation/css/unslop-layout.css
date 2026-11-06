@@ -1,5 +1,5 @@
 /* =========================================================================
-   HYDROSENSE™ ARCHITECTURAL LAYOUT SYSTEM
+   HYDROSENSE ARCHITECTURAL LAYOUT SYSTEM
    Engineering Grid, Command Header, Sections, Matrices & Flexflows
    ========================================================================= */
 
@@ -37,11 +37,7 @@
   gap: var(--space-3);
 }
 .status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #059669;
-  border: 1px solid #047857;
+  display: none;
 }
 .brand-title {
   font-size: 16px;

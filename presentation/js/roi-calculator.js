@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ Multi-Megawatt Techno-Economic ROI & Payback Engine
+ * HYDROSENSE Multi-Megawatt Techno-Economic ROI & Payback Engine
  * Computes defensible multi-megawatt financial returns, LCOH reductions,
  * deferred stack replacement CAPEX, and payback milestones.
  * Governed by real industrial procurement and EPC benchmarks.

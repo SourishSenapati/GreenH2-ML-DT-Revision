@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ Client Application Bootstrap
+ * HYDROSENSE Client Application Bootstrap
  * Connects modular CAD, ML Workbench, ROI Calculator, Telemetry Oscilloscope,
  * and Lightbox Modals.
  */
@@ -61,7 +61,7 @@ function openStandardFromCurrentSubsystem() {
 
 // Bootstrap application on DOM ready
 window.addEventListener('DOMContentLoaded', () => {
-  console.log("HYDROSENSE™ Industrial Operating System initialized.");
+  console.log("HYDROSENSE Industrial Operating System initialized.");
   
   if (typeof initPlant3DScene === 'function') {
     initPlant3DScene();

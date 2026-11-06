@@ -1,4 +1,4 @@
-# ARCHITECTURE: HYDROSENSE™ Full-Stack Industrial Operating System
+# ARCHITECTURE: HYDROSENSE Full-Stack Industrial Operating System
 
 ## 1. High-Level System Architecture
 

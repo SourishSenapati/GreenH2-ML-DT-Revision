@@ -1,4 +1,4 @@
-# SECURITY: HYDROSENSE™ Threat Model & Security Posture
+# SECURITY: HYDROSENSE Threat Model & Security Posture
 
 ## 1. Threat Model & Asset Valuation
 The HYDROSENSE system bridges critical heavy infrastructure (high-pressure hydrogen production) and cloud predictive analytics. Compromise of edge control loops could lead to physical catastrophic failure (flammable hydrogen releases, stack overpressure, or membrane dry-out).

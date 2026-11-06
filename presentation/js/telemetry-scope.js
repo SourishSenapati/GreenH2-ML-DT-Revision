@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ In-Operando Digital Twin Oscilloscope (Butler-Volmer Physics Solver)
+ * HYDROSENSE In-Operando Digital Twin Oscilloscope (Butler-Volmer Physics Solver)
  * Authentic in-browser numerical solver simulating real-time electrochemistry of a
  * 10-cell industrial PEM stack (250 cm² active area):
  * - Temperature- and pressure-dependent Nernst Reversible Potential E_rev(T, P)

@@ -1,5 +1,5 @@
 /**
- * HYDROSENSE™ Machine Learning Digital Twin Workbench
+ * HYDROSENSE Machine Learning Digital Twin Workbench
  * Handles 5-phase interactive neural model exploration, dynamic KaTeX mathematical proof rendering,
  * and high-resolution figure inspection.
  */

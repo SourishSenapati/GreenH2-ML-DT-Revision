@@ -1,8 +1,8 @@
 /**
- * HYDROSENSE™ Engineering Standards & Compliance Verification Modal
+ * HYDROSENSE Engineering Standards & Compliance Verification Modal
  * Harmonizes Indian Statutory Regulations (The Factories Act 1948, PESO SMPV Rules 2016,
  * IS 800:2007) with Global Cross-Border Export Codes (ASME BPVC, ISO 22734, IEC 61511).
- * 100% Deterministic Mathematical Grounding • Zero Slop.
+ * 100% Deterministic Mathematical Grounding | Zero Slop.
  */
 
 const standardsDossiers = {

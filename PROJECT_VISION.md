@@ -1,7 +1,7 @@
-# PROJECT VISION: HYDROSENSE™ Autonomous Operating System for Green Hydrogen
+# PROJECT VISION: HYDROSENSE Autonomous Operating System for Green Hydrogen
 
 ## 1. Executive Purpose
-HYDROSENSE™ transforms commercial PEM water electrolysis from high-risk, unmonitored capital assets into high-availability, self-optimizing chemical infrastructure. By unifying in-operando virtual sensing, physics-constrained bayesian transformers (PIBT), real-time dielectric biofilm mitigation, and turnkey ASME Section VIII / B31.3 DFM engineering, HYDROSENSE bridges the gap between laboratory electrochemistry and heavy industrial EPC deployment.
+HYDROSENSE transforms commercial PEM water electrolysis from high-risk, unmonitored capital assets into high-availability, self-optimizing chemical infrastructure. By unifying in-operando virtual sensing, physics-constrained bayesian transformers (PIBT), real-time dielectric biofilm mitigation, and turnkey ASME Section VIII / B31.3 DFM engineering, HYDROSENSE bridges the gap between laboratory electrochemistry and heavy industrial EPC deployment.
 
 ## 2. Core Problem Solved
 1. **Unmitigated Degradation ($420,000 Teardowns)**: Multi-megawatt industrial stacks subjected to dynamic renewable curtailment cycling (solar PV and wind ramps) suffer accelerated catalyst Ostwald ripening (15–22 µV/h), forcing catastrophic premature stack teardowns every 2.45 years.

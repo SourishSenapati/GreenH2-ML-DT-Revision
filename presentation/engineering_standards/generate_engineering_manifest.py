@@ -89,7 +89,7 @@ def generate_manifest():
 
     manifest = {
         "metadata": {
-            "facility_name": "HYDROSENSE™ 100 TPD Turnkey Commercial Green Hydrogen Production Plant",
+            "facility_name": "HYDROSENSE 100 TPD Turnkey Commercial Green Hydrogen Production Plant",
             "document_ref": "H2-ENG-2026-COMM-001",
             "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "generator_script": "code/engineering_standards/generate_engineering_manifest.py",
